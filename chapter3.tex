@@ -1,0 +1,59 @@
+%===================================== CHAP 3 =================================
+
+\chapter{Basic Theory}
+
+\cleardoublepage
+
+
+\section{Case-based Reasoning}
+Case-Based Reasoning (CBR) is a methodology in AI for solving problems, and is essentially based on experience. This experience can be used to solve a large range of problems, including complex combinatorial problems, or yield solutions where uncertainty is involved. Implied by the name, CBR can be broken down into two main concepts; \textit{cases} and \textit{reasoning}.
+
+\begin{enumerate}
+    \item Case: An experience of a solved problem, usually represented as a feature vector. A case consists of two parts: a problem description and a solution to the problem. A Case-Based Reasoning System (CBRS) stores all of its cases in a \textit{Case Base}.
+    \item Reasoning: The approach of drawing conclusions using cases, given a problem to be solved.
+\end{enumerate}
+
+Reasoning in CBR differs from other kinds of reasoning because it does not lead from true assumptions to true conclusions. This means that for two cases with identical problem descriptions, the solution to one of them might not be the solution for the other. The recorded experience in the first case may not be exactly similar to the other case. To be reused, it only has to be \enquote{similar}.
+
+\subsection{Feature Vectors}
+A case is usually represented as a feature vector, consisting of a few to many pairs of attributes and their values. A common example is the diagnosis of a sick patient. ...
+
+\section{Case Representation in Utsida}
+\begin{table}[H]
+\centering
+\caption{Initual representation of a case in Utsida}
+\label{my-label}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+\textbf{Attributes} & \textbf{Example Case} \\ \hline
+\textbf{Home Institute} & IME-IDI - Institutt for datateknikk og informasjonsvitenskap \\ \hline
+\textbf{Destination Continent} & North America \\ \hline
+\textbf{Destination Country} & USA \\ \hline
+\textbf{Destination University} & UCLA \\ \hline
+\textbf{Study Language} & English \\ \hline
+\textbf{Study Period} & 2012 \\ \hline
+\textbf{Academic Quality Rating} & 4 \\ \hline
+\textbf{Social Quality Rating} & 2 \\ \hline
+\rowcolor[HTML]{8AD5EA} 
+\textbf{Subjects Taken} & \begin{tabular}[c]{@{}l@{}}COMP1927 - Computing 2\\ MATH3220\\ CS4210\\ DATA101\end{tabular} \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+\section{MyCBR}
+MyCBR is a tool for rapid prototyping of CBR systems with focus on similarity-based retrieval step \cite{MyCBR}. It was used extensively throughout the project to assist with both prototyping and in system production. MyCBR is divided in two main parts, the workbench and the SDK. 
+
+
+\subsection{SDK}
+The MyCBR SDK provides a access point for implementing the functionality of myCBR in a custom application. 
+
+
+\subsection{Workbench}
+
+
+
+
