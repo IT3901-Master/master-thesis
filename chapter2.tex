@@ -46,7 +46,7 @@ Diagnosis           & Influenza \\ \hline
 \end{tabular}
 \end{table}
 
-\subsection{The CBR-Cycle}
+\subsection{The CBR-Cycle}\label{sec:cbr-cycle}
 
 Aamodt & Plaza\cite{aamodt1994case} defined a model which explain the problem solving cycle in CBR (figure \ref{fig:cbr_cycle}). The cycle defines four distinct processes which a case goes through:
 
@@ -69,20 +69,42 @@ The degree of similarity between a set of input variables, and a case stored in 
 
 Each attribute is given a weight, which decides which attributes are most important, and finally all weights are typically joined by using the \emph{Euclidian Distance}, or \emph{Weighted Sum} methods.
 
-\subsection{Tools and frameworks}
+\section{Tools and frameworks}
 
 Due to the increasing popularity of CBR applications\cite{kolodner2014case}, many tools have been developed to model and implement a CBRS. These tools makes it easier to test ideas and develop prototypes without having to start from scratch. This section will introduce some of the different approaches to tool-kits and the reasoning for the selected tool of this research project. 
 
-\paragraph{jCOLIBRI}
+\subsection{JColibri}
+JColibri is an object-oriented framework in Java for building CBR systems, which follows the task/method division paradigm.\cite{bello2004jcolibri} The notion of this paradigm is that each task in a CBR-cycle described in section \ref{sec:cbr-cycle} involves several specific sub-tasks, and instead of using one method on each task, they are decomposed and structured in a way so that different methods can be applied to the different sub-tasks. All though this framework is flexible in terms of the problem domain it will be used for, and can be used for any number of the steps in the CBR-cycle, it required a substantial amount of knowledge for the developers because they have to use appropriate methods for different tasks, go more in depth than other frameworks.
 
 
-\paragraph{FreeCBR}
+\subsection{CBR-Works}
+CBR-Works is a shell for Case-Based application building, which covers the whole CBR-cycle from retrieving to revising, and supports modelling the structure of cases, and maintaining the case base.\cite{schulz1999cbr} It comes with a interface which can be used to build a new Case-Based application from existing data. The framework can be used to construct complex concepts, and includes a rather unique element when modelling the cases; rules. These can be used to set constraints to the concepts for their adaption and completion process. All though this framework is a candidate for this research, it was desired to find a framework which is easier to dive into.
+
+\subsection{MyCBR}
+MyCBR is a tool for rapid prototyping of CBR systems with focus on the retrieval step of the CBR cycle.\cite{MyCBR}. Its developed and maintained as a joint project between the German Research Center for Artificial Intelligence (DFKI) and the School of Technology and Computing at the University of West London (UWL)\cite{Stahl2008}. MyCBR was used extensively throughout the project to assist with both prototyping and modelling the CBRS. The MyCBR project is first and foremost a Java Software Development Kit (SDK), but also includes a pre-built GUI called the MyCBR Workbench. 
+
+\subsubsection{MyCBR SDK}
+The MyCBR SDK provides an access point for implementing the functionality of MyCBR in a custom application. The SDK is written in the JAVA programming language and has executable programs for macOS, Windows and Linux\cite{MyCBR}. 
+
+The current version of the SDK and MyCBR focuses and has implemented only the similarity based retrieval step of the CBR cycle. The myCBR developers reason that this it is due to most applications having the first part as its core functionality\cite{Stahl2008}.  
+
+A recent update extended the SDK to include a REST API that enables cross server communication and requests to MyCBR. This allows an external server to use many of the implemented functionalities in MyCBR SDK as Querying and retrieval.
+
+\subsubsection{MyCBR Workbench}
+
+The myCBR workbench provides a GUI based interface of the features in the SDK. This allows easier prototyping and usage for users without the need to have large knowledge of the SDK's inner functions\cite{bach2014knowledge}. 
+
+To be able to quickly import data and cases the workbench supports case import with csv files. All the required cases can therefore be gathered and refined before being tested in the workbench. The workbench also supports a set of similarity functions that are easy to model such as Taxonomy and integer functions. The workbench visualises these similarity measures with graphs and tables.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{fig/myCBRworkbench.png}
+    \caption{Example of modelling the taxonomy function from myCBR workbench}
+\end{figure}
 
 
-\paragraph{MyCBR}
 
-
-\section{Case-based Recommender Systems}
+\section{Case-based Recommender Systems}\label{sec:case_based_recommender_systems}
 Recommender systems are used extensively in both research and commercial products. These systems provide several possible solutions that might be viable for the user to choose. Several published research papers have explored different approaches to recommender systems\cite{mulyana2015case}\cite{quijano2011happy}.
 
 Case-based reccommender systems use CBR as the underlying technique but has some differences compared to other implementations of CBR. The main differences being:
@@ -94,27 +116,9 @@ Case-based reccommender systems use CBR as the underlying technique but has some
 
 There are mainly two types information a recommendation can be based on. The first being collaborative filtering which uses the rating and opinions of other user who has experienced the product or gone through the same process. The second being content based filtering which is based on the descriptions and information about the content, i.e static information like features, price, functionality and requirements. 
 
-\section{MyCBR}
-MyCBR is a tool for rapid prototyping of CBR systems with focus on the retrieval step of the CBR cycle.\cite{MyCBR}. Its developed and maintained as a joint project between the German Research Center for Artificial Intelligence (DFKI) and the School of Technology and Computing at the University of West London (UWL)\cite{Stahl2008}. MyCBR was used extensively throughout the project to assist with both prototyping and modelling the CBRS. The MyCBR project is first and foremost a Java Software Development Kit (SDK), but also includes a pre-built GUI called the MyCBR Workbench. 
 
-\subsection{MyCBR SDK}
-The MyCBR SDK provides an access point for implementing the functionality of MyCBR in a custom application. The SDK is written in the JAVA programming language and has executable programs for macOS, Windows and Linux\cite{MyCBR}. 
 
-The current version of the SDK and MyCBR focuses and has implemented only the similarity based retrieval step of the CBR cycle. The myCBR developers reason that this it is due to most applications having the first part as its core functionality\cite{Stahl2008}.  
 
-A recent update extended the SDK to include a REST API that enables cross server communication and requests to MyCBR. This allows an external server to use many of the implemented functionalities in MyCBR SDK as Querying and retrieval.
-
-\subsection{MyCBR Workbench}
-
-The myCBR workbench provides a GUI based interface of the features in the SDK. This allows easier prototyping and usage for users without the need to have large knowledge of the SDK's inner functions\cite{bach2014knowledge}. 
-
-To be able to quickly import data and cases the workbench supports case import with csv files. All the required cases can therefore be gathered and refined before being tested in the workbench. The workbench also supports a set of similarity functions that are easy to model such as Taxonomy and integer functions. The workbench visualises these similarity measures with graphs and tables.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=8cm]{fig/myCBRworkbench.png}
-    \caption{Example of modelling the taxonomy function from myCBR workbench}
-\end{figure}
 
 
 

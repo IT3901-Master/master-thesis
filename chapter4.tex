@@ -2,7 +2,7 @@
 
 \chapter{Approach}
 
-Utsida is a joint collaboration between two students with specializations in software- and an artificial intelligence, respectively. This is reflected by a two-part system. This chapter will define how the complete system is build, how the CBR part is modelled, elaborate for choices made, and how it works.
+Utsida is a joint collaboration between two students with specializations in software- and an artificial intelligence, respectively. This is reflected by a two-part system were each part targets one of the research questions. This chapter will define how the complete system is build, how the CBR part is modelled, elaborate for choices made, and how it works.
 
 \section{The First Part: RESTful CBR}
 Since the MyCBR SDK requires a Java environment, an initial problem was how to couple this functionality with a web application, which Utsida is. Luckily, Kerstin Bach, researcher at the Department of Computer and Information Science, NTNU is a contributor to the MyCBR project, and implemented the basis for a REST (Representational State Transfer) framework for a running MyCBR application. The CBR part of the system could then be a separate module, communicating with Utsida only with HTTP requests.
@@ -165,15 +165,19 @@ Each attribute in a case has a value, and an associated weight. This is essentia
 The CBRS was first modelled using the MyCBR Workbench. This includes to create all the desired attributes shown in table \ref{tab:case_representation2}, selecting their types and restraints, and creating a similarity measure or taxonomy for each of them. The function for calculated a case's final similarity to a query is chosen, and each similarity measure is properly weighted.
 
 \begin{figure}[H]
+    \label{fig:workbench_exmaple}
     \centering
     \includegraphics[width=0.8\textwidth]{fig/cbr_model.png}
+    \caption{The similarity measure overview in the MyCBR Workbench}
 \end{figure}
 
 A Java project was creatd with the MyCBR SDK. This project imports all the parsed cases as a CSV file, and the CBR model created with the MyCBR Workbench. A Java Spring server was implemented to serve the application, with a REST framework to receive requets from Utsida, and serve back a list of the most similar cases to the query. Finally, Maven was used to compile a JAR file which runs the CBRS. 
 
 \begin{figure}[H]
+    \label{fig:retrieval_process_diagram}
     \centering
-    \includegraphics[width=0.6\textwidth]{fig/rest_image.png}
+    \includegraphics[width=0.8\textwidth]{fig/RetrievalProcessDiagram.png}
+    \caption{Sequence diagram which shows how the initial user input is handled before returning as similar cases}
 \end{figure}
 
 It is important to note that this process only performs the first step of the CBR-cycle: Retrieval. It returns a set of the most similar cases to a query from Utsida. This makes the system more in line with a Case-Based Recommender System, than a standard CBRS. 
@@ -192,7 +196,11 @@ Similar to this definition, the query which the CBR module recieves is a \emph{w
 \section{The Second Part: Utsida}
 Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system Innsida and the meaning of the word, inside. Utsida gives a relation to something on the outside, in this case going on an exchange study, choosing a foregin university, and a set of courses at that university.
 
-Utsida is a web application built with the Django Framework. It contains functionality for all the database handling, controller methods, views and data transfer between client and server. 
+Utsida is a web application built with the Django Framework. It contains functionality for all the database handling, controller methods, views and data transfer between client and server. Django is a web-framework written in Python. It was chosen for Utsida because of its easy and quick implementation procedure. The built in administrator pages also makes it more convenient for data handling.
+
+\subsection{Architecture}
+
+Some default functions in Django was extended to provide required functionality in the Utsida system. The user object was extended with profile information so that the system could register more information about the user such as institute and courses to be taken. 
 
 The picture below is a rough draft of how the system architecture is and the communication with MyCBR. Utsida is divided into four main components; The recommendation handler communicates with the REST myCBR API and display the results for a given query. The Course Match component contains and displays all approved and registered course matches between NTNU and exchange universities. The profile handles all user controllers, such as login, logout, register and changing information. The course application allows users to register an application for course matches so that it can be handled by an student adviser. 
 
@@ -206,17 +214,31 @@ The picture below is a rough draft of how the system architecture is and the com
 Typically in a CBRS, the results would be the solution of the case from the case-base with the highest similarity to the proposed problem, applied to this problem. Utsida does not recieve one solution, and does not apply any solution by itself to the user's query, but it lists the cases with the most similarity to the user's query. Therefore, Utsida is not a standard CBRS, but rather a Case Based Recommender System. This way, the user can browse several solutions, and pick the one they want.
 
 
-\subsection{Django}
-Django is a web-framework written in Python. It was chosen for Utsida because of its easy and quick implementation procedure. The built in administrator pages also makes it more convenient for data handling.
+\subsection{Components}
+This section describes the different components of the system detailed in the previous section. These components build the application that are needed to answer request question 1. They each have a core functionality and use that targets a specific problem domain. 
 
-Some default functions in Django was extended to provide required functionality in the Utsida system. The user object was extended with profile information so that the system could register more information about the user such as institute and courses to be taken. 
+\paragraph{Reccomendation Handler}
+This component of the system handles the communcation with the RESTful MyCBR API as described in the previous part. The component communicates through
+
+\paragraph{Course Matches}
+
+\paragraph{Profile}
+
+\paragraph{Applications}
+
+\subsection{Development process}
+
+\subsection{Design \& Usability}
+
+\subsection{Test Environment}
+
 
 \section{Data}
 
 The system requires an extensive amount of external data to be relevant. Data from several sources was acquired and is listed below.
 
 \begin{itemize}
-    \item Experience Reports: The data source used to construct cases for the case-base. Explained in section \ref{sec:experience_reports}
+    \item Experience Reports: The data source used to construct cases for the case-base. Explained in section \ref{sec:experience_reports}. Also used for a heatmap of popular exchange countries. 
     \item Assessed course matches at NTNU: Logged by some advisors at NTNU in different format. Was manually parsed to create an initial base of assessed course matches in Utsida.
     \item Courses at NTNU: Filled in Utsida's database from IDI's organizational API for NTNU. 
     \item Faculties and institutes at NTNU: Also filled in Utsida's database from IDI's organizational API for NTNU.
@@ -243,12 +265,12 @@ The data used to parse into cases for the CBRS was mostly raw text. Obviously, a
 
 Not all problems regarding uniformity was possible to avoid however. Because input attribute for which university a student went to, and which subject they took is a subset of a such enormous set of data, that it is not possible to keep all alternatives in a pre-defined format. Atleast not with any APIs available today.
 
-
+\iffalse
 \subsubsection{Noise in the Data}
 As mentioned, the cases used in Utsida's CBRS are essentially simplified data representations of the experience reports. These reports contain many fields where the student who writes it can write the answers with free text, rather then selecting from a predefined selection of alternatives. This proved to be an issue when parsing the data into cases, because we required a more strict format on each attribute. The script parsing each experience report therefore had to take care of a lot of edge-cases, and reformat the student's answers into our own format. A method proved to be extremely useful in this situation, namely \emph{Fuzzy Searching}
 
 \subsubsection{Fuzzy Searching}
 Fuzzy Searching, or Approximate string matching, is an algorithm used to recognize patters and similarities in text, and yield a score to determine the similarity between them. Using technique in the script which parsed the experience reports, predefined sets of attributes could be formatted as the system required, and use fuzzy search on the text input in the reports, to map the most similar occurrences to our predefined data. For example, in the field in the reports where the student's wrote their institute at home, a huge variation of abbreviations, and other ways to write it is an issue. By creating a dictionary with all institutes and faculties, fuzzy searching could be used to match the input in the report to this dictionary, and return the record in the dictionary with the highest similarity score to the input in the report. This method was also used to avoid creating multiple instances of the same university in the database, because they were written slightly different.
-
+\fi
 
 \cleardoublepage

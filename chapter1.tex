@@ -5,41 +5,45 @@
 \section{Motivation}
 
 Studying abroad can be an important way to improve intercultural communication skills that are increasingly more important in international businesses and for cooperation between different cultures.\cite{williams2005exploring} A multicultural experience is also shown to positively affect creative performance and creativity-supporting
-cognitive processes\cite{leung2008multicultural} and improve the career opportunities for students\cite{brandenburg2014erasmus}. Many students choose to go abroad by doing an exchange program or a study-abroad program. These programs usually lasts for 6-12 months where the student is studying at a university in a different country. To apply for exchange or study abroad at the Norwegian University of Science and Technology (NTNU) the students have to find and pre-approve courses which are desired to take at the university abroad. The process of planning and choosing courses is a time consuming and tedious task, where both the supervisor and student has to undergo a large amount of manual work.
+cognitive processes\cite{leung2008multicultural} and improve the career opportunities for students\cite{brandenburg2014erasmus}. Many students choose to go abroad by doing a student exchange program or a study-abroad program. These programs usually lasts for 6-12 months where the student is studying at a university in a different country. To apply for a student exchange- or study abroad program at the Norwegian University of Science and Technology (NTNU), the students have to find and pre-approve courses which are desired to take at the university abroad. The process of planning and choosing courses is a time consuming and tedious task, where both the supervisor and student has to undergo a large amount of manual work.
 
 The purpose of this research, is to propose the hypothesis that significantly simplifying this process, as well as making all required information easily available would increase the interest among students to study abroad. This process can be replaced by an information system (IS) that automates a large part of the manual work, as well as intelligently suggesting subjects and universities for students by using an intelligent recommendation system with the artificial intelligence (AI) methodology Cased-based Reasoning (CBR). 
 
 
-\section{Background}
+\section{Previous Research}
 
 A study by Mazzarol and Soutar\cite{mazzarol2002push} shows that students' general motivation is influenced by the amount of information on the university and its courses. Among the several factors which was reviewed in the study, the \enquote{knowledge and awareness} factor proves to be the most influencing one for choosing an international study location. Therefore, when investigation how an IS can improve this process, proper information is key. 
 
 Several approaches has been made to replace the manual process of choosing courses with an IS. One example is by using a decision support system that advises the students on their course selection based on their program requirements and the course's prerequisites, as done at the University of Dhaka\cite{roushan2014university}. Student course recommendation can be done intelligently by using recommendation engines and data mining techniques to give relevant results. Sherpa\cite{bramucci2012sherpa} is a system that has been made especially for the goal of giving course recommendations. Data mining techniques can also be used to predict whether a student will fail or pass on a course\cite{vialardi2009recommendation}.
 
-Software engineering varies from other fields of study by having a more practical approach to the research. This paper primarily focus on research for how the promoted IS can be implemented,  what it can do to provide a optimal contribution to NTNU, and whether it can increase the motivation for students to do a study exchange program. The following list summarize the concise research questions which this research will try to answer:
+CBR is today both a recognized and well-established method in several fields of sciences; such as health science.\cite{begum2011case}. Because CBR is proven to be a suitable methodology for complicated problems where uncertainty is involved \cite{richter2013case}, it has been applied to problems such as diagnosing chronically diseases in combination with data mining \cite{huang2007integrating}, and finding the most suitable study program at a senior high school \cite{mulyana2015case}. Case-Based Recommender Systems, which is discussed in section \ref{sec:case_based_recommender_systems} are also commonly used in decision problems, typically when there's not one true answer, but rather several different good answers. For example was such a system developed to find the most suitable Massive Open Online Courses (MOOCs) for e-learning. \cite{bousbahi2015mooc}. 
+
+Among the many applications utilizing the CBR methodology, none has covered the issue of finding the most suitable country, university and courses to choose when going on an exchange study. Therefore, based on the motivation for this research, and similar research which has been done, this research will answer the following research questions:
+
+\section{Research Questions}
 
 \begin{itemize}
-    \item \textbf{RQ1:} How can intelligent recommendation increase students' motivation for studying abroad?
-    \item \textbf{RQ1.1:} What information and features are important for an IS to be used? 
-    \item \textbf{RQ2:} Is the domain of choosing subjects and universities suitable for case-based reasoning?
+    \item \textbf{RQ1:} What impact can a decision support system for selecting courses have on students' motivation for doing a study abroad- or study exchange program?
+    \item \textbf{RQ2:} How suitable is the Case-Based Reasoning methodology for the domain of finding a relevant university and subjects for a study abroad- or study exchange program?
     
 \end{itemize}
 
-\section{Contributions}
-
-This research's contribution will yield a new computer based artefact; specifically an IS with the goal of both motivating and making it easier for students at NTNU to apply for a study exchange program.
-
-As implied by some of the similar systems and solutions already mentioned, this research will invent a new innovating system that could be extended to other universities. Aside from simplifying this process, the research will contribute by giving new insight and knowledge about what an IS can do to increase the motivation for students to apply for a study exchange program, and if it is possible to completely automate this process, as well as providing automated intelligent educated guesses for the most suitable and relevant courses a student should choose. Considering this research objective is primarily designed as a contribution to NTNU, who currently does most of this process manually, if this research and product proves to be successful, it will be a great contribution for NTNU. All though there exists similar systems in other universities which focus on some of the same objectives as this research, commercial-off-the-shelf (COTS) products can not be implemented, when the dependencies and infrastructure is so different for different universities.
-
 \section{Methodology}
-
-This study first focused on gathering qualitative data, gained by interviewing key persons, and studying existing documents and diagrams, as well as investigating if contribution will increase motivation, which can be viewed upon as subjective and individual. Furthermore, as stated by the motivation for performing this research project, it is hard to avoid being biased in some form. These factors all relate most closely to the interpretivism paradigm. It is therefore concluded that the researchers way of thinking throughout this study will be categorized towards this paradigm.
+To answer the research questions this study will first focus on gathering qualitative data, gained by interviewing key persons, and studying existing documents and diagrams, as well as investigating if contribution will increase motivation, which can be viewed upon as subjective and individual. Furthermore, as stated by the motivation for performing this research project, it is hard to avoid being biased in some form. These factors all relate most closely to the interpretivism paradigm. It is therefore concluded that the researchers way of thinking throughout this study will be categorized towards this paradigm.
 
 It is also of essence to learn if a new information system could motivate more students to apply for a study abroad program. This question will be answered with qualitative questionnaires and interviews with eventual users of prototypes and early implementations.
 
 The major results that will be collected are the motivation for students going on exchange. As mentioned the project aims to improve the motivation for students to go on exchange and ultimately see an increase. We will collect this data by requesting statistics from NTNU on the amount of students on exchange. We will then compare this to previous measured data and the total number of students studying at that time. This data will be visualized through a graph for each measured data. Below is an example on the variables the data might be formed in. These tables will then be made into a graph showing the development. If the project has any large influence on the motivation of exchange students it will show in the graph.
 
 Statistical analysis is used on the data of students motivation for going on exchange. It gives give a clearer view of how drastic the changes were and if implementing the system really give an significant effect. One statistical method implemented by this research is one-way analysis of variance to test the hypothesis.
+
+\iffalse
+\section{Contributions}
+
+This research's contribution will yield a new computer based artefact; specifically an IS with the goal of both motivating and making it easier for students at NTNU to apply for a study exchange program.
+
+As implied by some of the similar systems and solutions already mentioned, this research will invent a new innovating system that could be extended to other universities. Aside from simplifying this process, the research will contribute by giving new insight and knowledge about what an IS can do to increase the motivation for students to apply for a study exchange program, and if it is possible to completely automate this process, as well as providing automated intelligent educated guesses for the most suitable and relevant courses a student should choose. Considering this research objective is primarily designed as a contribution to NTNU, who currently does most of this process manually, if this research and product proves to be successful, it will be a great contribution for NTNU. All though there exists similar systems in other universities which focus on some of the same objectives as this research, commercial-off-the-shelf (COTS) products can not be implemented, when the dependencies and infrastructure is so different for different universities.
+\fi
 
 \section{Chapter Descriptions}
 This section describes the different chapters of this thesis. The main focus and content will be detailed to gain a brief overview of the thesis structure. 
