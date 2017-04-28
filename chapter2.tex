@@ -1,17 +1,9 @@
 %===================================== CHAP 2 =================================
 \cleardoublepage
 
-\chapter{Background \& Theory}
+\chapter{Theory}
 
-To understand what sets this system apart from other standard search- and filter mechanics, it is important to understand how CBR works. This chapter elaborates on how the current approach for applying for an exchange program is, how CBR works, what recommendation systems are, and what MyCBR is; the tool that was used to implement CBR in Utsida.
-
-\section{Current approach}
-The current system for choosing and approving exchange courses is mostly done manually at NTNU. This process is required before and after an exchange period and courses have to be approved before applying for a exchange semester or year.
-
-Students are first required to find the university they want to go on exchange to. The possible options are nearly limitless with only some guidance of cooperation universities that might make the choice easier for the student. After the university is chosen, the student has to find a possible course combination that can be approved as a replacement for the courses originally planned at NTNU. Most of the institutes has no system for either submitting or helping the students find the possible replacements and course matches. The exception is the Department of Information and Computer Science, which utilize a digital table for entering courses. While this table in many ways make it easier for the students to select their university and courses the data entry does not handle many useful features and data validations. 
-
-During the exchange period the students often has to change their courses due to unforeseen circumstances making the original approval not valid. To gain a new approval the student generally has to send an email to the adviser of their institute to get the new courses approved. If this process take some time the student might have to choose a course without approval due to the final course selection due date at some universities. 
-
+To understand what sets this system apart from other standard search- and filter mechanics, it is important to understand how CBR works. This chapter elaborates on how CBR works, what recommendation systems are, and what MyCBR is; the tool that was used to implement CBR in Utsida.
 
 
 \section{Case-based Reasoning}
@@ -30,9 +22,10 @@ A case is usually represented as a feature vector, consisting of a few to many p
 
 \begin{table}[H]
 \centering
+\small
 \caption{Classic case representation with attribute-value pairs for the problem description and the solution.}
 \label{tab:example_case}
-\begin{tabular}{|l|l|}
+\begin{tabulary}{\textwidth}{|L|L|}
 \hline
 \rowcolor[HTML]{C0C0C0} 
 Attribute           & Value     \\ \hline
@@ -43,7 +36,7 @@ Blood pressure      & Normal    \\ \hline
 Vision changes      & No        \\ \hline
 Shortness of breath & No        \\ \hline
 Diagnosis           & Influenza \\ \hline
-\end{tabular}
+\end{tabulary}
 \end{table}
 
 \subsection{The CBR-Cycle}\label{sec:cbr-cycle}
@@ -59,7 +52,7 @@ Aamodt & Plaza\cite{aamodt1994case} defined a model which explain the problem so
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{fig/cbr_cycle.jpg}
+    \includegraphics[width=0.6\textwidth]{fig/cbr_cycle.png}
     \caption{The CBR Cycle}
     \label{fig:cbr_cycle}
 \end{figure}
@@ -81,7 +74,7 @@ JColibri is an object-oriented framework in Java for building CBR systems, which
 CBR-Works is a shell for Case-Based application building, which covers the whole CBR-cycle from retrieving to revising, and supports modelling the structure of cases, and maintaining the case base.\cite{schulz1999cbr} It comes with a interface which can be used to build a new Case-Based application from existing data. The framework can be used to construct complex concepts, and includes a rather unique element when modelling the cases; rules. These can be used to set constraints to the concepts for their adaption and completion process. All though this framework is a candidate for this research, it was desired to find a framework which is easier to dive into.
 
 \subsection{MyCBR}
-MyCBR is a tool for rapid prototyping of CBR systems with focus on the retrieval step of the CBR cycle.\cite{MyCBR}. Its developed and maintained as a joint project between the German Research Center for Artificial Intelligence (DFKI) and the School of Technology and Computing at the University of West London (UWL)\cite{Stahl2008}. MyCBR was used extensively throughout the project to assist with both prototyping and modelling the CBRS. The MyCBR project is first and foremost a Java Software Development Kit (SDK), but also includes a pre-built GUI called the MyCBR Workbench. 
+MyCBR is a tool for rapid prototyping of CBR systems with focus on the retrieval step of the CBR cycle.\cite{MyCBR}. Its developed and maintained as a joint project between the German Research Center for Artificial Intelligence (DFKI) and the School of Technology and Computing at the University of West London (UWL)\cite{Stahl2008}. MyCBR was chosen as the designated tool to model the CBRS, because it includes all the necessary functionality, as well as requireing a minimum of domain knowledge, and knowledge about the tool itself. Furthermore, using this tool would make getting help and support easier, considering NTNU has an employee whom is a contributor to the project. MyCBR was used extensively throughout the project to assist with both prototyping and modelling the CBRS. The MyCBR project is first and foremost a Java Software Development Kit (SDK), but also includes a pre-built GUI called the MyCBR Workbench. 
 
 \subsubsection{MyCBR SDK}
 The MyCBR SDK provides an access point for implementing the functionality of MyCBR in a custom application. The SDK is written in the JAVA programming language and has executable programs for macOS, Windows and Linux\cite{MyCBR}. 
@@ -92,9 +85,9 @@ A recent update extended the SDK to include a REST API that enables cross server
 
 \subsubsection{MyCBR Workbench}
 
-The myCBR workbench provides a GUI based interface of the features in the SDK. This allows easier prototyping and usage for users without the need to have large knowledge of the SDK's inner functions\cite{bach2014knowledge}. 
+The myCBR workbench provides a graphical user interface (GUI) of the features in the SDK. This allows easier prototyping and usage for users without the need to have large knowledge of the SDK's inner functions\cite{bach2014knowledge}. 
 
-To be able to quickly import data and cases the workbench supports case import with csv files. All the required cases can therefore be gathered and refined before being tested in the workbench. The workbench also supports a set of similarity functions that are easy to model such as Taxonomy and integer functions. The workbench visualises these similarity measures with graphs and tables.
+To be able to quickly import data and cases, the workbench supports importing pre-defined cases with the CSV file format. All the required cases can therefore be gathered and refined before being tested in the workbench. The workbench also supports a set of similarity functions that are easy to model such as Taxonomy and integer functions. The workbench visualises these similarity measures with graphs and tables.
 
 \begin{figure}[H]
     \centering
@@ -118,9 +111,7 @@ There are mainly two types information a recommendation can be based on. The fir
 
 
 
-
-
-
+\section{Software Usability}
 
 
 

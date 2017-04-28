@@ -69,21 +69,47 @@ This research requires the design and creation of a computer based artefact (Uts
 
 Utsida is the cornerstone of this research, as well as the required tool to answer RQ1. It will incorporate the AI methodology CBR to create a new way of reccommending relevant universities and courses for a student applying for an exchange program, and serve as a united place for required and handy data and information. 
 
-It is of great importance that this system is well functioning and easy to use, if RQ1 is to be answered. Therefore, the the design and creation research strategy has to be followed. The system will be designed, created, and tested by relevant students, while the results of these tests will be carefully analyzed.
+It is of great importance that this system is well functioning and easy to use, if RQ1 is to be answered. Therefore, the the design and creation research strategy has to be followed. While the system is being designed and created, it will be tested by students in an itterative manner.
 
 \subsubsection{Usability Testing}
 
 To ensure sufficient usability and functionality for Utsida, there will be conducted waves of usability testing on carefully selected participants, mainly students who have a decent understanding of the current system for applying for an exchange program. Both technical competent- and less technical competent students will be tested.
 
-These tests will help finding flaws in both general functionality and design, so that the system is as reliable as possible before finally conducting remote tests.
+These tests will help finding flaws in both general functionality and design, so that the system is as reliable as possible before finally conducting remote tests. This data will be gathered by interviewing the testers, and have them fill out a System Usability Scale (SUS)-schema\cite{brooke1996sus}, and it will be analyzed carefully after each test.
 
-\subsubsection{System Testing of the CBR Module}
 
-To answer RQ2, and thus to either confirm or reject the hypothesis that CBR is a feasible methodology to use in this problem domain, an experiment will be conducted in addition to any feedback recieved from the usability testing on the CBR retrieval process. Two CBR models; one without weighted attributes, and one with fully configured and modelled attributes will perform retrieval processes simultaneously, and the results will be analyzed. If the configured option, which will be used in this research, yields substantially more desired results, both in terms of correct retrieval, and the most relevance for the user, it is considered a success.
+
+\subsubsection{Offline testing of recommendation}
+
+To answer RQ1 and to either confirm or reject the hypothesis that CBR is a feasible methodology to use in this problem domain, an offline experiment will be conducted. This experiment is in addition to the larger online testing on users. 
+
+The offline test focuses on comparing the tweaked CBR model with a default CBR model that is not configured to the domain. A query will be given to both the tweaked and default models and the results analyzed according to the table below. 
+
+\begin{table}[]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|
+>{\columncolor[HTML]{D0E0E3}}l |l|l|l|}
+\hline
+\multicolumn{4}{|c|}{\cellcolor[HTML]{A4C2F4}{\color[HTML]{333333} Rating scale for recommendations (0-10 points)}}                                                                                             \\ \hline
+Attribute           & \cellcolor[HTML]{D0E0E3}0 points                                         & \cellcolor[HTML]{D0E0E3}1 point                                             & \cellcolor[HTML]{D0E0E3}2 points \\ \hline
+Institute           & \begin{tabular}[c]{@{}l@{}}Wrong faculty \\ wrong institute\end{tabular} & \begin{tabular}[c]{@{}l@{}}Correct faculty\\ wrong institute\end{tabular}   & Correct Institute                \\ \hline
+Year                & Before 2011                                                              & 2011-2013                                                                   & 2014-2017                        \\ \hline
+Geographic Location & \begin{tabular}[c]{@{}l@{}}Wrong country \\ wrong continent\end{tabular} & \begin{tabular}[c]{@{}l@{}}Correct continent\\ wrong country\end{tabular}   & Correct country                  \\ \hline
+University          & \multicolumn{2}{c|}{No match}                                                                                                                          & Perfect match                    \\ \hline
+Language            & No match                                                                 & \begin{tabular}[c]{@{}l@{}}The language is \\ part of the list\end{tabular} & Perfect match                    \\ \hline
+Ratings             & \multicolumn{3}{c|}{0.5 points for each rating in range (-1, rating +1)}                                                                                                                  \\ \hline
+\end{tabular}%
+}
+\caption{Offline test score table}
+\label{offline_test}
+\end{table}
+
+
+If the configured model yields substantially more desired results, both in terms of correct retrieval, and the most relevance for the user according to the defined rules, it is considered a success.
 
 \subsection{Survey}
-
-To answer RQ1, a survey will be conducted. First, a baseline will be established regarding students’ motivation and attitude towards applying for an exchange program at NTNU. This baseline will be created by utilizing a questionnaire which will be sent to a target group of students. These students will then be asked to try Utsida, followed by a new questionnaire which will establish whether the developed system had any substantial positive effect on these students.
+To answer RQ2, a survey will be conducted. First, a baseline will be established regarding students’ motivation and attitude towards applying for an exchange program at NTNU. This baseline will be created by utilizing a questionnaire which will be sent to a target group of students. These students will then be asked to try Utsida, followed by a new questionnaire which will establish whether the developed system had any substantial positive effect on these students.
 
 The survey strategy will also be used to gain information of how to properly model the CBR module of Utsida. Each attribute in the model has to be weighted with proper importance, which require the average opinion of a large number of students to get as correct as possible. In this questionnaire, the students will be asked what they think are the most important aspects when selecting a geographical location, and a university for their exchange program.
 
@@ -98,10 +124,15 @@ The recipients of the questionnaire should be students who have some experience 
 
 
 \subsection{Interviews and Observation}
+
 As a mean to acquire the needed information from the test subjects whom performed the usability tests, both observation and interviews were done. Each test was thoroughly observed, to see how the test subjects thought, and how they used the system, while each test ended with an interview. These data generation methods were used to improve the system to an acceptable state before performing remote testing and questionnaires.
 
 \section{Data Analyzis}
 
 The questionnaires which will be conducted will produce qualitative e data which will be analyzed in a statistical manner. It is considered a successful research if the latter questionnaire yields substantial improved results than the initial. 
+
+\section{Ethical Issues}
+
+\section{Practical Issues}
 
 \cleardoublepage

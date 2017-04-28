@@ -18,7 +18,7 @@ Typically, a CBRS' case-base is gradually filled as a new case arrives. In this 
 When parsing the experience reports, choices had to be made in regards to what data was needed. One of the most important aspects of Utsida, is that it should be fast and simple to use. Therefore, the amount of attributes and data extracted from the reports were initially narrowed down to a minimum, but still chose the data which yielded the most importance. The initial chosen data and attributes were modelled to the key-value pairs in table \ref{tab:case_representation1}.
 
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \small
 \caption{Initial representation of a case in Utsida}
@@ -43,7 +43,7 @@ When parsing the experience reports, choices had to be made in regards to what d
 
 This representation was used during the first usability testing of the system, which included an interview. From this, new information about good attributes to include was acquired, such as ease of finding a place to live, the standard of said place, the amount of support the students received at their chosen university, and the general cost of living in the country. These results lead to a an extended case representation, which is displayed in table \ref{tab:case_representation2}. This revision also spliced several ratings which was significant for the social aspects into the social quality rating, and the same for the academic.
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \small
 \caption{Extended representation of a case in Utsida}
@@ -122,6 +122,47 @@ If the country in a query is an exact match with the country in a case, the simi
 
 \subsubsection{Attribute Functions}
 
+
+\begin{itemize}
+    \item \textbf{Rating Similarity:} In the case-model, the attributes \emph{AcademicQuality}, \emph{SocialQuality}, \emph{ReceptionQuality} and \emph{ResidentialQuality} are conjunctions of different ratings given in the experience reports. Each rating ranges between 1-10, and reflects how the student experienced their trip with regard to these categories. To calculate the similarity between a rating in a case, and a rating from a query, the CBRS uses Symmetric Difference Determined Similarity\cite{bergmann2002experience} with a linear function. It describes the decrease in similarity depending on the increase of the difference at a linear phase.
+    
+$\begin{displaystyle}
+    f(d) = 
+    \begin{cases} 1 : & d < min \\ 
+    \frac{max-d}{max-min} : & min \leq d \leq max \\
+    0 : & d > max
+    \end{cases}
+\end{displaystyle}$
+
+    \item \textbf{Continent Similarity:} The continent attribute is a \emph{Symbol type}, meaning its allowed values are a pre-determined set. Similarity between continents are calculated with a $m x n$ matrix, where each mapping yields a given similarity, as displayed in table \ref{tab:continent_similarity}. The values are rough estimates with regards to similarity in culture, language, location and general university structure.
+
+    \begin{table}[h]
+    \small
+    \centering
+    \caption{The $m x n$ matrix for calculating similarity between continents}
+    \label{tab:continent_similarity}
+    \begin{tabular}{|
+    >{\columncolor[HTML]{C0C0C0}}l |
+    >{\columncolor[HTML]{FFFFFF}}r |
+    >{\columncolor[HTML]{FFFFFF}}r |
+    >{\columncolor[HTML]{FFFFFF}}r |
+    >{\columncolor[HTML]{FFFFFF}}r |
+    >{\columncolor[HTML]{FFFFFF}}r |
+    >{\columncolor[HTML]{FFFFFF}}r |}
+    \hline
+    Attribute value & \cellcolor[HTML]{C0C0C0}South America & \cellcolor[HTML]{C0C0C0}Asia & \cellcolor[HTML]{C0C0C0}Europe & \cellcolor[HTML]{C0C0C0}Africa & \cellcolor[HTML]{C0C0C0}North America & \cellcolor[HTML]{C0C0C0}Oceania \\ \hline
+    South America & 1.0 & 0.0 & 0.2 & 0.0 & 0.3 & 0.0 \\ \hline
+    Asia & 0.0 & 1.0 & 0.0 & 0.0 & 0.0 & 0.0 \\ \hline
+    Europe & 0.2 & 0.0 & 1.0 & 0.0 & 0.2 & 0.2 \\ \hline
+    Africa & 0.0 & 0.0 & 0.0 & 1.0 & 0.0 & 0.0 \\ \hline
+    North America & 0.3 & 0.0 & 0.2 & 0.0 & 1.0 & 0.2 \\ \hline
+    Oceania & 0.0 & 0.0.0 & 0.2 & 0.0 & 0.2 & 1.0 \\ \hline
+    \end{tabular}
+    \end{table}
+    
+    \item \textbf{Language Similarity:} In the experience reports, the language field promoted a free-text answer. To handle this, the experience report parser created a list of all languages mentioned in this answer, and added it to the case. Thus, the Language attribute in a case is a list of strings. The attribute is represented as a \emph{Symbol} type which allows multiple values, such as a list. The function used to calculate the similarity between a query attribute and a case attribute simply yields a similarity of $1.0$ if it is an exact match (for example if a query contains the Language attribute \emph{Spanish}, and a case has the same in its Language field). If such a query was matched with a case with the list of the languages \emph{English, Spanish}, it returns the mean similarity for each item in the list. In this case, it would return a similarity of $0.5$, because it simply yields a $1.0$ for \emph{Spanish} and $0.0$ for \emph{English}.
+\end{itemize}
+
 \subsubsection{Sum Function}
 Before giving each case in the case-base a similarity score based on a query, the result of the similarity measure on each attribute is summarized, with regards to the attribute's weight. These functions are called Multi-Criteria Decision Making Methods (MCDMM).
 
@@ -134,7 +175,7 @@ Among the available sum functions in the MyCBR Workbench, there are two widely u
 When the CBRS receives a query from Utsida, a decision matrix is calculated for each case. This is a $(m \times n)$ matrix whre each row is the attribute values of a case, paired with that attributes weight. 
 
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \caption{A typical decision matrix for a query from Utsida to the CBRS}
 \label{tab:decision_matrix}
@@ -156,15 +197,59 @@ The WSM is used on this matrix to finally give each case in the case-base a simi
 
 \subsubsection{Weighting the Attributes}
 
-Each attribute in a case has a value, and an associated weight. This is essentially just an integer denoting the importance of that attribute. During the modelling of the MyCBR project, these weights were chosen by the authors based on personal expirence. These weights were in place during the usuability testing, to learn if they seemed approprate or not. To get a more public agreed upon set of weights, a questionnaire was sent out to a set of relevant student where they were asked to give their opinin of what kind of attributes were the most important when selecting location and courses for an exchange study, and specifically how important each of these attributes were. After the questionnaire, the weights of each attribute was moddelled as figure [**HER SKAL RESULTATER FRA SPØRREUNDERSØKELSE**] displays.
+Each attribute in a case has a value, and an associated weight. This is essentially just an integer denoting the importance of that attribute. During the modelling of the MyCBR project, these weights were chosen by the authors based on personal experience. These weights were in place during the usability testing, to learn if they seemed appropriate or not. To get a more public agreed upon set of weights, a questionnaire was sent out to a set of relevant student where they were asked to give their opinion of what kind of attributes were the most important when selecting location and courses for an exchange study, and specifically how important each of these attributes were. 
 
-[**-----------------VEKTER ETTER SPØRREUNDERSØKELSE-----------------**]
+The questionnaire had 84 participants, where 36 answers included textual answers describing important factors for choosing a location for their exchange study. All of the answers included a numerical rating between 1-7, describing how important they think each of the attribute in the questionnaire was, where these attributes represents the attributes in a case-model. The numerical data was analyzed in a statistical manner, where the mean, standard deviation and coefficient of variation was calculated for each attribute. These statistical approaches was possible to use because most of the data turned out to be relatively normally distributed. Table \ref{tab:attribute_ranking} shows the values for each attribute scaled to a range between 1-10, while appendix \ref{appendix:word_frequency} displays the most frequent category of words in the textual answers.
+
+\begin{table}[H]
+\small
+\caption{Statistical results from the questionnaire. \\ *SD: Standard Deviation, CV: Coefficient of Variation}
+\centering
+\label{tab:attribute_ranking}
+\begin{tabulary}{\textwidth}{LRRR}
+\textbf{Attribute} & \textbf{Mean (1-10)} & \textbf{SD (1-10)} & \textbf{CV (0-1)} \\ \hline
+Study language & 8.2 & 1.87 & 0.23 \\ \hline
+Social quality & 7.02 & 1.75 & 0.25 \\ \hline
+Academic quality & 7.11 & 2.12 & 0.30 \\ \hline
+Administrative support and reception & 6.5 & 2.27 & 0.35 \\ \hline
+Country/Continent & 6.84 & 2.45 & 0.36 \\ \hline
+Quality residential & 5.27 & 1.92 & 0.36 \\ \hline
+Cost of living & 5.66 & 2.13 & 0.38 \\ \hline
+Climate/weather & 6.22 & 2.53 & 0.41 \\ \hline
+Availability of residentials & 5.31 & 2.22 & 0.42 \\ 
+\end{tabulary}
+\end{table}
+
+Based on the Coefficient of Variance from table \ref{tab:attribute_ranking}, which takes both the mean and standard deviation in consideration, the attributes in the CBR model was configured as table \ref{tab:attribute_weights} shows.
+
+\begin{table}[h]
+\centering
+\caption{Finalized weighting of the case attributes}
+\label{tab:attribute_weights}
+\begin{tabulary}{\textwidth}{
+>{\columncolor[HTML]{FFFFFF}}l 
+>{\columncolor[HTML]{FFFFFF}}r }
+\textbf{Attribute} & \textbf{Weight} \\ \hline
+Home Institute & 7.0 \\ \hline
+Destination Continent & 2.5 \\ \hline
+Destination Country & 4.0 \\ \hline
+Destination University & 4.0 \\ \hline
+Study Language & 4.0 \\ \hline
+Study period & 4.5 \\ \hline
+Academic Quality Rating & 3.0 \\ \hline
+Social Quality Rating & 3.0 \\ \hline
+Ease to find- and quality of residential & 1.5 \\ \hline
+Support and reception at univeristy & 2.5
+\end{tabulary}
+\end{table}
+
+
 
 \subsection{Implementation}
 
 The CBRS was first modelled using the MyCBR Workbench. This includes to create all the desired attributes shown in table \ref{tab:case_representation2}, selecting their types and restraints, and creating a similarity measure or taxonomy for each of them. The function for calculated a case's final similarity to a query is chosen, and each similarity measure is properly weighted.
 
-\begin{figure}[H]
+\begin{figure}[htp]
     \label{fig:workbench_exmaple}
     \centering
     \includegraphics[width=0.8\textwidth]{fig/cbr_model.png}
@@ -218,17 +303,35 @@ Typically in a CBRS, the results would be the solution of the case from the case
 This section describes the different components of the system detailed in the previous section. These components build the application that are needed to answer request question 1. They each have a core functionality and use that targets a specific problem domain. 
 
 \paragraph{Reccomendation Handler}
-This component of the system handles the communcation with the RESTful MyCBR API as described in the previous part. The component communicates through
+This component of the system handles both the communication with the RESTful MyCBR API as described in the previous part and the views related to the recommendation. The component communicates through http requests and JSON as the data format.
 
 \paragraph{Course Matches}
+The main object of the course matches component is to display the approved course matches of a specific university. To enable manually editing and addition by student advisers this components supports add, edit and deletion of course matches. When editing course matches the adviser can add optional comments that include specific information on the course match. The enabled functionality for students include selecting course matches and storing it in the student profile where they can be used in a exchange course application at a later stage. The model fields for course matches include the home course object, abroad course object, approver, approval date, comment and equivalent study points. 
 
 \paragraph{Profile}
+This component handles all the user related operation from logging in, changing user data and saving related user data. The data connected to each user profile is institute, saved course matches, saved home courses and saved abroad courses. The stored data is mainly used by the course matcher site, where user can combine a home and abroad course to a custom course match that can further used in an application. 
 
 \paragraph{Applications}
+In order to get custom course matches approved a user has to send in an application. This components handles that process and manages application for both the user and the adviser. Allowing users to view, edit and delete an application, while advisers can approve or disapprove an application. 
 
 \subsection{Development process}
+The final result data needed in this research requires real users. It was therefore essential that Utsida, which is the surrounding system- and the platform the users actually use, is easy and intuitive to use. To ensure this, the development of Utsida was done in an iterative manner. This included communication with potential users throughout the development, and also usability testing. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{fig/development_process.png}
+    \caption{The development process of Utsida}
+    \label{fig:development_process}
+\end{figure}
+
+This way, 
+
 
 \subsection{Design \& Usability}
+
+\subsubsection{Usability Testing}
+Each of the two usability test sessions during the development of Utsida produced three System Usability Scale (SUS)-schemas to measure the usability of the system. 
+
 
 \subsection{Test Environment}
 
@@ -247,7 +350,7 @@ The system requires an extensive amount of external data to be relevant. Data fr
 \subsection{Parsing the Experience Reports}
 
 \subsection{Data Quality}
-Cleaning and validating the data was a large part of the preparation process. The data detailed in the previous chapter was not uniform and allowed in many cases free text entry. This caused the data to have large differences in both structure and entries. 
+Cleaning and validating the data was a large part of the preparation process. The data detailed in the previous chapter was not uniform and allowed in many cases free text entry. This caused the data to have large differences in both structure and entries. The data was analysed according to the six primary dimensions for data quality assessment\cite{askham2013six}.
 
 \paragraph{Validity} Most of the data was not validated in any way. There were lack of data input requirements, data type constraints, range constraints and membership constraints. This was especially the case for the exchange experiences and the approved course replacements.
 
