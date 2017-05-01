@@ -3,7 +3,7 @@
 
 \chapter{Theory}
 
-To understand what sets this system apart from other standard search- and filter mechanics, it is important to understand how CBR works. This chapter elaborates on how CBR works, what recommendation systems are, and what MyCBR is; the tool that was used to implement CBR in Utsida.
+To understand what sets this system apart from systems with standard search functionality, it is important to understand how CBR works. This chapter elaborates on how CBR works, what recommendation systems are, what MyCBR is; the tool that was used to implement CBR in Utsida, as well as relevant theory on usability.
 
 
 \section{Case-based Reasoning}
@@ -58,20 +58,21 @@ Aamodt & Plaza\cite{aamodt1994case} defined a model which explain the problem so
 \end{figure}
 
 \subsection{Similarity Measures}
-The degree of similarity between a set of input variables, and a case stored in the case-base is calculated and represented as a \emph{Similarity Measure} (SM). Naturally, a CBRS returns the case or cases with the highest SM. How the SM is calculated is different for each configuration, and must be tailored to each specific system. Typically, each attribute in a case has its own function for calculating the similarity to the identical input-attribute. The most suitable function depends on the attribute's type. For example will a typical function for an integer or float be the polynomial width from the input value, at a given step, while for a string symbol, it can be the the similarity by using approximate string matching. 
+The degree of similarity between a set of input variables, and a case stored in the case-base is calculated and represented as a \emph{Similarity Measure} (SM). Naturally, a CBRS returns the case or cases where the SMs yielded the highest similarity score. How the similarity score is calculated is different for each configuration, and must be tailored to each specific system. Typically, each attribute in a case has its own function for calculating the similarity to the appropriate input-attribute. The most suitable function depends on the attribute's type. For example will a typical function for an integer or float be the polynomial width from the input value, at a given step, while for a string symbol, it can be the result of approximate string matching. 
 
 Each attribute is given a weight, which decides which attributes are most important, and finally all weights are typically joined by using the \emph{Euclidian Distance}, or \emph{Weighted Sum} methods.
 
-\section{Tools and frameworks}
+\section{CBR Tools and frameworks}
 
-Due to the increasing popularity of CBR applications\cite{kolodner2014case}, many tools have been developed to model and implement a CBRS. These tools makes it easier to test ideas and develop prototypes without having to start from scratch. This section will introduce some of the different approaches to tool-kits and the reasoning for the selected tool of this research project. 
+Due to the increasing popularity of CBR applications\cite{kolodner2014case}, many tools have been developed to model and implement a CBRS. These tools makes it easier to quickly develop CBRS prototypes without having to start from scratch. This section will introduce some of the different approaches to tool-kits and the reasoning for the selected tool of this research project. 
 
 \subsection{JColibri}
 JColibri is an object-oriented framework in Java for building CBR systems, which follows the task/method division paradigm.\cite{bello2004jcolibri} The notion of this paradigm is that each task in a CBR-cycle described in section \ref{sec:cbr-cycle} involves several specific sub-tasks, and instead of using one method on each task, they are decomposed and structured in a way so that different methods can be applied to the different sub-tasks. All though this framework is flexible in terms of the problem domain it will be used for, and can be used for any number of the steps in the CBR-cycle, it required a substantial amount of knowledge for the developers because they have to use appropriate methods for different tasks, go more in depth than other frameworks.
 
-
+\iffalse
 \subsection{CBR-Works}
 CBR-Works is a shell for Case-Based application building, which covers the whole CBR-cycle from retrieving to revising, and supports modelling the structure of cases, and maintaining the case base.\cite{schulz1999cbr} It comes with a interface which can be used to build a new Case-Based application from existing data. The framework can be used to construct complex concepts, and includes a rather unique element when modelling the cases; rules. These can be used to set constraints to the concepts for their adaption and completion process. All though this framework is a candidate for this research, it was desired to find a framework which is easier to dive into.
+\fi
 
 \subsection{MyCBR}
 MyCBR is a tool for rapid prototyping of CBR systems with focus on the retrieval step of the CBR cycle.\cite{MyCBR}. Its developed and maintained as a joint project between the German Research Center for Artificial Intelligence (DFKI) and the School of Technology and Computing at the University of West London (UWL)\cite{Stahl2008}. MyCBR was chosen as the designated tool to model the CBRS, because it includes all the necessary functionality, as well as requireing a minimum of domain knowledge, and knowledge about the tool itself. Furthermore, using this tool would make getting help and support easier, considering NTNU has an employee whom is a contributor to the project. MyCBR was used extensively throughout the project to assist with both prototyping and modelling the CBRS. The MyCBR project is first and foremost a Java Software Development Kit (SDK), but also includes a pre-built GUI called the MyCBR Workbench. 

@@ -67,23 +67,46 @@ This research requires the design and creation of a computer based artefact (Uts
 
 \subsection{Design and Creation}
 
-Utsida is the cornerstone of this research, as well as the required tool to answer RQ1. It will incorporate the AI methodology CBR to create a new way of reccommending relevant universities and courses for a student applying for an exchange program, and serve as a united place for required and handy data and information. 
+Utsida is the platform which users meet, as well as the required tool to answer RQ2, and partly RQ1. It will incorporate the AI methodology CBR to create a new way of recommending relevant universities and courses for a student applying for an exchange program, and serve as a united place for required and handy data and information. 
 
-It is of great importance that this system is well functioning and easy to use, if RQ1 is to be answered. Therefore, the the design and creation research strategy has to be followed. While the system is being designed and created, it will be tested by students in an itterative manner.
+It is of great importance that this system is well functioning and easy to use, if RQ2 is to be answered. Therefore, the the design and creation research strategy has to be followed. While the system is being designed and created, it will be tested by students in an iterative manner.
 
 \subsubsection{Usability Testing}
 
-To ensure sufficient usability and functionality for Utsida, there will be conducted waves of usability testing on carefully selected participants, mainly students who have a decent understanding of the current system for applying for an exchange program. Both technical competent- and less technical competent students will be tested.
+To ensure sufficient usability and functionality for Utsida, there will be conducted iterative sessions of usability testing on carefully selected participants, mainly students who have a decent understanding of the current system for applying for an exchange program. Both technical competent- and less technical competent students will be tested.
 
-These tests will help finding flaws in both general functionality and design, so that the system is as reliable as possible before finally conducting remote tests. This data will be gathered by interviewing the testers, and have them fill out a System Usability Scale (SUS)-schema\cite{brooke1996sus}, and it will be analyzed carefully after each test.
+These tests will help finding flaws in both general functionality and design, so that the system is as reliable as possible before finally conducting remote tests. Data will be gathered by interviewing the testers, and have them fill out a System Usability Scale (SUS)-schema\cite{brooke1996sus}, and will be carefully analyzed after each test.
 
 
 
-\subsubsection{Offline testing of recommendation}
+
+
+\subsection{Survey}
+To answer RQ2, and partly RQ1, a survey will be conducted. This survey will ask students to try out Utsida, followed by a questionnaire which will establish whether the developed system can have a substantial positive effect on their motivation of applying for a study exchange, if the system would make the process easier for students who have been on a study exchange, and if they received relevant recommendations on universities and courses to choose. The feedback on the system's recommendations will contribute to RQ1, whilst the other questions will contribute to RQ2. 
+
+The survey strategy will also be used to gain information on how to properly model the CBR module of Utsida. Each attribute in the model has to be weighted with proper importance, which require the average opinion of a large number of students to get as correct as possible. In this questionnaire, the students will be asked what they think are the most important aspects when selecting a geographical location, a university, and choosing courses for their exchange program.
+
+
+\section{Data Generation Methods}
+
+\subsection{Questionnaires}
+
+All questionnaires which will be sent out in this research will be self-administrated, which promotes the opportunity to collect data from a large number of students at once. This method is also very cheap, and does not require as much time and planning as an administrated test would need. Because a student's thoughts of what is important, easy or convenient is rather subjective, as well as their attitude to the current system for applying for an exchange program, it is important strive to get feedback from as many students as possible, but considering that there is not much incentive for students to answer the questionnaires, and that the main survey will be rather large, a realistic goal of 30 answers is set. Considering such an amount of answers, qualitative analysis of the data will contribute more than qualitative analysis for both research questions. 
+
+The recipients of the questionnaire should be students who have some experience with exchange studies. To acquire a larger group target group who fits this criteria, it is therefore desired to arrange a collaboration with NTNU's International Section, which regularly sends out surveys with to these students for various reasons.
+
+
+\subsection{Interviews and Observation}
+
+As a mean to acquire the needed information from the test subjects whom performed the usability tests, both observation and interviews will be done. Each test will be thoroughly observed, to see how the test subjects thought, and how they used the system, while each test will end with an interview. These data generation methods will be used to improve the system to an acceptable state before performing remote testing and questionnaires.
+
+\subsection{Offline testing of recommendation}
 
 To answer RQ1 and to either confirm or reject the hypothesis that CBR is a feasible methodology to use in this problem domain, an offline experiment will be conducted. This experiment is in addition to the larger online testing on users. 
 
-The offline test focuses on comparing the tweaked CBR model with a default CBR model that is not configured to the domain. A query will be given to both the tweaked and default models and the results analyzed according to the table below. 
+The offline test focuses on comparing the tweaked CBR model with a default CBR model that is not configured to the domain. A query will be given to both the tweaked and default models and the results analyzed according to \ref{offline_test}.
+
+Offline testing provides several benefits and some difficulties. 
 
 \begin{table}[]
 \centering
@@ -108,31 +131,13 @@ Ratings             & \multicolumn{3}{c|}{0.5 points for each rating in range (-
 
 If the configured model yields substantially more desired results, both in terms of correct retrieval, and the most relevance for the user according to the defined rules, it is considered a success.
 
-\subsection{Survey}
-To answer RQ2, a survey will be conducted. First, a baseline will be established regarding students’ motivation and attitude towards applying for an exchange program at NTNU. This baseline will be created by utilizing a questionnaire which will be sent to a target group of students. These students will then be asked to try Utsida, followed by a new questionnaire which will establish whether the developed system had any substantial positive effect on these students.
+\section{Data Analysis}
 
-The survey strategy will also be used to gain information of how to properly model the CBR module of Utsida. Each attribute in the model has to be weighted with proper importance, which require the average opinion of a large number of students to get as correct as possible. In this questionnaire, the students will be asked what they think are the most important aspects when selecting a geographical location, and a university for their exchange program.
-
-
-\section{Data Generation Methods}
-
-\subsection{Questionnaires}
-
-All questionnaires which will be sent out in this research will be self-administrated, which promotes the opportunity to collect data from a large number of students at once. Because a student's thoughts of what is important, easy or convenient is rather subjective, as well as their attitude to the current system for applying for an exchange program, it is important to receive a large amount of data on this topic.
-
-The recipients of the questionnaire should be students who have some experience with exchange studies. To acquire a larger group target group who fits this criteria, it is therefore desired to arrange a collaboration with NTNU's International Section, which regularly sends out surveys with to these students for various reasons.
-
-
-\subsection{Interviews and Observation}
-
-As a mean to acquire the needed information from the test subjects whom performed the usability tests, both observation and interviews were done. Each test was thoroughly observed, to see how the test subjects thought, and how they used the system, while each test ended with an interview. These data generation methods were used to improve the system to an acceptable state before performing remote testing and questionnaires.
-
-\section{Data Analyzis}
-
-The questionnaires which will be conducted will produce qualitative e data which will be analyzed in a statistical manner. It is considered a successful research if the latter questionnaire yields substantial improved results than the initial. 
+The questionnaires which will be conducted will produce qualitative. Most of the questions in both questionnaires will be scale-based, or provide multiple predefined answers. This makes it easy to use statistical analysis of them, whilst the questions where the students can answer freely will be manually analyzed. 
 
 \section{Ethical Issues}
 
 \section{Practical Issues}
+This research is performed by two students, with one advisor to guide the project. There is a very limited amount of monetary funds, and the time at hand is only 9 months. The data which will serve as the results will be produced by users. With the minimal budget, a practical issue will be to produce the incentive for enough students to answer the surveys. Furthermore, because of the limited time, larger administrated tests are considered out of reach. 
 
 \cleardoublepage

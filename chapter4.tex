@@ -195,7 +195,7 @@ $case_{m}$            & $sim_{case_{m}}$      & $sim_{case_{m}}$      & \ldots  
 The WSM is used on this matrix to finally give each case in the case-base a similarity score between $0-1.0$, with regards to the query which the CBRS received. The CBRS then returns the list of the most relevant cases back to Utsida, which handles the rest.
 
 
-\subsubsection{Weighting the Attributes}
+\subsection{Weighting the Attributes}
 
 Each attribute in a case has a value, and an associated weight. This is essentially just an integer denoting the importance of that attribute. During the modelling of the MyCBR project, these weights were chosen by the authors based on personal experience. These weights were in place during the usability testing, to learn if they seemed appropriate or not. To get a more public agreed upon set of weights, a questionnaire was sent out to a set of relevant student where they were asked to give their opinion of what kind of attributes were the most important when selecting location and courses for an exchange study, and specifically how important each of these attributes were. 
 
@@ -239,7 +239,7 @@ Study period & 4.5 \\ \hline
 Academic Quality Rating & 3.0 \\ \hline
 Social Quality Rating & 3.0 \\ \hline
 Ease to find- and quality of residential & 1.5 \\ \hline
-Support and reception at univeristy & 2.5
+Support and reception at university & 2.5
 \end{tabulary}
 \end{table}
 
@@ -324,17 +324,20 @@ The final result data needed in this research requires real users. It was theref
     \label{fig:development_process}
 \end{figure}
 
-This way, 
+This way, elements which was hard or not very intuitive could be changed before beeing too deep integrated in the system.
 
 
 \subsection{Design \& Usability}
 
 \subsubsection{Usability Testing}
-Each of the two usability test sessions during the development of Utsida produced three System Usability Scale (SUS)-schemas to measure the usability of the system. 
-
+Each of the two usability test sessions during the development of Utsida produced three System Usability Scale (SUS)-schemas to measure the usability of the system. These were considered in additional to any direct feedback received after each test, as it was ideal to see and increase in these scores during the development. The first session of usability testing yielded the following SUS-scores (1-100): 67.5, 87.5 and 70, while the second session yielded as follows: 92.5, 95 and 97.5. The latter score suggested that the system was in an acceptable state to perform the final survey after the second session of usability testing.
 
 \subsection{Test Environment}
+To be able to both perform offline usability testing and larger scale online tests the application was hosted on a virtual server provided by Department of Computer Science at NTNU. The virtual server was running Ubuntu 16.04, a debian based linux operating system. The provided domain for the application was utsida.idi.ntnu.no.  
 
+The specific HTTP web server used was Apache2, and it was configured with HTTPS to enable secure and encrypted user sessions. To reduce the effort of running online usability tests and enable users to log in through their university account a service platform using UNINETT's federated authentication service (FEIDE) was implemented. This service platform "Dataporten" provided by UNINETT enables quick access to important user data and makes possible application users able to log in without registering a user. 
+
+Error reporting through email was configured on the server so that alerts were given in case of possible downtime or server errors. Error reporting made it possible to quickly resolve potential bugs or errors on the application and ensure higher user satisfaction when running user tests. Tracking user behaviour and statistics could be useful in the final data analysis. Google Analytics was therefore used to increase the understanding of user behaviour. Through Google Analytics it is possible to see a large set of data on the user behaviour. The most important ones used were number of users, average session time, device type and activity flow.  
 
 \section{Data}
 
@@ -368,12 +371,9 @@ The data used to parse into cases for the CBRS was mostly raw text. Obviously, a
 
 Not all problems regarding uniformity was possible to avoid however. Because input attribute for which university a student went to, and which subject they took is a subset of a such enormous set of data, that it is not possible to keep all alternatives in a pre-defined format. Atleast not with any APIs available today.
 
-\iffalse
-\subsubsection{Noise in the Data}
+\subsection{Fuzzy Searching on Data}
 As mentioned, the cases used in Utsida's CBRS are essentially simplified data representations of the experience reports. These reports contain many fields where the student who writes it can write the answers with free text, rather then selecting from a predefined selection of alternatives. This proved to be an issue when parsing the data into cases, because we required a more strict format on each attribute. The script parsing each experience report therefore had to take care of a lot of edge-cases, and reformat the student's answers into our own format. A method proved to be extremely useful in this situation, namely \emph{Fuzzy Searching}
 
-\subsubsection{Fuzzy Searching}
 Fuzzy Searching, or Approximate string matching, is an algorithm used to recognize patters and similarities in text, and yield a score to determine the similarity between them. Using technique in the script which parsed the experience reports, predefined sets of attributes could be formatted as the system required, and use fuzzy search on the text input in the reports, to map the most similar occurrences to our predefined data. For example, in the field in the reports where the student's wrote their institute at home, a huge variation of abbreviations, and other ways to write it is an issue. By creating a dictionary with all institutes and faculties, fuzzy searching could be used to match the input in the report to this dictionary, and return the record in the dictionary with the highest similarity score to the input in the report. This method was also used to avoid creating multiple instances of the same university in the database, because they were written slightly different.
-\fi
 
 \cleardoublepage
