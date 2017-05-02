@@ -2,7 +2,7 @@
 
 \chapter{Results \& Discussion}
 
-
+This chapter provides all final results yielded by the user survey, and the offline benchmark test of the CBR module, as well as a discussion and analysis of the data.
 
 \section{User Survey}
 
@@ -15,29 +15,41 @@
 
 
 
-\section{Offline Bench-marking of Recommendations}
+\section{Offline Test}
+
+By using the score matrix given by table \ref{tab:offline_test}, 20 different simulated user made queries yielded the scores seen in table \ref{tab:offline_test_results}. The same queries were ran on the main CBR model configuration, which the system uses, as well as a \enquote{dumb} configuration, which was created to simulate a more traditional filter search, where each attribute only return a similarity of $1.0$ if it is a direct match, and $0.0$ if not.
+
+\begin{table}[h]
+\centering
+\caption{My caption}
+\label{tab:offline_test_results}
+\begin{tabulary}{\textwidth}{RRR}
+Query \# & Smart (0-60) & Dumb (0-60)\\ \hline
+1 & 44.5 & 32.0 \\
+2 & 34.5 & 27.0 \\
+3 & 36.5 & 28.0 \\
+4 & 39.5 & 32.0 \\
+5 & 41.0 & 32.5 \\
+6 & 39.5 & 34.5 \\
+7 & 34.5 & 28.0 \\
+8 & 41.0 & 37.5 \\
+9 & 33.5 & 29.5 \\
+10 & 36.5 & 26.5 \\
+11 & 35.0 & 32.5 \\
+12 & 39.0 & 34.5 \\
+13 & 41.5 & 32.5 \\
+14 & 36.5 & 28.5 \\
+15 & 39.0 & 26.5 \\
+16 & 26.5 & 20.5 \\
+17 & 36.5 & 29.5 \\
+18 & 34.5 & 31.0 \\
+19 & 37.0 & 33.0 \\
+20 & 27.5 & 25.0 \\ \hline
+SUM & 734.0 & 601.0
+\end{tabulary}
+\end{table}
 
 
-\begin{figure}[h]
-    \centering
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\textwidth]{fig/results_smart.PNG}
-        \caption{A gull}
-        \label{fig:gull}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
-    \qquad
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\textwidth]{fig/results_dumb.PNG}
-        \caption{A tiger}
-        \label{fig:tiger}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-    %(or a blank line to force the subfigure onto a new line)
-
-    \caption{Point scores for the }\label{fig:offline_test_results}
-\end{figure}
 
 
 \cleardoublepage

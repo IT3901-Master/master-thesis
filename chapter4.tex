@@ -4,13 +4,76 @@
 
 Utsida is a joint collaboration between two students with specializations in software- and an artificial intelligence, respectively. This is reflected by a two-part system were each part targets one of the research questions. This chapter will define how the complete system is build, how the CBR part is modelled, elaborate for choices made, and how it works.
 
-\section{The First Part: RESTful CBR}
-Since the MyCBR SDK requires a Java environment, an initial problem was how to couple this functionality with a web application, which Utsida is. Luckily, Kerstin Bach, researcher at the Department of Computer and Information Science, NTNU is a contributor to the MyCBR project, and implemented the basis for a REST (Representational State Transfer) framework for a running MyCBR application. The CBR part of the system could then be a separate module, communicating with Utsida only with HTTP requests.
+Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system \emph{Innsida}, and the meaning of the word \emph{inside}. Utsida gives a relation to something on the outside, in this case going on an exchange study, choosing a foreign university, and a set of courses at that university. Utsida is a web application, and serves as the platform which the users use. This chapter covers the overlying architecture, the web part, CBR REST, the development process, about the design, and the data used in the system.
 
+\section{Knowledge acquisition}
 
+The system required an extensive amount of external data to be relevant. Data from several sources was acquired and is listed below.
+
+\begin{itemize}
+    \item Experience Reports: The data source used to construct cases for the case-base. Explained in section \ref{sec:experience_reports}. Also used for a heatmap of popular exchange countries. 
+    \item Assessed course matches at NTNU: Logged by some advisers at NTNU in different format. Was manually parsed to create an initial base of assessed course matches in Utsida.
+    \item Courses at NTNU: Filled in Utsida's database from IDI's organizational API for NTNU. 
+    \item Faculties and institutes at NTNU: Also filled in Utsida's database from IDI's organizational API for NTNU.
+\end{itemize}
 
 \subsection{The Experience Reports}\label{sec:experience_reports}
 Typically, a CBRS' case-base is gradually filled as a new case arrives. In this project, it was essential to have a large number of cases in the case-base from the start. A large part of the motivation for doing this research stems from personal experience, and thus it the current process at NTNU was well known. Most students who go on an exchange program at NTNU has to write obligatory reports to NTNU's International Section. These reports are public, and because of all the information about an exchange study they included, they proved to work as a great base for a case. All of the current public experience reports were downloaded, and parsed (see section \ref{sec:parser}) to cases, and filled in the CBRS' case-base. With this in place, the data and foundation of the CBRS was in place.
+
+\subsection{Parsing the Experience Reports}
+
+\subsection{Data Quality}
+Cleaning and validating the data was a large part of the preparation process. The data detailed in the previous chapter was not uniform and allowed in many cases free text entry. This caused the data to have large differences in both structure and entries. The data was analyzed according to the six primary dimensions for data quality assessment\cite{askham2013six} as further detailed in the following paragraphs.
+
+\paragraph{Completeness}
+Many of the experience reports which were parsed was not complete at all. This was an issue if the missing data included the student's institute, or which subjects they chose. This was completely necessary data because the institute was the biggest factor which made a case relevant for a user of Utsida, while the subjects is the solution to each case; without them the case doesn't help much. Therefore, any reports which was missing this data was automatically excluded by the parser.
+
+\paragraph{Uniqueness}
+There seems to be a good uniqueness in the cases in the way that there are visible repetition of exchange experiences from the same person. Since the underlying exchange experiences are anonymous there was no way to check for number of individual persons submitted a experience versus the number of experiences in total. 
+
+\paragraph{Timeliness} 
+is the "The degree to which data represent reality from the required point in time"\cite{askham2013six}. The last submitted experiences in the data set is from 2015 and the first ones from 1999. The data set should include entries from 2017 but the experience submission system was put on hold from 2015 and changed in early 2017. This means the newest data is already 2 years old at the time of this writing. The experiences tend to be submitted either a couple of months after an exchange period or in the middle of one. This makes the timeliness have a great degree of variation and is difficult to assess. 
+
+
+\paragraph{Validity} Most of the data was not validated in any way. There were lack of data input requirements, data type constraints, range constraints and membership constraints. This was especially the case for the exchange experiences and the approved course replacements.
+
+
+\paragraph{Accuracy}
+The data used to parse into cases for the CBRS was mostly raw text. Obviously, attributes came in all forms of abbreviations and ways to write the same thing. Utsida on the other hand required strict uniform formats on every input. A partly solution to this issue was solved by creating data dictionaries with all possible attributes on the format which was required by Utsida. The input was then matches to each of these entries in the dictionary with Approximate string matching, or Fuzzy Searching. This approach returns the most similar entry in the pre-defined dictionary to the input attribute, and ensured the data holds the same format. 
+
+Not all problems regarding accuracy was possible to avoid however. Because input attribute for which university a student went to, and which subject they took is a subset of a such enormous set of data, that it is not possible to keep all alternatives in a pre-defined format. Atleast not with any APIs available today.
+
+
+\paragraph{Consistency}
+Most of the reports are written in Norwegian, which means there are many characters which has to be encoded and decoded between UTF-8 and Ascii text standards. The parser was initially generating a JSON object of all the parses cases, but its encoding crashed with that in MyCBR. To avoid this, the JSON step was skipped, and the data was parsed directly from the experience report to a case in CSV format.
+
+\subsection{Fuzzy Searching on Data}
+As mentioned, the cases used in Utsida's CBRS are essentially simplified data representations of the experience reports. These reports contain many fields where the student who writes it can write the answers with free text, rather then selecting from a predefined selection of alternatives. This proved to be an issue when parsing the data into cases, because a more strict format on each attribute was required. The script parsing each experience report therefore had to take care of a lot of edge-cases, and reformat the student's answers into our own format. A method proved to be extremely useful in this situation, namely \emph{Fuzzy Searching}
+
+Fuzzy Searching, or Approximate string matching, is an algorithm used to recognize patters and similarities in text, and yield a score to determine the similarity between them. Using technique in the script which parsed the experience reports, predefined sets of attributes could be formatted as the system required, and use fuzzy search on the text input in the reports, to map the most similar occurrences to our predefined data. For example, in the field in the reports where the student's wrote their institute at home, a huge variation of abbreviations, and other ways to write it is an issue. By creating a dictionary with all institutes and faculties, fuzzy searching could be used to match the input in the report to this dictionary, and return the record in the dictionary with the highest similarity score to the input in the report. This method was also used to avoid creating multiple instances of the same university in the database, because they were written slightly different.
+
+\section{Architecture}
+
+Some default functions in Django was extended to provide required functionality in the Utsida system. The user object was extended with profile information so that the system could register more information about the user such as institute and courses to be taken. 
+
+The picture below is a rough draft of how the system architecture is and the communication with MyCBR. Utsida is divided into four main components; The recommendation handler communicates with the REST myCBR API and display the results for a given query. The Course Match component contains and displays all approved and registered course matches between NTNU and exchange universities. The profile handles all user controllers, such as login, logout, register and changing information. The course application allows users to register an application for course matches so that it can be handled by an student adviser. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{fig/systemRepresentationDraft.png}
+    \caption{Utsida Architecture}
+    \label{fig:utsida}
+\end{figure}
+
+Typically in a CBRS, the results would be the solution of the case from the case-base with the highest similarity to the proposed problem, applied to this problem. Utsida does not recieve one solution, and does not apply any solution by itself to the user's query, but it lists the cases with the most similarity to the user's query. Therefore, Utsida is not a standard CBRS, but rather a Case Based Recommender System. This way, the user can browse several solutions, and pick the one they want.
+
+\subsection{Django}
+Django\cite{djangodocs} is a web framework using the Python programming language, and is maintained by the \enquote{Django Software Foundation} (DSF). The DSF calls it an \emph{MTV} framework, meaning \emph{Model, Template, View}, which in practice functions as a \emph{MVC} pattern. It comes bundled with a lightweight database, a predefined directory structure, controllers to handle any communication between the different components, and many other package. Most noteworthy: Django's security packages, which handles important security risks such as Cross-Site Request Forgery and authorization, and the administrator panel, which lets the developers easily manage entries in the database with an intuitive interface. Everything Django offers completes a package which essentially lets developers focus on their ideas and the application, instead of structural difficulties. 
+
+As the title suggests, Django is a good choice for projects with slim time schedules, and rapid change, which ultimately is the reason for this choice of framework.
+
+\section{RESTful CBR}
+Since the MyCBR SDK requires a Java environment, an initial problem was how to couple this functionality with a web application, which Utsida is. Luckily, Kerstin Bach, researcher at the Department of Computer and Information Science, NTNU is a contributor to the MyCBR project, and implemented the basis for a REST (Representational State Transfer) framework for a running MyCBR application. The CBR part of the system could then be a separate module, communicating with Utsida only with HTTP requests.
 
 
 \subsection{Case Representation in Utsida}
@@ -118,10 +181,7 @@ In Utsida's CBR model, several attributes are a perfect fit for using a taxonomy
 
 If the country in a query is an exact match with the country in a case, the similarity score for the country attribute in that case will be 1.0. If it is a different country, but it still resides within the same continent as the country in a case, it will yield a similarity score of 0.3. No match at all will yield a 0.0. The same taxonomy is in place for the \emph{Home Institute} attribute, albeit ordered under the different faculties instead. Thus the faculty also works as a hidden attribute.
 
-\subsection{Similarity Measures}
-
-\subsubsection{Attribute Functions}
-
+\subsection{Attribute Similarity Measures}
 
 \begin{itemize}
     \item \textbf{Rating Similarity:} In the case-model, the attributes \emph{AcademicQuality}, \emph{SocialQuality}, \emph{ReceptionQuality} and \emph{ResidentialQuality} are conjunctions of different ratings given in the experience reports. Each rating ranges between 1-10, and reflects how the student experienced their trip with regard to these categories. To calculate the similarity between a rating in a case, and a rating from a query, the CBRS uses Symmetric Difference Determined Similarity\cite{bergmann2002experience} with a linear function. It describes the decrease in similarity depending on the increase of the difference at a linear phase.
@@ -136,7 +196,7 @@ $\begin{displaystyle}
 
     \item \textbf{Continent Similarity:} The continent attribute is a \emph{Symbol type}, meaning its allowed values are a pre-determined set. Similarity between continents are calculated with a $m x n$ matrix, where each mapping yields a given similarity, as displayed in table \ref{tab:continent_similarity}. The values are rough estimates with regards to similarity in culture, language, location and general university structure.
 
-    \begin{table}[h]
+    \begin{table}[H]
     \small
     \centering
     \caption{The $m x n$ matrix for calculating similarity between continents}
@@ -163,7 +223,7 @@ $\begin{displaystyle}
     \item \textbf{Language Similarity:} In the experience reports, the language field promoted a free-text answer. To handle this, the experience report parser created a list of all languages mentioned in this answer, and added it to the case. Thus, the Language attribute in a case is a list of strings. The attribute is represented as a \emph{Symbol} type which allows multiple values, such as a list. The function used to calculate the similarity between a query attribute and a case attribute simply yields a similarity of $1.0$ if it is an exact match (for example if a query contains the Language attribute \emph{Spanish}, and a case has the same in its Language field). If such a query was matched with a case with the list of the languages \emph{English, Spanish}, it returns the mean similarity for each item in the list. In this case, it would return a similarity of $0.5$, because it simply yields a $1.0$ for \emph{Spanish} and $0.0$ for \emph{English}.
 \end{itemize}
 
-\subsubsection{Sum Function}
+\subsection{Sum Functions}
 Before giving each case in the case-base a similarity score based on a query, the result of the similarity measure on each attribute is summarized, with regards to the attribute's weight. These functions are called Multi-Criteria Decision Making Methods (MCDMM).
 
 Among the available sum functions in the MyCBR Workbench, there are two widely used and suitable functions to use, namely the Weighted Sum Model (WSM) and the Euclidean Distance (ED). For single dimensional problems (such as in this system), the WSM can be used without difficulties, and is probably the most common approach \cite{triantaphyllou2000multi}, and is given by the following expression \cite{fishburn1967letter}
@@ -278,25 +338,7 @@ customer may want. This requires knowledge about customer’s preferences.\cite{
 
 Similar to this definition, the query which the CBR module recieves is a \emph{wish} from a student, containing their most desired attributes, combined with information they have stated in their profile, and it returns not one, but a list of recommendations, so that the user can browse these freely, and produce a choice which may be a combination of several of the recommendations.
 
-\section{The Second Part: Utsida}
-Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system Innsida and the meaning of the word, inside. Utsida gives a relation to something on the outside, in this case going on an exchange study, choosing a foregin university, and a set of courses at that university.
-
-Utsida is a web application built with the Django Framework. It contains functionality for all the database handling, controller methods, views and data transfer between client and server. Django is a web-framework written in Python. It was chosen for Utsida because of its easy and quick implementation procedure. The built in administrator pages also makes it more convenient for data handling.
-
-\subsection{Architecture}
-
-Some default functions in Django was extended to provide required functionality in the Utsida system. The user object was extended with profile information so that the system could register more information about the user such as institute and courses to be taken. 
-
-The picture below is a rough draft of how the system architecture is and the communication with MyCBR. Utsida is divided into four main components; The recommendation handler communicates with the REST myCBR API and display the results for a given query. The Course Match component contains and displays all approved and registered course matches between NTNU and exchange universities. The profile handles all user controllers, such as login, logout, register and changing information. The course application allows users to register an application for course matches so that it can be handled by an student adviser. 
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=8cm]{fig/systemRepresentationDraft.png}
-    \caption{Utsida Architecture}
-    \label{fig:utsida}
-\end{figure}
-
-Typically in a CBRS, the results would be the solution of the case from the case-base with the highest similarity to the proposed problem, applied to this problem. Utsida does not recieve one solution, and does not apply any solution by itself to the user's query, but it lists the cases with the most similarity to the user's query. Therefore, Utsida is not a standard CBRS, but rather a Case Based Recommender System. This way, the user can browse several solutions, and pick the one they want.
+\section{Implementation}
 
 
 \subsection{Components}
@@ -333,47 +375,10 @@ This way, elements which was hard or not very intuitive could be changed before 
 Each of the two usability test sessions during the development of Utsida produced three System Usability Scale (SUS)-schemas to measure the usability of the system. These were considered in additional to any direct feedback received after each test, as it was ideal to see and increase in these scores during the development. The first session of usability testing yielded the following SUS-scores (1-100): 67.5, 87.5 and 70, while the second session yielded as follows: 92.5, 95 and 97.5. The latter score suggested that the system was in an acceptable state to perform the final survey after the second session of usability testing.
 
 \subsection{Test Environment}
-To be able to both perform offline usability testing and larger scale online tests the application was hosted on a virtual server provided by Department of Computer Science at NTNU. The virtual server was running Ubuntu 16.04, a debian based linux operating system. The provided domain for the application was utsida.idi.ntnu.no.  
+To be able to perform offline usability testing and larger scale online tests the application was hosted on a virtual server provided by Department of Computer Science at NTNU. The virtual server was running Ubuntu 16.04, a debian based linux operating system. The provided domain for the application was utsida.idi.ntnu.no.
 
-The specific HTTP web server used was Apache2, and it was configured with HTTPS to enable secure and encrypted user sessions. To reduce the effort of running online usability tests and enable users to log in through their university account a service platform using UNINETT's federated authentication service (FEIDE) was implemented. This service platform "Dataporten" provided by UNINETT enables quick access to important user data and makes possible application users able to log in without registering a user. 
+The specific HTTP web server used was Apache2, and it was configured with HTTPS to enable secure and encrypted user sessions. To reduce the effort of running online usability tests and enable users to log in through their university account a service platform using UNINETT's federated authentication service (FEIDE) was implemented. The service platform "Dataporten"\cite{dataporten} provided by UNINETT enables quick access to important user data and makes possible application users able to log in without registering a user. 
 
-Error reporting through email was configured on the server so that alerts were given in case of possible downtime or server errors. Error reporting made it possible to quickly resolve potential bugs or errors on the application and ensure higher user satisfaction when running user tests. Tracking user behaviour and statistics could be useful in the final data analysis. Google Analytics was therefore used to increase the understanding of user behaviour. Through Google Analytics it is possible to see a large set of data on the user behaviour. The most important ones used were number of users, average session time, device type and activity flow.  
-
-\section{Data}
-
-The system requires an extensive amount of external data to be relevant. Data from several sources was acquired and is listed below.
-
-\begin{itemize}
-    \item Experience Reports: The data source used to construct cases for the case-base. Explained in section \ref{sec:experience_reports}. Also used for a heatmap of popular exchange countries. 
-    \item Assessed course matches at NTNU: Logged by some advisors at NTNU in different format. Was manually parsed to create an initial base of assessed course matches in Utsida.
-    \item Courses at NTNU: Filled in Utsida's database from IDI's organizational API for NTNU. 
-    \item Faculties and institutes at NTNU: Also filled in Utsida's database from IDI's organizational API for NTNU.
-\end{itemize}
-
-\subsection{Parsing the Experience Reports}
-
-\subsection{Data Quality}
-Cleaning and validating the data was a large part of the preparation process. The data detailed in the previous chapter was not uniform and allowed in many cases free text entry. This caused the data to have large differences in both structure and entries. The data was analysed according to the six primary dimensions for data quality assessment\cite{askham2013six}.
-
-\paragraph{Validity} Most of the data was not validated in any way. There were lack of data input requirements, data type constraints, range constraints and membership constraints. This was especially the case for the exchange experiences and the approved course replacements.
-
-
-\paragraph{Decleansing} Parsers were used to detect and decleanse the data of errors. The parser improvement were done in an iterative process. For each error detected the parser would extended to handle the error given. In the end the parser could handle most if not all the possible errors in the data used. 
-
-\paragraph{Completeness}
-Many of the experience reports which were parsed was not complete at all. This was an issue if the missing data included the student's institute, or which subjects they chose. This was completely necessary data because the institute was the biggest factor which made a case relevant for a user of Utsida, while the subjects is the solution to each case; without them the case doesn't help much. Therefore, any reports which was missing this data was automatically excluded by the parser.
-
-\paragraph{Consistency}
-Most of the reports are written in Norwegian, which means there are many characters which has to be encoded and decoded between UTF-8 and Ascii text standards. The parser was initially generating a JSON object of all the parses cases, but its encoding crashed with that in MyCBR. To avoid this, the JSON step was skipped, and the data was parsed directly from the experience report to a case in CSV format.
-
-\paragraph{Uniformity}
-The data used to parse into cases for the CBRS was mostly raw text. Obviously, attributes came in all forms of abbreviations and ways to write the same thing. Utsida on the other hand required strict uniform formats on every input. A partly solution to this issue was solved by creating data dictionaries with all possible attributes on the format which was required by Utsida. The input was then matches to each of these entries in the dictionary with Approximate string matching, or Fuzzy Searching. This approach returns the most similar entry in the pre-defined dictionary to the input attribute, and ensured the data holds the same format. 
-
-Not all problems regarding uniformity was possible to avoid however. Because input attribute for which university a student went to, and which subject they took is a subset of a such enormous set of data, that it is not possible to keep all alternatives in a pre-defined format. Atleast not with any APIs available today.
-
-\subsection{Fuzzy Searching on Data}
-As mentioned, the cases used in Utsida's CBRS are essentially simplified data representations of the experience reports. These reports contain many fields where the student who writes it can write the answers with free text, rather then selecting from a predefined selection of alternatives. This proved to be an issue when parsing the data into cases, because we required a more strict format on each attribute. The script parsing each experience report therefore had to take care of a lot of edge-cases, and reformat the student's answers into our own format. A method proved to be extremely useful in this situation, namely \emph{Fuzzy Searching}
-
-Fuzzy Searching, or Approximate string matching, is an algorithm used to recognize patters and similarities in text, and yield a score to determine the similarity between them. Using technique in the script which parsed the experience reports, predefined sets of attributes could be formatted as the system required, and use fuzzy search on the text input in the reports, to map the most similar occurrences to our predefined data. For example, in the field in the reports where the student's wrote their institute at home, a huge variation of abbreviations, and other ways to write it is an issue. By creating a dictionary with all institutes and faculties, fuzzy searching could be used to match the input in the report to this dictionary, and return the record in the dictionary with the highest similarity score to the input in the report. This method was also used to avoid creating multiple instances of the same university in the database, because they were written slightly different.
+Error reporting through email was configured on the server so that alerts were given in case of possible downtime or server errors. Error reporting made it possible to quickly resolve potential bugs or errors on the application and ensure higher user satisfaction when running user tests. Tracking user behaviour and statistics could be useful in the final data analysis. Google Analytics was therefore used to increase the understanding of user behaviour. Through Google Analytics it is possible to see a large set of data on the user behaviour. The most important ones used in this project were number of users, average session time, device type and activity flow.  
 
 \cleardoublepage
