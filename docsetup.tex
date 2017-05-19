@@ -5,6 +5,7 @@
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{color}
+\usepackage[utf8]{inputenc}
 \usepackage[Lenny]{fncychap}
 \usepackage[pdftex,bookmarks=true]{hyperref}
 \usepackage[pdftex]{hyperref}
@@ -31,9 +32,54 @@
 \usepackage{enumitem}
 \usepackage{csquotes}
 \usepackage{tabulary}
-\usepackage[toc,page]{appendix}
+\usepackage{appendix}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{placeins}
+\usepackage{pgfplots}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{pgf-pie}
+
+\pgfplotsset{ every non boxed x axis/.append style={x axis line style=-},
+     every non boxed y axis/.append style={y axis line style=-}}
+\usetikzlibrary{arrows,shapes,positioning,shadows,trees}
+
+\newcommand{\slice}[4]{
+  \pgfmathparse{0.5*#1+0.5*#2}
+  \let\midangle\pgfmathresult
+
+  % slice
+  \draw[thick,fill=black!10] (0,0) -- (#1:1) arc (#1:#2:1) -- cycle;
+
+  % outer label
+  \node[label=\midangle:#4] at (\midangle:1) {};
+
+  % inner label
+  \pgfmathparse{min((#2-#1-10)/110*(-0.3),0)}
+  \let\temp\pgfmathresult
+  \pgfmathparse{max(\temp,-0.5) + 0.8}
+  \let\innerpos\pgfmathresult
+  \node at (\midangle:\innerpos) {#3};
+}
+
+%----------------Defining colors-----------
+\definecolor{blueMariusLight}{RGB}{72, 188, 255}
+\definecolor{corsaneOrange}{RGB}{255, 177, 72}
+\definecolor{corsanenGrey}{RGB}{217, 217, 217}
+\definecolor{prettyGreen}{RGB}{92, 184, 92}
+\definecolor{bootstrapBlue}{RGB}{66,139,202}
+
+
+%-------------Main style for WBS figures----------------
+\tikzset{
+  basic/.style  = {draw=none, text width=2cm, font=\sffamily, rectangle},
+  root/.style   = {basic, rounded corners=1pt, align=center},
+  level 2/.style = {basic, rounded corners=1pt, thin,align=center, fill=bootstrapBlue,text=white,
+                   text width=7.5em},
+  level 3/.style = {basic, thin, align=left, rounded corners=1pt, fill=corsanenGrey, text width=6.5em}
+}
 
 % ShareLaTeX does not support glossaries now. Sorry...
 %\usepackage[number=none]{glossary}

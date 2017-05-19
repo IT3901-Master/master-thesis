@@ -1,13 +1,16 @@
-\iffalse
+
 \section*{\begin{center}{\Huge Appendix}\end{center}}
 \addcontentsline{toc}{chapter}{Appendix}
 $\\[0.5cm]$
-\fi
 
-\chapter{Word frequency}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{fig/word_freq.png}
-    \caption{Caption}
-    \label{fig:my_label}
-\end{figure}{}
+\begin{appendices}
+\renewcommand\chaptername{Appendix}+
+
+\input{appendix/form1.tex}
+\input{appendix/form2.tex}
+\input{appendix/questionnaire2_results.tex}
+\input{appendix/simulated_queries.tex}
+\input{appendix/utsida_screens.tex}
+
+
+\end{appendices}

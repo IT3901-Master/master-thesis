@@ -1,120 +1,102 @@
-%===================================== CHAP 2 =================================
-\cleardoublepage
+\chapter{Preliminary Research} \label{chap:2}
+Before deciding on specific research methods it was important to understand the problem context and related work done in the field. This chapter details that process and the knowledge gained.  
 
-\chapter{Theory}
+\section{Interviews}
+Interviews and unofficial meetings were conducted to understand the problem domain and gain information on the current process for applying for an exchange program at NTNU. Two advisers from the Computer Science Department (IDI) were interviewed, and a meeting was conducted with the Office of International Relations. The goal of these meetings was to introduce the groups to our research goals. In addition it was also used as a method to gain valuable feedback on possible difficulties and limitations that might be encountered during implementation and testing. 
 
-To understand what sets this system apart from systems with standard search functionality, it is important to understand how CBR works. This chapter elaborates on how CBR works, what recommendation systems are, what MyCBR is; the tool that was used to implement CBR in Utsida, as well as relevant theory on usability.
+\subsection{Student Advisers} Student advisers were interviewed to gain a better understanding on their role in the process of approving courses. In the context exchange programs, study advisers mostly work on reviewing the courses found by students and giving them possible recommendations on courses to take so it fits the students study plan. They also give information to students on universities with partnerships and the process as a whole. Some of the difficulties noted by the advisers was a high workload in peak periods for applications, high number of students makes it difficult for a personal follow-up and difficulties comparing the courses proposed by students. They were highly positive to a possible study that could find ways to resolve some of these issues. Features proposed by advisers were online course applications and follow-up of these applications, list of approved courses at a university in a specific department and automatic expiration of course approval based on approval date. 
+
+\subsection{Office of International Relations}
+The reason for meeting with staff at the Office of International Relations at NTNU was to gain insight into their large knowledge on the particular field. Another goal was find out if advisers from different faculties worked together and cooperated. During the meeting the results of the study on student motivation the Office of International Relations conducted in spring 2016 was presented. Furthermore, possible limitations with the proposed project was discussed. Such as low amount of information on exchange locations where few students have been before, and the many different rules and customs at different departments. The Office of International Relations suggested features such as dynamic study point allocation, recommendation of courses and universities at locations with fewer students.
+
+The Office on International Relations maintains the database of experiences reported by students that have been on exchange. This data is highly valuable for the recommendation engine and gaining access to the database was part of the meeting points. The database access was however found to be limited as it included personal information, therefore the office of international relations instead granted permission for extracting the data directly from the HTML sites. 
+
+\subsection{Exchange students}
+Since one of the authors had been on exchange previously, some of the difficulties of the current process was already investigated. It was however useful to include students from other departments and with different experiences to gain better knowledge on the problem domain. The interviews with students were focused on their issues with the current process and brainstorming ideas on how the process could be improved. Major findings included insecurity that courses would get the final approval when arriving back home after an exchange period, difficulty changing courses during the exchange period, and the straining manual process before an exchange period.
+
+The proposed features from students included a map of where other students have done an exchange program, combining courses from NTNU with their respective match at the foreign university and recommendation of universities and courses specific to each students preferences. 
 
 
-\section{Case-based Reasoning}
-Case-Based Reasoning (CBR) is a methodology in AI for solving problems, and is essentially based on experience. This experience can be used to solve a large range of problems, including complex combinatorial problems, or yield solutions where uncertainty is involved. \cite{richter2013case} Implied by the name, CBR can be broken down into two main concepts; \textit{cases} and \textit{reasoning}.
+\section{Current approach}
+This description is based on the process stages at the computer science department at NTNU, it may have some differences between departments. The current process for choosing and approving exchange courses is mostly done manually at NTNU. See Figure \ref{ntnu_process} for a short overview of the whole application process. The boxes in green are the targeted areas of the proposed system. The course approval process is required both before and after an exchange or study abroad period. Course selection also have to be pre-approved before applying for an exchange program.
 
-\begin{enumerate}
-    \item Case: An experience of a solved problem, usually represented as a feature vector (see section \ref{sec:feature_vectors}). A case consists of two parts: a problem description and a solution to the problem. A Case-Based Reasoning System (CBRS) stores all of its cases in a \textit{Case Base}.
-    \item Reasoning: The approach of drawing conclusions using cases, given a problem to be solved.
-\end{enumerate}
+\begin{figure}[H]
+  \centering
 
-Reasoning in CBR differs from other kinds of reasoning because it does not lead from true assumptions to true conclusions. This means that for two cases with identical problem descriptions, the solution to one of them might not be the solution for the other. The recorded experience in the first case may not be exactly similar to the other case. To be reused, it only has to be \enquote{similar}.
+\begin{tikzpicture}[
+  level 1/.style={sibling distance=30mm},
+  edge from parent/.style={->,draw},
+  >=latex]
 
-\subsection{Feature Vectors}\label{sec:feature_vectors}
-A case is usually represented as a feature vector, consisting of a few to many pairs of attributes and their values. A common example is the diagnosis of a sick patient, where a collection of symptoms and weather the patient has them is the problem description, and the final diagnoses is the solution to the case, as illustrated by table \ref{tab:example_case}
+% root of the the initial tree, level 1
+\node[root] {Applying for exchange}
+% The first level, as children of the initial tree
+  child {node[level 2] (c1) {1. Select location}}
+  child {node[level 2] (c2) {2. Make application}}
+  child {node[level 2] (c3) {3. During the stay}}
+  child {node[level 2] (c4) {4. After the stay}};
 
+% The second level, relatively positioned nodes
+\begin{scope}[every node/.style={level 3}]
+\node [below=4pt of c1, xshift=5pt] (c11) {1.1 Talk to advisor};
+\node [below=4pt of c11, color=prettyGreen,text=black] (c12) {1.2 Find experiences};
+\node [below=4pt of c12, color=prettyGreen,text=black] (c13) {1.3 Decide on location};
+\node [below=4pt of c2, xshift=5pt,color=prettyGreen,text=black] (c21) {2.1 Pre-approve courses};
+\node [below=4pt of c21] (c22) {2.2 Create exchange application};
+\node [below=4pt of c22] (c23) {2.3 Upload and send application};
+
+\node [below=4pt of c3, xshift=5pt] (c31) {3.1 Write experience report};
+\node [below=4pt of c31,color=prettyGreen,text=black] (c32) {3.2 Contact advisor in case of course change};
+
+\node [below=4pt of c4, xshift=5pt,color=prettyGreen,text=black] (c41) {4.1 Create final course approval form};
+\node [below=4pt of c41,color=prettyGreen,text=black] (c42) {4.2 Send in final approval form};
+
+\end{scope}
+
+\end{tikzpicture}
+
+\caption{The current exchange program application process at NTNU \cite{ntnu_exchange}\label{ntnu_process}}
+\end{figure}
+
+Students are first required to find the university they want to do their exchange program at. The possible choices are nearly limitless with only some guidance and information on universities with partnerships that might make the choice easier for the student. After the university is chosen, the students has to find courses at the foreign university that can be approved as a replacement for the courses originally planned at NTNU. Most of the institutes has no system for either submitting or helping the students find the possible replacements and course matches. The exception is the Department of Information and Computer Science which utilize a digital table for entering courses. While this table in many ways make it easier for the students to select their university and courses, the data entry does not include useful features such data validations. Maintaining a manual table is also tedious work. 
+
+During the exchange program the students often has to change their courses due to unforeseen circumstances making the original approval invalid. To gain a new approval the student generally has to send an email to the adviser of their institute to get the new courses approved. If this process takes a while the student might have to decide to participate in a course without final approval. This is due to the final course selection due date at some universities. 
+
+
+\section{Related work} \label{related_work}
+
+A study by Mazzarol and Soutar (2002)\cite{mazzarol2002push} shows that students' general motivation is influenced by the amount of information on an university and its courses. Among the several factors which was reviewed in the study, the \enquote{knowledge and awareness} factor proves to be the most influencing one for choosing an international study location. Therefore, when studying how an information system can improve this process, proper information is key. 
+
+The NTNU Office of International Relationships conducted a study on 464 of their exchange students in 2016 to find out what factors could help increase the motivation for the students studying abroad. Among the 464 participating students 84\% answered that a list of previously approved exchange courses could improve the number of students that go on exchange and 80\% answered that pre-approved course packages could improve the numbers. This shows the importance and possible usefulness of an information system to be part of the process. 
+
+Several approaches has been made to replace the manual process of choosing courses with an IS. One example is by using a decision support system (DSS) that advises the students on their course selection based on their program requirements and the course's prerequisites, as done at the University of Dhaka\cite{roushan2014university}. Student course recommendation can be done intelligently by using recommendation engines and data mining techniques to give relevant results. Sherpa\cite{bramucci2012sherpa} is a system that has been made especially for the goal of giving course recommendations. Data mining techniques can also be used to predict whether a student will fail or pass on a course\cite{vialardi2009recommendation}.
+
+CBR is today both a recognized and well-established method in several fields of sciences; such as health science.\cite{begum2011case}. Because CBR is proven to be a suitable methodology for complicated problems where uncertainty is involved \cite{richter2013case}, it has been applied to problems such as diagnosing chronically diseases in combination with data mining \cite{huang2007integrating}, and finding the most suitable study program at a senior high school\cite{mulyana2015case}. Case-Based Recommender Systems, which are introduced in section \ref{sec:case_based_recommender_systems} are also commonly used in decision problems, typically when there's not one true answer, but rather several different good answers. For instance was such a system was developed to find the most suitable Massive Open Online Courses (MOOCs) for e-learning.\cite{bousbahi2015mooc}. 
+
+Designing a recommender system requires knowledge on the relevant data to use as attributes. A study was performed by Cubillo et al. (2006)\cite{maria2006international} that identifies the different important decision making factors for international students and their grouping. The five main groups identified were city effect, country image effect, personal reasons, institution image and programme evaluation.    
+
+
+\section{Conclusion}
+Based on the conducted interviews and acquired knowledge on NTNU's current process for applying for an exchange program, a set of features were chosen to be included in the system to be developed. By reviewing related work, the knowledge gap this research will target has also been identified.
+
+\subsection{System Requirements}\label{sec:requirements}
+The possible contributions and needs identified in the preliminary research through literature review, interviews and knowledge on the current approach are shown in the requirements Table \ref{tab:feature_list}. The findings was also used to help define the research goals and questions, see section \ref{RQ}. 
 
 \begin{table}[H]
 \centering
-\small
-\caption{Classic case representation with attribute-value pairs for the problem description and the solution.}
-\label{tab:example_case}
-\begin{tabulary}{\textwidth}{|L|L|}
+\caption{Feature list derived from the preliminary research}
+\label{tab:feature_list}
+\begin{tabular}{|l|l|l|l|}
 \hline
-\rowcolor[HTML]{C0C0C0} 
-Attribute           & Value     \\ \hline
-Nausea              & Yes       \\ \hline
-Fever               & Yes       \\ \hline
-Malaise             & Dizzy     \\ \hline
-Blood pressure      & Normal    \\ \hline
-Vision changes      & No        \\ \hline
-Shortness of breath & No        \\ \hline
-Diagnosis           & Influenza \\ \hline
-\end{tabulary}
+\# & Feature                                                                                                & Priority & Source                                                                      \\ \hline
+1  & Reccomendation of university and courses                                                               & 1        & Students                                                                    \\ \hline
+2  & List of previously approved course matches                                                             & 2        & Students, advisers                                                          \\ \hline
+3  & Matching foreign courses with NTNU courses                                                             & 2        & Students                                                                    \\ \hline
+4  & Application handling for course approvals                                                              & 3        & Advisers                                                                    \\ \hline
+5  & Dynamic study point allocation on courses                                                              & 4        & \begin{tabular}[c]{@{}l@{}}Office of International\\ Relations\end{tabular} \\ \hline
+6   & \begin{tabular}[c]{@{}l@{}}Interactive map of exchange countries \\ by number of students\end{tabular} & 4        & Students                                                                    \\ \hline
+\end{tabular}
 \end{table}
 
-\subsection{The CBR-Cycle}\label{sec:cbr-cycle}
-
-Aamodt & Plaza\cite{aamodt1994case} defined a model which explain the problem solving cycle in CBR (figure \ref{fig:cbr_cycle}). The cycle defines four distinct processes which a case goes through:
-
-\begin{description}
-\item [Retrieve:] The most similar case is retrieved from the system's case base, so that it can be compared to a new case.
-\item [Reuse:] The solution to the retrieved case is applied to the new case.
-\item [Revise:] Confirms that the proposed solution solves the new case, or if its not applicable.
-\item [Retain:] Retains the new case with the given solution in the case base for future usage.
-\end{description}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{fig/cbr_cycle.png}
-    \caption{The CBR Cycle}
-    \label{fig:cbr_cycle}
-\end{figure}
-
-\subsection{Similarity Measures}
-The degree of similarity between a set of input variables, and a case stored in the case-base is calculated and represented as a \emph{Similarity Measure} (SM). Naturally, a CBRS returns the case or cases where the SMs yielded the highest similarity score. How the similarity score is calculated is different for each configuration, and must be tailored to each specific system. Typically, each attribute in a case has its own function for calculating the similarity to the appropriate input-attribute. The most suitable function depends on the attribute's type. For example will a typical function for an integer or float be the polynomial width from the input value, at a given step, while for a string symbol, it can be the result of approximate string matching. 
-
-Each attribute is given a weight, which decides which attributes are most important, and finally all weights are typically joined by using the \emph{Euclidian Distance}, or \emph{Weighted Sum} methods.
-
-\section{CBR Tools and frameworks}
-
-Due to the increasing popularity of CBR applications\cite{kolodner2014case}, many tools have been developed to model and implement a CBRS. These tools makes it easier to quickly develop CBRS prototypes without having to start from scratch. This section will introduce some of the different approaches to tool-kits and the reasoning for the selected tool of this research project. 
-
-\subsection{JColibri}
-JColibri is an object-oriented framework in Java for building CBR systems, which follows the task/method division paradigm.\cite{bello2004jcolibri} The notion of this paradigm is that each task in a CBR-cycle described in section \ref{sec:cbr-cycle} involves several specific sub-tasks, and instead of using one method on each task, they are decomposed and structured in a way so that different methods can be applied to the different sub-tasks. All though this framework is flexible in terms of the problem domain it will be used for, and can be used for any number of the steps in the CBR-cycle, it required a substantial amount of knowledge for the developers because they have to use appropriate methods for different tasks, go more in depth than other frameworks.
-
-\iffalse
-\subsection{CBR-Works}
-CBR-Works is a shell for Case-Based application building, which covers the whole CBR-cycle from retrieving to revising, and supports modelling the structure of cases, and maintaining the case base.\cite{schulz1999cbr} It comes with a interface which can be used to build a new Case-Based application from existing data. The framework can be used to construct complex concepts, and includes a rather unique element when modelling the cases; rules. These can be used to set constraints to the concepts for their adaption and completion process. All though this framework is a candidate for this research, it was desired to find a framework which is easier to dive into.
-\fi
-
-\subsection{MyCBR}
-MyCBR is a tool for rapid prototyping of CBR systems with focus on the retrieval step of the CBR cycle.\cite{MyCBR}. Its developed and maintained as a joint project between the German Research Center for Artificial Intelligence (DFKI) and the School of Technology and Computing at the University of West London (UWL)\cite{Stahl2008}. MyCBR was chosen as the designated tool to model the CBRS, because it includes all the necessary functionality, as well as requireing a minimum of domain knowledge, and knowledge about the tool itself. Furthermore, using this tool would make getting help and support easier, considering NTNU has an employee whom is a contributor to the project. MyCBR was used extensively throughout the project to assist with both prototyping and modelling the CBRS. The MyCBR project is first and foremost a Java Software Development Kit (SDK), but also includes a pre-built GUI called the MyCBR Workbench. 
-
-\subsubsection{MyCBR SDK}
-The MyCBR SDK provides an access point for implementing the functionality of MyCBR in a custom application. The SDK is written in the JAVA programming language and has executable programs for macOS, Windows and Linux\cite{MyCBR}. 
-
-The current version of the SDK and MyCBR focuses and has implemented only the similarity based retrieval step of the CBR cycle. The myCBR developers reason that this it is due to most applications having the first part as its core functionality\cite{Stahl2008}.  
-
-A recent update extended the SDK to include a REST API that enables cross server communication and requests to MyCBR. This allows an external server to use many of the implemented functionalities in MyCBR SDK as Querying and retrieval.
-
-\subsubsection{MyCBR Workbench}
-
-The myCBR workbench provides a graphical user interface (GUI) of the features in the SDK. This allows easier prototyping and usage for users without the need to have large knowledge of the SDK's inner functions\cite{bach2014knowledge}. 
-
-To be able to quickly import data and cases, the workbench supports importing pre-defined cases with the CSV file format. All the required cases can therefore be gathered and refined before being tested in the workbench. The workbench also supports a set of similarity functions that are easy to model such as Taxonomy and integer functions. The workbench visualises these similarity measures with graphs and tables.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=8cm]{fig/myCBRworkbench.png}
-    \caption{Example of modelling the taxonomy function from myCBR workbench}
-\end{figure}
-
-
-
-\section{Case-based Recommender Systems}\label{sec:case_based_recommender_systems}
-Recommender systems are used extensively in both research and commercial products. These systems provide several possible solutions that might be viable for the user to choose. Several published research papers have explored different approaches to recommender systems\cite{mulyana2015case}\cite{quijano2011happy}.
-
-Case-based reccommender systems use CBR as the underlying technique but has some differences compared to other implementations of CBR. The main differences being:
- 
-\begin{itemize}
-    \item Less direct feedback and adaption
-    \item More than one solution (recommendation) might be viable
-\end{itemize}
-
-There are mainly two types information a recommendation can be based on. The first being collaborative filtering which uses the rating and opinions of other user who has experienced the product or gone through the same process. The second being content based filtering which is based on the descriptions and information about the content, i.e static information like features, price, functionality and requirements. 
-
-
-
-\section{Software Usability}
-
-
-
-
-\cleardoublepage
+\subsection{The Gap}
+Among the many applications utilizing the CBR methodology, none has covered the issue of finding the most suitable country, university and courses to choose when going on an exchange study. This gap in knowledge combined with the needs identified in section \ref{sec:requirements} is what this project will target through the research goals and questions (section \ref{RQ}).

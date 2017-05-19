@@ -1,143 +1,118 @@
-%===================================== CHAP 3 =================================
+%===================================== CHAP 2 =================================
+\cleardoublepage
 
-\chapter{Research Method}\label{chap:3}
-
-\iffalse
-The developed application is at heart a mean to answer our main research question; How can intelligent recommendation increase student' motivation for studying abroad? And what information and features are important for an IS to be used? This chapter elaborates on the methods and data collection used to collect data to answer the research questions.
-
-Using methods proven to be influential and working is essential for this project. The project does not develop any new methods but takes use of others that are well known in the research community. Such as quantitative data gathering through surveys.The methods introduced in this chapter give descriptions on how the data was gathered and the different experiments performed.
-
-\section{Survey and questionnaires}
-
-The surveys will be conducted through online service providers that provide the framework for the survey. The answer to the survey will then be stored in an datasheet to be analysed at a later point. Some survey sites also includes simple data analysis that give more information on the data collected in a survey.
-
-Measuring the quality of the project as a whole will be done by analysing several factors of the research and development. We will in the project analyse the qualitative data resulting from interviews and surveys on both the manifest level and latent level of analysis. This will give a better understanding on both the clear results and what we can infer or imply from the questions.
-
-We can use the qualitative content analysis methods presented by S. Elo and H. Kyngäs\cite{elo2008qualitative} for systematic, rule-guided qualitative text analysis in the interview and survey questions. This model will help preserve the advantages of quantitative analysis in the qualitative based research results. The steps for the content analysis is described in figure\ref{qualitytative_content}. 
-
-The research in information systems varies to other fields by having a more practical approach to the research. The results are often given using empirical methods on users by doing usability testing and surveys. Knowing how to do perform the analysis in a correct way is important both for the quality of the results and the research validity. A book on empirical research methods have identified the common pitfalls and describes how to avoid them \cite{kitchenham2002preliminary}.
-
-There is several relevant books and literature on analysis that should be read before starting evaluating the project. One of these include “Qualitative evaluation and research methods” by M. Q. Patton [4]. This book introduces method for analysis and evaluation that might prove useful in the project.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{fig/method.png}
-    \label{fig:qualitytative_content}
-    \caption{The outlined research process\cite{oates2005researching}}
-\end{figure}
-
-\section{Development and prototyping}
-
-\subsection{Iterative design process}
-The development of the systems will be done in an iterative process to be able to quickly adapt to user feedback and changes. This will also allow constant change and tweaking of similarity functions and their weighting to better provide a relevant result.
-
-\subsection{Development methodologies}
+\chapter{Theory}
+The main research goal and RQ1 is to give recommendations by utilizing CBR, therefore it is essential to understand how CBR works. This chapter presents a brief introduction to the CBR methodology and Case-Based Recommender Systems, explains MyCBR; the tool which will be used to implement the CBR part of the system, and presents theory on motivation relevant to RQ2.
 
 
-\section{Observation and experiments}
+\section{Case-based Reasoning}
+Case-Based Reasoning (CBR) is a methodology in AI for solving problems, and is essentially based on experience. This experience can be used to solve a large range of problems, including complex combinatorial problems, or yield solutions where uncertainty is involved\cite{richter2013case}. Implied by the name, CBR can be broken down into two main concepts; \textit{cases} and \textit{reasoning}.
 
+\begin{enumerate}
+    \item \textbf{Case:} An experience of a solved problem, usually represented as a feature vector (see section \ref{sec:feature_vectors}). A case consists of two parts: a problem description and a solution to the problem. A Case-Based Reasoning System stores all of its cases in a \textit{Case Base}.
+    \item \textbf{Reasoning:} The approach of drawing conclusions using cases, given a problem to be solved.
+\end{enumerate}
 
-\subsection{Usability testing}
-Usability testing will be performed during the project to evaluate system design and relevance. We will follow the guide *** to usability testing. The project will have different phases of usability testing that focus on different aspects of the system. According to *** this improves ****...???. 
+Reasoning in CBR differs from other kinds of reasoning because it does not lead from true assumptions to true conclusions. This means that for two cases with identical problem descriptions, the solution to one of them might not be the solution for the other. The recorded experience in the first case may not be exactly similar to the other case. To be reused, it only has to be \enquote{similar}.
 
-\subsection{Testing Utsida on Students}
-The main motivation for the research project is to make the activity of finding a university, as well as what kind of subjects is reasonable to take for a student. Because the current system used at NTNU is mainly performed manually, the process is not very seamless and straightforward. Therefore, testing this system on students throughout its development is very important.
+\subsection{Feature Vectors}\label{sec:feature_vectors}
+A case is usually represented as a feature vector, consisting of a few to many pairs of attributes and their values. A common example is the diagnosis of a sick patient, where a collection of symptoms and weather the patient has them is the problem description, and the final diagnoses is the solution to the case, as illustrated by Table \ref{tab:example_case}
 
-\fi
+\begin{table}[H]
+\centering
+\small
+\caption{A classic case representation with attribute-value pairs for the problem description and the solution.}
+\label{tab:example_case}
+\begin{tabulary}{\textwidth}{|L|L|}
+\hline
 
+\textbf{Attribute}           & \textbf{Value}     \\ \hline
+Nausea              & Yes       \\ \hline
+Fever               & Yes       \\ \hline
+Malaise             & Dizzy     \\ \hline
+Blood pressure      & Normal    \\ \hline
+Vision changes      & No        \\ \hline
+Shortness of breath & No        \\ \hline
+Diagnosis           & Influenza \\ \hline
+\end{tabulary}
+\end{table}
 
+\subsection{The CBR-Cycle}\label{sec:cbr-cycle}
 
+Aamodt \& Plaza\cite{aamodt1994case} defined a model which explain the problem solving cycle in CBR, see figure \ref{fig:cbr_cycle}. The cycle defines four distinct processes which a case goes through, which can be summarized as follows.
 
-
-
-Using Oates'\cite{oates2005researching} model of the research process, the utilized research process can be modelled as figure \ref{fig:research_process} implies.
+\begin{description}
+\item [Retrieve:] The most similar case is retrieved from the system's case base, so that it can be compared to a new case.
+\item [Reuse:] The solution to the retrieved case is applied to the new case.
+\item [Revise:] Confirms that the proposed solution solves the new case, or if its not applicable.
+\item [Retain:] Retains the new case with the given solution in the case base for future usage.
+\end{description}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{fig/research_process.png}
-    \caption{The outlined research process}
-    \label{fig:research_process}
+    \includegraphics[width=0.6\textwidth]{fig/cbr_cycle.png}
+    \caption{The CBR Cycle}
+    \label{fig:cbr_cycle}
 \end{figure}
 
-Based on the motivation for doing this research, as well as the conducted literature review, the set of research questions were formed. These questions will be answered with the following strategy.
+\subsection{Similarity Measures}
+The degree of similarity between a set of input variables, and a case stored in the case-base is calculated and represented as a \emph{Similarity Measure} (SM). Naturally, a CBR system returns the case or cases where the SMs yielded the highest similarity score. How the similarity score is calculated is different for each configuration, and must be tailored to each specific system. Typically, each attribute in a case has its own function for calculating the similarity to the appropriate input-attribute. The most suitable function depends on the attribute's type. For example will a typical function for an integer or float be the distance from the input value, at a given step, while for a string symbol, it can be the result of approximate string matching. Each attribute is given a weight, which decides which attributes are most important, and finally the similarity for each attribute is joined with a sum function, with their weights in consideration.
 
-\section{Research Strategy}
+\subsection{Case-based Reasoning Systems}
+A Case-based Reasoning System is a system which use the CBR methodology to solve problems. When it receives a new problem, it first performs step 1 in the CBR-cycle (retrieve). It then selects the case in its case-base which is the most similar to the new problem by using the designated similarity measure on each attribute in the case with regards to the similar attribute in the problem. When the most similar case has been selected, that case's solution is applied to the new problem (step 2, reuse). The proposed solution to the new problem is revised, tested and or repaired (step 3), before new problem with its new solution is retained as a new case in its case base.
 
-This research requires the design and creation of a computer based artefact (Utsida) as a tool to answer the described research questions. However, the research strategy which will yield the desired results is considered a survey. Thus, the designated research strategy will be a combination of design and creation, and survey. 
+\section{MyCBR}
 
-\subsection{Design and Creation}
+MyCBR is a tool for rapid prototyping of CBR systems with focus on the retrieval step of the CBR cycle.\cite{MyCBR}. Its developed and maintained as a joint project between the German Research Center for Artificial Intelligence (DFKI) and the School of Technology and Computing at the University of West London (UWL)\cite{Stahl2008}. MyCBR was chosen as the designated tool to model the CBRS, because it includes all the necessary functionality, as well as requireing a minimum of domain knowledge, and knowledge about the tool itself. Furthermore, using this tool would make getting help and support easier, considering NTNU has an employee whom is a contributor to the project. MyCBR was used extensively throughout the project to assist with both prototyping and modelling the CBRS. The MyCBR project is first and foremost a Java Software Development Kit (SDK), but also includes a pre-built GUI called the MyCBR Workbench. 
 
-Utsida is the platform which users meet, as well as the required tool to answer RQ2, and partly RQ1. It will incorporate the AI methodology CBR to create a new way of recommending relevant universities and courses for a student applying for an exchange program, and serve as a united place for required and handy data and information. 
+\subsection{MyCBR SDK}
+The MyCBR SDK provides an access point for implementing the functionality of MyCBR in a custom application. The SDK is written in the JAVA programming language and has executable programs for macOS, Windows and Linux\cite{MyCBR}. 
 
-It is of great importance that this system is well functioning and easy to use, if RQ2 is to be answered. Therefore, the the design and creation research strategy has to be followed. While the system is being designed and created, it will be tested by students in an iterative manner.
+The current version of the SDK and MyCBR focuses and has implemented only the similarity based retrieval step of the CBR cycle. The myCBR developers reason that this it is due to most applications having the first part as its core functionality\cite{Stahl2008}.  
 
-\subsubsection{Usability Testing}
+A recent update extended the SDK to include a REST API that enables cross server communication and requests to MyCBR. This allows an external server to use many of the implemented functionalities in MyCBR SDK as Querying and retrieval.
 
-To ensure sufficient usability and functionality for Utsida, there will be conducted iterative sessions of usability testing on carefully selected participants, mainly students who have a decent understanding of the current system for applying for an exchange program. Both technical competent- and less technical competent students will be tested.
+\subsection{MyCBR Workbench}
 
-These tests will help finding flaws in both general functionality and design, so that the system is as reliable as possible before finally conducting remote tests. Data will be gathered by interviewing the testers, and have them fill out a System Usability Scale (SUS)-schema\cite{brooke1996sus}, and will be carefully analyzed after each test.
+The myCBR workbench provides a graphical user interface (GUI) of the features in the SDK. This allows easier prototyping and usage for users without the need to have large knowledge of the SDK's inner functions\cite{bach2014knowledge}. 
 
+To be able to quickly import data and cases, the workbench supports importing pre-defined cases with the CSV file format. All the required cases can therefore be gathered and refined before being tested in the workbench. The workbench also supports a set of similarity functions that are easy to model such as Taxonomy and integer functions. The workbench visualises these similarity measures with graphs and tables.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{fig/myCBRworkbench.png}
+    \caption{Example of modelling the taxonomy function from myCBR workbench}
+\end{figure}
 
+\subsection{Similar tools}
+Due to the increasing popularity of CBR applications\cite{kolodner2014case}, many tools have been developed to model and implement a CBRS. These tools makes it easier to quickly develop CBRS prototypes without having to start from scratch. This section will introduce some of the different approaches to tool-kits and the reasoning for the selected tool of this research project. 
 
+\paragraph{JColibri}
+is an object-oriented framework in Java for building CBR systems, which follows the task/method division paradigm.\cite{bello2004jcolibri} The notion of this paradigm is that each task in a CBR-cycle described in section \ref{sec:cbr-cycle} involves several specific sub-tasks, and instead of using one method on each task, they are decomposed and structured in a way so that different methods can be applied to the different sub-tasks. All though this framework is flexible in terms of the problem domain it will be used for, and can be used for any number of the steps in the CBR-cycle, it required a substantial amount of knowledge for the developers because they have to use appropriate methods for different tasks, go more in depth than other frameworks.
 
-\subsection{Survey}
-To answer RQ2, and partly RQ1, a survey will be conducted. This survey will ask students to try out Utsida, followed by a questionnaire which will establish whether the developed system can have a substantial positive effect on their motivation of applying for a study exchange, if the system would make the process easier for students who have been on a study exchange, and if they received relevant recommendations on universities and courses to choose. The feedback on the system's recommendations will contribute to RQ1, whilst the other questions will contribute to RQ2. 
-
-The survey strategy will also be used to gain information on how to properly model the CBR module of Utsida. Each attribute in the model has to be weighted with proper importance, which require the average opinion of a large number of students to get as correct as possible. In this questionnaire, the students will be asked what they think are the most important aspects when selecting a geographical location, a university, and choosing courses for their exchange program.
-
-
-\section{Data Generation Methods}
-
-\subsection{Questionnaires}
-
-All questionnaires which will be sent out in this research will be self-administrated, which promotes the opportunity to collect data from a large number of students at once. This method is also very cheap, and does not require as much time and planning as an administrated test would need. Because a student's thoughts of what is important, easy or convenient is rather subjective, as well as their attitude to the current system for applying for an exchange program, it is important strive to get feedback from as many students as possible, but considering that there is not much incentive for students to answer the questionnaires, and that the main survey will be rather large, a realistic goal of 30 answers is set. Considering such an amount of answers, qualitative analysis of the data will contribute more than qualitative analysis for both research questions. 
-
-The recipients of the questionnaire should be students who have some experience with exchange studies. To acquire a larger group target group who fits this criteria, it is therefore desired to arrange a collaboration with NTNU's International Section, which regularly sends out surveys with to these students for various reasons.
-
-
-\subsection{Interviews and Observation}
-
-As a mean to acquire the needed information from the test subjects whom performed the usability tests, both observation and interviews will be done. Each test will be thoroughly observed, to see how the test subjects thought, and how they used the system, while each test will end with an interview. These data generation methods will be used to improve the system to an acceptable state before performing remote testing and questionnaires.
-
-\subsection{Offline testing of recommendation}
-
-To answer RQ1 and to either confirm or reject the hypothesis that CBR is a feasible methodology to use in this problem domain, an offline experiment will be conducted. This experiment is in addition to the larger online testing on users. 
-
-The offline test focuses on comparing the tweaked CBR model with a default CBR model that is not configured to the domain. A query will be given to both the tweaked and default models and the results analyzed according to \ref{offline_test}.
-
-Offline testing provides several benefits and some difficulties. 
-
-\begin{table}[]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|
->{\columncolor[HTML]{D0E0E3}}l |l|l|l|}
-\hline
-\multicolumn{4}{|c|}{\cellcolor[HTML]{A4C2F4}{\color[HTML]{333333} Rating scale for recommendations (0-10 points)}}                                                                                             \\ \hline
-Attribute           & \cellcolor[HTML]{D0E0E3}0 points                                         & \cellcolor[HTML]{D0E0E3}1 point                                             & \cellcolor[HTML]{D0E0E3}2 points \\ \hline
-Institute           & \begin{tabular}[c]{@{}l@{}}Wrong faculty \\ wrong institute\end{tabular} & \begin{tabular}[c]{@{}l@{}}Correct faculty\\ wrong institute\end{tabular}   & Correct Institute                \\ \hline
-Year                & Before 2011                                                              & 2011-2013                                                                   & 2014-2017                        \\ \hline
-Geographic Location & \begin{tabular}[c]{@{}l@{}}Wrong country \\ wrong continent\end{tabular} & \begin{tabular}[c]{@{}l@{}}Correct continent\\ wrong country\end{tabular}   & Correct country                  \\ \hline
-University          & \multicolumn{2}{c|}{No match}                                                                                                                          & Perfect match                    \\ \hline
-Language            & No match                                                                 & \begin{tabular}[c]{@{}l@{}}The language is \\ part of the list\end{tabular} & Perfect match                    \\ \hline
-Ratings             & \multicolumn{3}{c|}{0.5 points for each rating in range (-1, rating +1)}                                                                                                                  \\ \hline
-\end{tabular}%
-}
-\caption{Offline test score table}
-\label{tab:offline_test}
-\end{table}
+\paragraph{FreeCBR}
+is a freeware CBR-system which both offers a graphical user-interface as well as a command line. All though beeing a quite simple system, it is still capable of handling a large range of problem domains, by determining the similarity of attributes of regular types such as Float, Integer, Bool and String. This tool was for example used in a project where it determined the best plays in a poker game \cite{sandven2006case}. All though the system in this research, similar to a game of poker, attempts to recommend the course of action where uncertainty is present, the MyCBR offers a larger range of attribute types and similarity measures, which was assumed to be necessary in this project.
 
 
-If the configured model yields substantially more desired results, both in terms of correct retrieval, and the most relevance for the user according to the defined rules, it is considered a success.
+\section{Case-based Recommender Systems}\label{sec:case_based_recommender_systems}
+Recommendation systems mainly use two different approaches, either collaborative or case-based. The collaborative approach uses the rating and opinions of other users who have experienced the product or gone through the same process. The case-based approach used a case base as the pool of information to pick recommendations from.
 
-\section{Data Analysis}
+Case-based recommender systems (CBRS) share many similarities with case-based reasoning systems, most noteworthy that both type of systems have a case base which they use to determine the best solution, recommendation or course of action. The queries a CBRS receive are often structured more like a wish.\cite{richter2013case} This wish includes preferences the users set themselves, and profile information. The main difference lies in the way the systems propose a solution to a problem; instead of proposing the case which matches a problem the best, a CBRS typically propose multiple suggestions which should be relevant for the user. Similar to a case-based reasoning system, a CBRS use CBR as the underlying methodology. However, for a CBRS the adaption part of the CBR cycle is not always that important; the most essential part is step 1, retrieval. The main focus of the system is to recommend something, not to directly solve a problem. 
 
-The questionnaires which will be conducted will produce qualitative. Most of the questions in both questionnaires will be scale-based, or provide multiple predefined answers. This makes it easy to use statistical analysis of them, whilst the questions where the students can answer freely will be manually analyzed. 
+The use of similarity-based retrieval is a beneficial feature of case-based recommenders, giving advantages over more traditional exact matching techniques such as conventional database retrieval and classical constraint satisfaction techniques\cite{bridge2005case}.
 
-\section{Ethical Issues}
+Recommender systems are used extensively in both research and commercial products. These systems provide several possible solutions that might be viable for the user to choose. Several published research papers have explored different approaches to recommender systems\cite{mulyana2015case}\cite{quijano2011happy}. 
 
-\section{Practical Issues}
-This research is performed by two students, with one advisor to guide the project. There is a very limited amount of monetary funds, and the time at hand is only 9 months. The data which will serve as the results will be produced by users. With the minimal budget, a practical issue will be to produce the incentive for enough students to answer the surveys. Furthermore, because of the limited time, larger administrated tests are considered out of reach. 
+\subsection{Evaluating recommender systems}
+Guy Shani \& Asela Gunawardana (2011)\cite{shani2011evaluating} reviews three processes of evauluating recommendation systems; offline experiments, online evaluation, and user studies.
+
+Recommendation systems are often evaluated and ranked based on their prediction power\cite{shani2011evaluating}. Because recommendation often is a subjective manner, it is however hard to simply evaluate this. Some users would like to find something new, in which they don't currently know if is a good suggestion or not, while some users want to see a more diverse pool of suggestion than others\cite{shani2011evaluating}. To evaluate these systems, researchers can either define what good recommendations are, and perform offline experiments with simulated user queries, ask and observe users of the system and see if they think the recommendations are good, or implement algorithms which evaluate the system as it is used online.
+
+\section{Motivation}
+Richard M. Ryan and Edward L. Deci (2000)\cite{ryan2000intrinsic} divides motivation into two categories; Intrinsic- and Extrinsic motivation. Intrinsic motivation defines inner motivation such as doing something simply for enjoyment, satisfaction or out of interest. Extrinsic motivation is a much broader category which pertains whenever an activity is done in order to attain some separable outcome\cite{ryan2000intrinsic}. For example, a student might be motivated perform well on a test because they want to receive a good grade, and not because they enjoy the theory at hand. Carol M. Sánchez et al. (2006)\cite{sanchez2006motivations} finds that most of the intent of a group of U.S., French, and Chinese Students stems from intrinsic motivation- doing it for their own enjoyment. 
+
+What about students who are interested and motivated to go on exchange, but end up not doing it? Mazzarol and Soutar (2002)\cite{mazzarol2002push} finds that students' general motivation is influenced by the amount of information available at a university and its courses, and that \enquote{knowledge and awareness} proved to be the most influencing factor when choosing an international study location. Even though a student may have the intrinsic motivation to go on an exchange, the process of applying for an exchange itself may be non-intuitive, cumbersome, or the related information might be difficult to find. 
+
+
 
 \cleardoublepage

@@ -1,384 +1,180 @@
-%===================================== CHAP 5 =================================
+%===================================== CHAP 3 =================================
 
-\chapter{Approach}
+\chapter{Research Method}\label{chap:4}
 
-Utsida is a joint collaboration between two students with specializations in software- and an artificial intelligence, respectively. This is reflected by a two-part system were each part targets one of the research questions. This chapter will define how the complete system is build, how the CBR part is modelled, elaborate for choices made, and how it works.
-
-Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system \emph{Innsida}, and the meaning of the word \emph{inside}. Utsida gives a relation to something on the outside, in this case going on an exchange study, choosing a foreign university, and a set of courses at that university. Utsida is a web application, and serves as the platform which the users use. This chapter covers the overlying architecture, the web part, CBR REST, the development process, about the design, and the data used in the system.
-
-\section{Knowledge acquisition}
-
-The system required an extensive amount of external data to be relevant. Data from several sources was acquired and is listed below.
-
-\begin{itemize}
-    \item Experience Reports: The data source used to construct cases for the case-base. Explained in section \ref{sec:experience_reports}. Also used for a heatmap of popular exchange countries. 
-    \item Assessed course matches at NTNU: Logged by some advisers at NTNU in different format. Was manually parsed to create an initial base of assessed course matches in Utsida.
-    \item Courses at NTNU: Filled in Utsida's database from IDI's organizational API for NTNU. 
-    \item Faculties and institutes at NTNU: Also filled in Utsida's database from IDI's organizational API for NTNU.
-\end{itemize}
-
-\subsection{The Experience Reports}\label{sec:experience_reports}
-Typically, a CBRS' case-base is gradually filled as a new case arrives. In this project, it was essential to have a large number of cases in the case-base from the start. A large part of the motivation for doing this research stems from personal experience, and thus it the current process at NTNU was well known. Most students who go on an exchange program at NTNU has to write obligatory reports to NTNU's International Section. These reports are public, and because of all the information about an exchange study they included, they proved to work as a great base for a case. All of the current public experience reports were downloaded, and parsed (see section \ref{sec:parser}) to cases, and filled in the CBRS' case-base. With this in place, the data and foundation of the CBRS was in place.
-
-\subsection{Parsing the Experience Reports}
-
-\subsection{Data Quality}
-Cleaning and validating the data was a large part of the preparation process. The data detailed in the previous chapter was not uniform and allowed in many cases free text entry. This caused the data to have large differences in both structure and entries. The data was analyzed according to the six primary dimensions for data quality assessment\cite{askham2013six} as further detailed in the following paragraphs.
-
-\paragraph{Completeness}
-Many of the experience reports which were parsed was not complete at all. This was an issue if the missing data included the student's institute, or which subjects they chose. This was completely necessary data because the institute was the biggest factor which made a case relevant for a user of Utsida, while the subjects is the solution to each case; without them the case doesn't help much. Therefore, any reports which was missing this data was automatically excluded by the parser.
-
-\paragraph{Uniqueness}
-There seems to be a good uniqueness in the cases in the way that there are visible repetition of exchange experiences from the same person. Since the underlying exchange experiences are anonymous there was no way to check for number of individual persons submitted a experience versus the number of experiences in total. 
-
-\paragraph{Timeliness} 
-is the "The degree to which data represent reality from the required point in time"\cite{askham2013six}. The last submitted experiences in the data set is from 2015 and the first ones from 1999. The data set should include entries from 2017 but the experience submission system was put on hold from 2015 and changed in early 2017. This means the newest data is already 2 years old at the time of this writing. The experiences tend to be submitted either a couple of months after an exchange period or in the middle of one. This makes the timeliness have a great degree of variation and is difficult to assess. 
-
-
-\paragraph{Validity} Most of the data was not validated in any way. There were lack of data input requirements, data type constraints, range constraints and membership constraints. This was especially the case for the exchange experiences and the approved course replacements.
-
-
-\paragraph{Accuracy}
-The data used to parse into cases for the CBRS was mostly raw text. Obviously, attributes came in all forms of abbreviations and ways to write the same thing. Utsida on the other hand required strict uniform formats on every input. A partly solution to this issue was solved by creating data dictionaries with all possible attributes on the format which was required by Utsida. The input was then matches to each of these entries in the dictionary with Approximate string matching, or Fuzzy Searching. This approach returns the most similar entry in the pre-defined dictionary to the input attribute, and ensured the data holds the same format. 
-
-Not all problems regarding accuracy was possible to avoid however. Because input attribute for which university a student went to, and which subject they took is a subset of a such enormous set of data, that it is not possible to keep all alternatives in a pre-defined format. Atleast not with any APIs available today.
-
-
-\paragraph{Consistency}
-Most of the reports are written in Norwegian, which means there are many characters which has to be encoded and decoded between UTF-8 and Ascii text standards. The parser was initially generating a JSON object of all the parses cases, but its encoding crashed with that in MyCBR. To avoid this, the JSON step was skipped, and the data was parsed directly from the experience report to a case in CSV format.
-
-\subsection{Fuzzy Searching on Data}
-As mentioned, the cases used in Utsida's CBRS are essentially simplified data representations of the experience reports. These reports contain many fields where the student who writes it can write the answers with free text, rather then selecting from a predefined selection of alternatives. This proved to be an issue when parsing the data into cases, because a more strict format on each attribute was required. The script parsing each experience report therefore had to take care of a lot of edge-cases, and reformat the student's answers into our own format. A method proved to be extremely useful in this situation, namely \emph{Fuzzy Searching}
-
-Fuzzy Searching, or Approximate string matching, is an algorithm used to recognize patters and similarities in text, and yield a score to determine the similarity between them. Using technique in the script which parsed the experience reports, predefined sets of attributes could be formatted as the system required, and use fuzzy search on the text input in the reports, to map the most similar occurrences to our predefined data. For example, in the field in the reports where the student's wrote their institute at home, a huge variation of abbreviations, and other ways to write it is an issue. By creating a dictionary with all institutes and faculties, fuzzy searching could be used to match the input in the report to this dictionary, and return the record in the dictionary with the highest similarity score to the input in the report. This method was also used to avoid creating multiple instances of the same university in the database, because they were written slightly different.
-
-\section{Architecture}
-
-Some default functions in Django was extended to provide required functionality in the Utsida system. The user object was extended with profile information so that the system could register more information about the user such as institute and courses to be taken. 
-
-The picture below is a rough draft of how the system architecture is and the communication with MyCBR. Utsida is divided into four main components; The recommendation handler communicates with the REST myCBR API and display the results for a given query. The Course Match component contains and displays all approved and registered course matches between NTNU and exchange universities. The profile handles all user controllers, such as login, logout, register and changing information. The course application allows users to register an application for course matches so that it can be handled by an student adviser. 
+The Oates'\cite{oates2005researching} model of the research process was used as a guideline for selecting the research method in this project. The model and the specific methods chosen is displayed in Figure \ref{fig:research_process}. This process will be used as the outline for the structure of this chapter.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=8cm]{fig/systemRepresentationDraft.png}
-    \caption{Utsida Architecture}
-    \label{fig:utsida}
+    \includegraphics[width=0.9\textwidth]{fig/research_process.png}
+    \caption{The outlined research process}
+    \label{fig:research_process}
 \end{figure}
 
-Typically in a CBRS, the results would be the solution of the case from the case-base with the highest similarity to the proposed problem, applied to this problem. Utsida does not recieve one solution, and does not apply any solution by itself to the user's query, but it lists the cases with the most similarity to the user's query. Therefore, Utsida is not a standard CBRS, but rather a Case Based Recommender System. This way, the user can browse several solutions, and pick the one they want.
+As summarized in section \ref{RQ} the purpose of this project is to study the use of CBR in an information system and its effects on students motivations for doing an exchange or study abroad program. As according to Oates'\cite{oates2005researching} model the research questions were formed after identifying the purpose, motivation and related work through literature review. The research questions, see section \ref{RQ}, can be answered by evaluating an artefact created through the design and creation strategy. The final evaluation will be done using both qualitative and quantitative data analysis on data gathered from data generation methods such as an offline experiment of recommender system and questionnaires.
 
-\subsection{Django}
-Django\cite{djangodocs} is a web framework using the Python programming language, and is maintained by the \enquote{Django Software Foundation} (DSF). The DSF calls it an \emph{MTV} framework, meaning \emph{Model, Template, View}, which in practice functions as a \emph{MVC} pattern. It comes bundled with a lightweight database, a predefined directory structure, controllers to handle any communication between the different components, and many other package. Most noteworthy: Django's security packages, which handles important security risks such as Cross-Site Request Forgery and authorization, and the administrator panel, which lets the developers easily manage entries in the database with an intuitive interface. Everything Django offers completes a package which essentially lets developers focus on their ideas and the application, instead of structural difficulties. 
+\section{Research Strategy: Design and Creation}
 
-As the title suggests, Django is a good choice for projects with slim time schedules, and rapid change, which ultimately is the reason for this choice of framework.
+This research will use the design and creation strategy to develop a computer based artefact named Utsida. Utsida will be used as a tool to answer the research questions detailed in section \ref{RQ}.   
 
-\section{RESTful CBR}
-Since the MyCBR SDK requires a Java environment, an initial problem was how to couple this functionality with a web application, which Utsida is. Luckily, Kerstin Bach, researcher at the Department of Computer and Information Science, NTNU is a contributor to the MyCBR project, and implemented the basis for a REST (Representational State Transfer) framework for a running MyCBR application. The CBR part of the system could then be a separate module, communicating with Utsida only with HTTP requests.
+Utsida will consist of two systems, a case-based recommender system (CBRS) back-end and a web application which will serve as the platform users meet. The system as a whole will be created as a tool to generate the data needed to answer both RQ1 and RQ2. It will incorporate the AI methodology CBR to create a new way of recommending relevant universities and courses for a student applying for an exchange- or study abroad program. The web application will also serve as the page for choosing, approving and managing course applications that could influence the students motivation.
 
+To be able to answer RQ2, the system needs to be well functioning and easy to use. Therefore it is beneficial to use the design and creation strategy to assist with the development of the system. The design and creation will be done in an iterative process according to the five steps from Vaishnavi and Kuechler (2004)\cite{vaishnavi2004design}: Awareness, Suggestion, Development, Evaluation and Conclusion.
 
-\subsection{Case Representation in Utsida}
+\subsection{Awareness and Suggestion}
+Awareness is the part of finding and defining the problem domain, done in the preliminary research in chapter \ref{chap:2} and through the research questions, section \ref{RQ}. When the problem has been identified, a suggestion for the system will be made. This suggestion includes the first design details for the system, and then the development process will begin. 
 
-When parsing the experience reports, choices had to be made in regards to what data was needed. One of the most important aspects of Utsida, is that it should be fast and simple to use. Therefore, the amount of attributes and data extracted from the reports were initially narrowed down to a minimum, but still chose the data which yielded the most importance. The initial chosen data and attributes were modelled to the key-value pairs in table \ref{tab:case_representation1}.
 
+\subsection{Development}
 
-\begin{table}[h]
-\centering
-\small
-\caption{Initial representation of a case in Utsida}
-\label{tab:case_representation1}
-\begin{tabulary}{\textwidth}{|L|L|}
-\hline
-\rowcolor[HTML]{C0C0C0} 
-\textbf{Attributes} & \textbf{Example Case} \\ \hline
-\textbf{Home Institute} & IME-IDI - Institutt for datateknikk og informasjonsvitenskap \\ \hline
-\textbf{Destination Continent} & North America \\ \hline
-\textbf{Destination Country} & USA \\ \hline
-\textbf{Destination University} & UCLA \\ \hline
-\textbf{Study Language} & English \\ \hline
-\textbf{Study Period} & 2012 \\ \hline
-\textbf{Academic Quality Rating} & 4 \\ \hline
-\textbf{Social Quality Rating} & 2 \\ \hline
-\rowcolor[HTML]{8AD5EA} 
-\textbf{Subjects Taken} & \begin{tabular}[c]{@{}l@{}}COMP1927 - Computing 2\\ MATH3220\\ CS4210\\ DATA101\end{tabular} \\ \hline
-\end{tabulary}
-\end{table}
-
-
-This representation was used during the first usability testing of the system, which included an interview. From this, new information about good attributes to include was acquired, such as ease of finding a place to live, the standard of said place, the amount of support the students received at their chosen university, and the general cost of living in the country. These results lead to a an extended case representation, which is displayed in table \ref{tab:case_representation2}. This revision also spliced several ratings which was significant for the social aspects into the social quality rating, and the same for the academic.
-
-\begin{table}[h]
-\centering
-\small
-\caption{Extended representation of a case in Utsida}
-\label{tab:case_representation2}
-\begin{tabulary}{\textwidth}{|L|L|}
-\hline
-\rowcolor[HTML]{C0C0C0} 
-\textbf{Attributes} & \textbf{Example Case} \\ \hline
-\textbf{Home Institute} & IME-IDI - Institutt for datateknikk og informasjonsvitenskap \\ \hline
-\textbf{Destination Continent} & North America \\ \hline
-\textbf{Destination Country} & USA \\ \hline
-\textbf{Destination University} & UCLA \\ \hline
-\textbf{Study Language} & English \\ \hline
-\textbf{Study Period} & 2012 \\ \hline
-\textbf{Academic Quality Rating} & 8 \\ \hline
-\textbf{Social Quality Rating} & 4 \\ \hline
-\textbf{Ease to find- and quality of residential} & 5 \\ \hline
-\textbf{Support and reception at university} & 6 \\ \hline
-\rowcolor[HTML]{8AD5EA} 
-\textbf{Subjects Taken} & \begin{tabular}[c]{@{}l@{}}COMP1927 - Computing 2\\ MATH3220\\ CS4210\\ DATA101\end{tabular} \\ \hline
-\end{tabulary}
-\end{table}
-
-To finalize the case model, and also to form a basis for how important each of these attributes should be in a query, a questionnaire was sent out to a selected group of students (see chapter \ref{chap:3}).
-
-\subsubsection{The Problem Part}
-
-The following list elaborates the choice and significance of the different attributes used in a case.
-
-\begin{itemize}
-\item \textbf{Home Institute:} The home institute is considered the most important attribute, as it contains information about the student's faculty and institute at home, as well as a pointer to what kind of subject are relevant to the student. This also uncovered during the initial usability testing of the system; even though the geographical location and university, as well as every other factor seemed like a perfect fit, the suggestion is not valid if the suggested courses are irrelevant for the user. 
-
-\item \textbf{Destination Continent:} The continent is included both give the user the opportunity to filter countries based on a continent, and to be able to only choose a continent if they are unsure of which country they would like to go to. 
-
-\item \textbf{Destination Country:} The country serves as the most specific geographical option.
-
-\item \textbf{Destination University:} The university is included to match exact universities in a case, if the user knows exactly which university they would go to.
-
-\item \textbf{Study Language:} The study language represents they language which was reportedly used in a case.
-
-\item \textbf{Study Period:} The study period is included to make older cases less relevant to the user, as a university's infrastrucre often changes over time. The option is hidden, and thus not selectable to the user. 
-
-\item \textbf{Academic Quality Rating:} A rating which is a collaboration of an experience report's \emph{Academic Quality}, \emph{Special Competence Gained} and general \emph{Quality of Academic Opportunities}.
-
-\item \textbf{Social Quality Rating:} A rating which is a collaboration of an experience report's rating of  \emph{Social Quality}, \emph{Leisure Activities}, \emph{Girlfriend/friends}, the social interaction with \emph{Students from the University}, \emph{Other Foregin Students} and \emph{Norwegian Students}.
-
-\item \textbf{Ease to find- and Quality of Residential:} A rating which is a collaboration of an experience report's rating of \emph{Residential Dissemination} and \emph{Residential Quality}.
-
-\item \textbf{Support and Reception at University:} A rating which is a collaboration of an experience report's rating of \emph{General Reception} and \emph{Administrative Support}.
-\end{itemize}
-
-It is important to note that a query in Utsida is doable with any number of selected attributes, the more attributes which are selected, the more relevant the results will be. 
-
-
-\subsubsection{The Solution Part}
-The solution to each case is the subjects the student chose. Considering another struggle for students wanting to do a study exchange is to chose an university as well, the chosen university can also be viewed as a solution to the case. With the mentioned attributes in place, the solution (the chosen subjects) should be relevant for the student, while the location should be feasible. 
-
-\subsection{Taxonomies}
-According to Michael M. Richter & Rosina O. Weber\cite{richter2013case}, taxonomies are widely used structures and specialisations of graphs. They relate
-objects to each other. The intention is to do this in a hierarchical way, going from
-general to more specific objects. This implies that branching leads to objects that
-have more in common. 
-
-In Utsida's CBR model, several attributes are a perfect fit for using a taxonomy to organize objects directly. For example, if a query contains a country, instead of only yielding a similarity score on how good this country matches with the country in each case, it will also yield a given similarity score if the country resided within the same continent as the country in the query. Figure \ref{fig:country_taxonomy} illustrates how the taxonomy for a country's similarity score is modelled in Utsida.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{fig/country_taxonomy.png}
-    \caption{Brief illustration of the taxonomy for the country attribute}
-    \label{fig:country_taxonomy}
-\end{figure}
-
-If the country in a query is an exact match with the country in a case, the similarity score for the country attribute in that case will be 1.0. If it is a different country, but it still resides within the same continent as the country in a case, it will yield a similarity score of 0.3. No match at all will yield a 0.0. The same taxonomy is in place for the \emph{Home Institute} attribute, albeit ordered under the different faculties instead. Thus the faculty also works as a hidden attribute.
-
-\subsection{Attribute Similarity Measures}
-
-\begin{itemize}
-    \item \textbf{Rating Similarity:} In the case-model, the attributes \emph{AcademicQuality}, \emph{SocialQuality}, \emph{ReceptionQuality} and \emph{ResidentialQuality} are conjunctions of different ratings given in the experience reports. Each rating ranges between 1-10, and reflects how the student experienced their trip with regard to these categories. To calculate the similarity between a rating in a case, and a rating from a query, the CBRS uses Symmetric Difference Determined Similarity\cite{bergmann2002experience} with a linear function. It describes the decrease in similarity depending on the increase of the difference at a linear phase.
-    
-$\begin{displaystyle}
-    f(d) = 
-    \begin{cases} 1 : & d < min \\ 
-    \frac{max-d}{max-min} : & min \leq d \leq max \\
-    0 : & d > max
-    \end{cases}
-\end{displaystyle}$
-
-    \item \textbf{Continent Similarity:} The continent attribute is a \emph{Symbol type}, meaning its allowed values are a pre-determined set. Similarity between continents are calculated with a $m x n$ matrix, where each mapping yields a given similarity, as displayed in table \ref{tab:continent_similarity}. The values are rough estimates with regards to similarity in culture, language, location and general university structure.
-
-    \begin{table}[H]
-    \small
-    \centering
-    \caption{The $m x n$ matrix for calculating similarity between continents}
-    \label{tab:continent_similarity}
-    \begin{tabular}{|
-    >{\columncolor[HTML]{C0C0C0}}l |
-    >{\columncolor[HTML]{FFFFFF}}r |
-    >{\columncolor[HTML]{FFFFFF}}r |
-    >{\columncolor[HTML]{FFFFFF}}r |
-    >{\columncolor[HTML]{FFFFFF}}r |
-    >{\columncolor[HTML]{FFFFFF}}r |
-    >{\columncolor[HTML]{FFFFFF}}r |}
-    \hline
-    Attribute value & \cellcolor[HTML]{C0C0C0}South America & \cellcolor[HTML]{C0C0C0}Asia & \cellcolor[HTML]{C0C0C0}Europe & \cellcolor[HTML]{C0C0C0}Africa & \cellcolor[HTML]{C0C0C0}North America & \cellcolor[HTML]{C0C0C0}Oceania \\ \hline
-    South America & 1.0 & 0.0 & 0.2 & 0.0 & 0.3 & 0.0 \\ \hline
-    Asia & 0.0 & 1.0 & 0.0 & 0.0 & 0.0 & 0.0 \\ \hline
-    Europe & 0.2 & 0.0 & 1.0 & 0.0 & 0.2 & 0.2 \\ \hline
-    Africa & 0.0 & 0.0 & 0.0 & 1.0 & 0.0 & 0.0 \\ \hline
-    North America & 0.3 & 0.0 & 0.2 & 0.0 & 1.0 & 0.2 \\ \hline
-    Oceania & 0.0 & 0.0.0 & 0.2 & 0.0 & 0.2 & 1.0 \\ \hline
-    \end{tabular}
-    \end{table}
-    
-    \item \textbf{Language Similarity:} In the experience reports, the language field promoted a free-text answer. To handle this, the experience report parser created a list of all languages mentioned in this answer, and added it to the case. Thus, the Language attribute in a case is a list of strings. The attribute is represented as a \emph{Symbol} type which allows multiple values, such as a list. The function used to calculate the similarity between a query attribute and a case attribute simply yields a similarity of $1.0$ if it is an exact match (for example if a query contains the Language attribute \emph{Spanish}, and a case has the same in its Language field). If such a query was matched with a case with the list of the languages \emph{English, Spanish}, it returns the mean similarity for each item in the list. In this case, it would return a similarity of $0.5$, because it simply yields a $1.0$ for \emph{Spanish} and $0.0$ for \emph{English}.
-\end{itemize}
-
-\subsection{Sum Functions}
-Before giving each case in the case-base a similarity score based on a query, the result of the similarity measure on each attribute is summarized, with regards to the attribute's weight. These functions are called Multi-Criteria Decision Making Methods (MCDMM).
-
-Among the available sum functions in the MyCBR Workbench, there are two widely used and suitable functions to use, namely the Weighted Sum Model (WSM) and the Euclidean Distance (ED). For single dimensional problems (such as in this system), the WSM can be used without difficulties, and is probably the most common approach \cite{triantaphyllou2000multi}, and is given by the following expression \cite{fishburn1967letter}
-
-\begin{displaymath}
-    A^{*}_{WSM-score}\quad =\quad max_{i}\  \sum\limits_{j = 1}^{n}\  a_{ij}w_{j},\quad for \quad i =1,\ 2,\ 3,\ ...,\ m.
-\end{displaymath}
-
-When the CBRS receives a query from Utsida, a decision matrix is calculated for each case. This is a $(m \times n)$ matrix whre each row is the attribute values of a case, paired with that attributes weight. 
-
-
-\begin{table}[h]
-\centering
-\caption{A typical decision matrix for a query from Utsida to the CBRS}
-\label{tab:decision_matrix}
-\begin{tabular}{lllcccl}
-                      &                       &                       & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} &                       \\
-Attribute             & $Country$             & $Language$            & \ldots               & \ldots               & \ldots               & $AcademicQuality$     \\\hline
-Weight                & $w_{country}$         & $w_{language}$        & \ldots               & \ldots               & \ldots               & $w_{country}$         \\\hline
-$case_{1}$            & $sim_{case_{1}}$      & $sim_{case_{1}}$      & \ldots               & \ldots               & \ldots               & $sim_{case_{1}}$      \\
-$case_{2}$            & $sim_{case_{2}}$      & $sim_{case_{2}}$      & \ldots               & \ldots               & \ldots               & $sim_{case_{2}}$      \\
-\multicolumn{1}{c}{.} & \multicolumn{1}{c}{.} & \multicolumn{1}{c}{.} & \ldots               & \ldots               & \ldots               & \multicolumn{1}{c}{.} \\
-\multicolumn{1}{c}{.} & \multicolumn{1}{c}{.} & \multicolumn{1}{c}{.} & \ldots               & \ldots               & \ldots               & \multicolumn{1}{c}{.} \\
-\multicolumn{1}{c}{.} & \multicolumn{1}{c}{.} & \multicolumn{1}{c}{.} & \ldots               & \ldots               & \ldots               & \multicolumn{1}{c}{.} \\
-$case_{m}$            & $sim_{case_{m}}$      & $sim_{case_{m}}$      & \ldots               & \ldots               & \ldots               & $sim_{case_{m}}$     
-\end{tabular}
-\end{table}
-
-The WSM is used on this matrix to finally give each case in the case-base a similarity score between $0-1.0$, with regards to the query which the CBRS received. The CBRS then returns the list of the most relevant cases back to Utsida, which handles the rest.
-
-
-\subsection{Weighting the Attributes}
-
-Each attribute in a case has a value, and an associated weight. This is essentially just an integer denoting the importance of that attribute. During the modelling of the MyCBR project, these weights were chosen by the authors based on personal experience. These weights were in place during the usability testing, to learn if they seemed appropriate or not. To get a more public agreed upon set of weights, a questionnaire was sent out to a set of relevant student where they were asked to give their opinion of what kind of attributes were the most important when selecting location and courses for an exchange study, and specifically how important each of these attributes were. 
-
-The questionnaire had 84 participants, where 36 answers included textual answers describing important factors for choosing a location for their exchange study. All of the answers included a numerical rating between 1-7, describing how important they think each of the attribute in the questionnaire was, where these attributes represents the attributes in a case-model. The numerical data was analyzed in a statistical manner, where the mean, standard deviation and coefficient of variation was calculated for each attribute. These statistical approaches was possible to use because most of the data turned out to be relatively normally distributed. Table \ref{tab:attribute_ranking} shows the values for each attribute scaled to a range between 1-10, while appendix \ref{appendix:word_frequency} displays the most frequent category of words in the textual answers.
-
-\begin{table}[H]
-\small
-\caption{Statistical results from the questionnaire. \\ *SD: Standard Deviation, CV: Coefficient of Variation}
-\centering
-\label{tab:attribute_ranking}
-\begin{tabulary}{\textwidth}{LRRR}
-\textbf{Attribute} & \textbf{Mean (1-10)} & \textbf{SD (1-10)} & \textbf{CV (0-1)} \\ \hline
-Study language & 8.2 & 1.87 & 0.23 \\ \hline
-Social quality & 7.02 & 1.75 & 0.25 \\ \hline
-Academic quality & 7.11 & 2.12 & 0.30 \\ \hline
-Administrative support and reception & 6.5 & 2.27 & 0.35 \\ \hline
-Country/Continent & 6.84 & 2.45 & 0.36 \\ \hline
-Quality residential & 5.27 & 1.92 & 0.36 \\ \hline
-Cost of living & 5.66 & 2.13 & 0.38 \\ \hline
-Climate/weather & 6.22 & 2.53 & 0.41 \\ \hline
-Availability of residentials & 5.31 & 2.22 & 0.42 \\ 
-\end{tabulary}
-\end{table}
-
-Based on the Coefficient of Variance from table \ref{tab:attribute_ranking}, which takes both the mean and standard deviation in consideration, the attributes in the CBR model was configured as table \ref{tab:attribute_weights} shows.
-
-\begin{table}[h]
-\centering
-\caption{Finalized weighting of the case attributes}
-\label{tab:attribute_weights}
-\begin{tabulary}{\textwidth}{
->{\columncolor[HTML]{FFFFFF}}l 
->{\columncolor[HTML]{FFFFFF}}r }
-\textbf{Attribute} & \textbf{Weight} \\ \hline
-Home Institute & 7.0 \\ \hline
-Destination Continent & 2.5 \\ \hline
-Destination Country & 4.0 \\ \hline
-Destination University & 4.0 \\ \hline
-Study Language & 4.0 \\ \hline
-Study period & 4.5 \\ \hline
-Academic Quality Rating & 3.0 \\ \hline
-Social Quality Rating & 3.0 \\ \hline
-Ease to find- and quality of residential & 1.5 \\ \hline
-Support and reception at university & 2.5
-\end{tabulary}
-\end{table}
-
-
-
-\subsection{Implementation}
-
-The CBRS was first modelled using the MyCBR Workbench. This includes to create all the desired attributes shown in table \ref{tab:case_representation2}, selecting their types and restraints, and creating a similarity measure or taxonomy for each of them. The function for calculated a case's final similarity to a query is chosen, and each similarity measure is properly weighted.
-
-\begin{figure}[htp]
-    \label{fig:workbench_exmaple}
-    \centering
-    \includegraphics[width=0.8\textwidth]{fig/cbr_model.png}
-    \caption{The similarity measure overview in the MyCBR Workbench}
-\end{figure}
-
-A Java project was creatd with the MyCBR SDK. This project imports all the parsed cases as a CSV file, and the CBR model created with the MyCBR Workbench. A Java Spring server was implemented to serve the application, with a REST framework to receive requets from Utsida, and serve back a list of the most similar cases to the query. Finally, Maven was used to compile a JAR file which runs the CBRS. 
-
-\begin{figure}[H]
-    \label{fig:retrieval_process_diagram}
-    \centering
-    \includegraphics[width=0.8\textwidth]{fig/RetrievalProcessDiagram.png}
-    \caption{Sequence diagram which shows how the initial user input is handled before returning as similar cases}
-\end{figure}
-
-It is important to note that this process only performs the first step of the CBR-cycle: Retrieval. It returns a set of the most similar cases to a query from Utsida. This makes the system more in line with a Case-Based Recommender System, than a standard CBRS. 
-
-\begin{displayquote}\enquote{
-In principle, recommendations need also a query. This query is, however, not asking
-for a specific product. It is, rather, in the form of a more general wish. The wish may
-not even be formulated explicitly by the customer. If there is a user profile, one may
-generate or construct a wish that the customer is likely to have.
-The answer or solution to the query problem is an item or a set of items that the
-customer may want. This requires knowledge about customer’s preferences.\cite{richter2013case}
-}\end{displayquote}
-
-Similar to this definition, the query which the CBR module recieves is a \emph{wish} from a student, containing their most desired attributes, combined with information they have stated in their profile, and it returns not one, but a list of recommendations, so that the user can browse these freely, and produce a choice which may be a combination of several of the recommendations.
-
-\section{Implementation}
-
-
-\subsection{Components}
-This section describes the different components of the system detailed in the previous section. These components build the application that are needed to answer request question 1. They each have a core functionality and use that targets a specific problem domain. 
-
-\paragraph{Reccomendation Handler}
-This component of the system handles both the communication with the RESTful MyCBR API as described in the previous part and the views related to the recommendation. The component communicates through http requests and JSON as the data format.
-
-\paragraph{Course Matches}
-The main object of the course matches component is to display the approved course matches of a specific university. To enable manually editing and addition by student advisers this components supports add, edit and deletion of course matches. When editing course matches the adviser can add optional comments that include specific information on the course match. The enabled functionality for students include selecting course matches and storing it in the student profile where they can be used in a exchange course application at a later stage. The model fields for course matches include the home course object, abroad course object, approver, approval date, comment and equivalent study points. 
-
-\paragraph{Profile}
-This component handles all the user related operation from logging in, changing user data and saving related user data. The data connected to each user profile is institute, saved course matches, saved home courses and saved abroad courses. The stored data is mainly used by the course matcher site, where user can combine a home and abroad course to a custom course match that can further used in an application. 
-
-\paragraph{Applications}
-In order to get custom course matches approved a user has to send in an application. This components handles that process and manages application for both the user and the adviser. Allowing users to view, edit and delete an application, while advisers can approve or disapprove an application. 
-
-\subsection{Development process}
-The final result data needed in this research requires real users. It was therefore essential that Utsida, which is the surrounding system- and the platform the users actually use, is easy and intuitive to use. To ensure this, the development of Utsida was done in an iterative manner. This included communication with potential users throughout the development, and also usability testing. 
+To answer the research questions, data generated by real users is necessary. It was therefore essential that the web application part of Utsida, especially the front-end, is easy and intuitive to use. To ensure this, the development of Utsida will be done in an iterative manner. This includes communication with potential users throughout the development, and also usability testing. B. W. Boehm (1988)\cite{boehm1988spiral}, presented the \emph{Spiral Model}, which is now a common model for iterative development where each cycle includes analyzing risks and requirements, development and testing of a prototype, planning the next iteration, and determining the objective of the next iteration. This model fits well this research, so an adaption of this model was chosen as the designated development methodology. Figure \ref{fig:development_process} displays the adapted version of the spiral model, where the main differences are less risk assessment and verification and validation of each prototype. The reasoning for this is that it is necessary to quickly try out ideas and functionality and get them tested to see if they are feasible. Furthermore, as this is a relatively short-term project, there will be limited time available for analysis and validation between each cycle.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.9\textwidth]{fig/development_process.png}
-    \caption{The development process of Utsida}
+    \includegraphics[width=1\textwidth]{fig/development_process.png}
+    \caption{The development process of Utsida, an adaption of the spiral model\cite{oehm1988spiral}}
     \label{fig:development_process}
 \end{figure}
 
-This way, elements which was hard or not very intuitive could be changed before beeing too deep integrated in the system.
-
-
-\subsection{Design \& Usability}
+\subsection{Evaluation and Conclusion}
+Evaluation will be done continuously after each development cycle and the whole process redone if found needed. Part of the iterative evaluation will be done by testing the system on students through usability tests and hallway testing. The final evaluations will be achieved through an online test with an accompanying questionnaire, as well as performing an offline experiment detailed further in section \ref{sec:questionnaire_1}, \ref{sec:questionnaire_2} and \ref{sec:observation_test}.
 
 \subsubsection{Usability Testing}
-Each of the two usability test sessions during the development of Utsida produced three System Usability Scale (SUS)-schemas to measure the usability of the system. These were considered in additional to any direct feedback received after each test, as it was ideal to see and increase in these scores during the development. The first session of usability testing yielded the following SUS-scores (1-100): 67.5, 87.5 and 70, while the second session yielded as follows: 92.5, 95 and 97.5. The latter score suggested that the system was in an acceptable state to perform the final survey after the second session of usability testing.
 
-\subsection{Test Environment}
-To be able to perform offline usability testing and larger scale online tests the application was hosted on a virtual server provided by Department of Computer Science at NTNU. The virtual server was running Ubuntu 16.04, a debian based linux operating system. The provided domain for the application was utsida.idi.ntnu.no.
+Iterative sessions of usability testing will performed on the web application to evaluate and ensure sufficient usability. The test participants will be selected carefully and will consist mainly of students who have a decent understanding of the current approach for applying for an exchange program. Both technical competent- and less technical competent students will be tested.
 
-The specific HTTP web server used was Apache2, and it was configured with HTTPS to enable secure and encrypted user sessions. To reduce the effort of running online usability tests and enable users to log in through their university account a service platform using UNINETT's federated authentication service (FEIDE) was implemented. The service platform "Dataporten"\cite{dataporten} provided by UNINETT enables quick access to important user data and makes possible application users able to log in without registering a user. 
+These tests will help finding flaws in both general functionality and design, so that the system is as reliable as possible before conducting the remote online test. Data will be gathered by interviewing the testers, observing their use of the system, and have them fill out a System Usability Scale (SUS)-schema\cite{brooke1996sus}. After each test, this data will be analyzed using the SUS score\cite{brooke1996sus} with a range from 0 to 100.
 
-Error reporting through email was configured on the server so that alerts were given in case of possible downtime or server errors. Error reporting made it possible to quickly resolve potential bugs or errors on the application and ensure higher user satisfaction when running user tests. Tracking user behaviour and statistics could be useful in the final data analysis. Google Analytics was therefore used to increase the understanding of user behaviour. Through Google Analytics it is possible to see a large set of data on the user behaviour. The most important ones used in this project were number of users, average session time, device type and activity flow.  
+\section{Data Generation Methods}
+Because there is no client, or persons with high stakes in this project, interviews are not viewed upon as a feasibly method to generate data. There is no existing documents which may be reviewed to gather the required data. Questionnaires and experiments are common methods to generate data about a software system\cite{oates2005researching}, and suits the desires of obtaining generalized opinions about a software system's effect and functionality, and is therefore chosen as the designated data generation methods. 
+
+\subsection{Questionnaires}
+
+Questionnaires will be used as the main method for generating data for the research questions. Two questionnaires will be used to answer the research questions in this project. The first one will be conducted during the development of the system with the goal of learning what students think are the most important motivational factors for choosing an exchange location, see section \ref{sec:questionnaire_1} for further details. The second questionnaire will be conducted after the system prototype is complete as a final evaluation, and will be accompanied with a remote user test. All the design details of the second questionnaire can be found in section \ref{sec:questionnaire_2}.
+
+Both questionnaires will be self-administrated, which promotes the opportunity to collect data from a larger number of students at once. This method also suits the limitations of this project well with low cost and lower time usage for conducting and planning the test compared to administrated tests. The recipients of the questionnaire will be students who have some experience with exchange studies. To acquire a larger target group who fits this criteria NTNU's Office of International Relations will be contacted for possible access to email lists and Facebook sites.
+
+The majority of the questions in the questionnaires will be closed questions, and the question forms which will be used for these are the likert scale\cite{allen2007likert}, semantic differential scale\cite{osgood1952nature} and questions with \enquote{Yes}, \enquote{No}, or \enquote{Don't know} options. According to Dawes J. G. (2012)\cite{dawes2012data}, the results from using a 5-point- and 7-point scale are very similar. Questionnaire 1 will use a scale from 1-7 while questionnaire 2 will use a 1-5 scale. A 1-7 scale was chosen to better fit the model in MyCBR workbench were the weights are represented from 1-10. While the 1-5 scale will represent the level of agreement in the question statement, and fits well with the possible answers, see figure \ref{fig:q2_question_form}. In addition, there will be asked a few open questions where the students can articulate their opinions freely if they like.
+
+\subsubsection{Validity and Reliability}
+Content validity is concerned with whether the questions in the questionnaire represents a good sample of the domain to be investigated\cite{oates2005researching}. The means that the selected questions should cover all the different evaluations needed to answer the research questions properly. Feedback from potential participants and experts where used to evaluate the validity. For RQ1 the main aspect is the "suitability" and whether the system recommends viable universities and courses. The expectation the user has in the usage of the system is also a factor that evaluates the suitability. RQ2 concern the effect on motivation of the students, and here the most important evaluations are use of the system, motivation effect and recommendation to others.
+
+Construct validity means that the questionnaire is evaluating what it was intended to evaluated and not other aspects\cite{oates2005researching}. Questionnaire 1 and 2 were designed to ensure the construct validity by using clear and simple questions that targeted the specific aspects of the research questions. An iterative process was followed in the design of the questionnaire to remove or edit possible irrelevant and poorly formulated questions. 
+
+The measurement of reliability is that the questionnaire yields the same result when given to the participants repeatedly. This is difficult to asses as the questionnaire will only be given once and the participants does not evaluate the system over time. Evaluating the system over time with part of participants would also distort the data by giving them more time to be familiar with the system. One way to measure the reliability is using the split half technique were the participants are split in two equal groups and their answers compared. The results can then be evaluated with two factors: coefficient of split half and Cronbach's alpha.
+
+\subsubsection{Bias}
+
+By using questionnaires as the main method to collect data, several risks of bias is introduced. When designing the questions, measures to minimize implicit bias will be done. The majority of the questions will therefore strive to be neutral statements which the participants can state their degree of agreement as given by the Likert scale\cite{allen2007likert}. Furthermore, the target population for the questionnaires will be students who are interested in exchange in some way, which might influence responses to be more positive. 
+
+Central tendency bias is a risk when the questions have extreme response categories, especially in the likert scale and semantic differential scale. A lower point scale will be used in questionnaire 2 to reduce the central tendency and both questionnaires will have clear questions that reduce the confusion of the participants and their likelihood of answering in the middle sections. 
+
+Acquiescence bias is when the participant is likely to answer positively on a question. To reduce the acquiescence bias the questions should avoid being very positively based. However due the nature of the questions having less social desirability and not being sensitive a acquiescence bias is less likely to have a large impact. This is the same for social desirability biases.  
+
+Considering the expected response rate will be a very small rate of the full population, non-response bias is unavoidable. There could be a general difference between the opinions of those who choose to answer the questionnaire and those who do not. Those who did not participate might think the research sounds uninteresting, and if they actually participated they might respond with more negative answers. Non-response bias will be taken into consideration when analyzing the final result data, and in the discussion.
+
+
+
+\subsection{Questionnaire 1: Motivational Factors}\label{sec:questionnaire_1}
+
+The goal of questionnaire 1 is to gain knowledge on important factors for students when they choose an exchange location and university. The results from this questionnaire will be the basis for the weighting of the attributes in the CBRS and choosing which attributes to include in the system. The target population is all Norwegian students that have either been on exchange or is considering going on exchange. This means they will have some background and considerations about their motivational factors. The total population size of questionnaire 1 is difficult to estimate since it also includes students that are considering going on exchange. However the goal of the sample size is 100 students to ensure some variability in the answers. A higher sample size is difficult to be obtained due to limitations in funds, time and access to publication sources for the questionnaire. 
+
+%Skriv om statistic significance, confidence interval osv
+
+The main question in questionnaire 1 is a closed question and it was formed according the semantic differential scale, see figure \ref{fig:semantic_scale}. The participant ranks each motivational factor according to the particular decisiveness of that factor. See appendix \ref{app:questionnaire1} for all the questions included in questionnaire 1. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{fig/question1.png}
+    \caption{Motivational factor weighting}
+    \label{fig:semantic_scale}
+\end{figure}
+
+This questionnaire will also include an open ended question asking the students for feedback on possible other motivational factors that could be included in the system.
+
+\subsubsection{Data analysis}
+The numerical data from the questionnaire will be analyzed in a quantitative manner, by calculating the mean, standard deviation and coefficient of variation for each attribute. The coefficient of variation will be calculated to show the spread relative to the mean of the data and to rank each attribute against each other for the weighting purposes. 
+
+The open ended text question will be analyzed in a qualitative manner by using theme analysis. First each question will be reduced to only include important sections related to the goal of the question and all unrelated parts will be removed. Then each answer will be analyzed by finding related themes of each question and mapping them in a table. The number of occurrences of a theme will then be counted and each theme ranked by importance. 
+
+\subsection{Questionnaire 2: User Testing of Utsida}\label{sec:questionnaire_2}
+
+The three goals of questionnaire 2 is to; 1. Evaluate and analyze how this system affects students motivation for applying for a study exchange- or study abroad program, 2. whether students who have already been on an exchange thinks this system would make their process easier, and 3. If the system delivered relevant recommendations to the user.
+
+In order to keep the margin of error to a minimum it is important strive to get feedback from as many students as possible. Considering the limitations of budget, time and that the main questionnaire accompanied with a remote user test will take approximately 20 minutes, a goal of 60 answers is set. The questionnaire will be published through social media, and it will be attempted to cooperate with NTNU Office of International Relations, and have them publish it on their Facebook page which currently have about 3300 followers- all being in the target group of this research.
+
+The questionnaire will consist of two main parts of questions, one for reviewing the motivation and use of the application and the other to evaluate the recommendation engine.
+
+%Spørsmålsform, målgruppe, mål, hvordan det skal bli gjennomført, publiseringsmetoder, innsamling, data simplifisering?
+
+\subsubsection{Part 1: Motivation and Use}
+The questions in the first part of this questionnaire will be formed as a slight adaption of the Likert Scale\cite{likert1932technique}. This question form is designed as a five-point scale where each option represents a degree of agreement to a given statement. This way, the questions can be neutral statements, where the recipients of the questionnaire can select their the level of agreement they relate themselves the most with, leaving as little room for bias as possible. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{fig/q2_question_form.PNG}
+    \caption{The question form used in the first part of the questionnaire. Each question is lead by a statement regarding motivation.}
+    \label{fig:q2_question_form}
+\end{figure}
+
+The questions in the first part of this questionnaire will ask about the motivational effect Utsida may have on their thoughts about applying for a study exchange- or study abroad program. Depending on weather the student has already been on a study exchange, or if they think about doing it, they will receive slightly different questions.
+
+\subsubsection{Part 2: Evaluation of Recommendation}
+
+The second part of the questionnaire will focus on the students evaluating the recommendations they receive from Utsida, as well as evaluating the results from two pre-defined queries to the CBRS. The question form will be designed to have simple \enquote{Yes}, \enquote{No}, \enquote{Don't know} answers to easier determine the amount of students that receive relevant recommendations. The pre-defined query recommendations will also include a question which asks the students to rate the recommendations (see Figure \ref{fig:q2_rate_search}). The pre-defined queries, see Appendix \ref{pre_defined_search_table}, are included to evaluate the recommendations for a specific search that does not rely on user input, and thus yields objective evaluation. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{fig/rate_search.png}
+    \caption{Question form on the suitability of a pre-defined search}
+    \label{fig:q2_rate_search}
+\end{figure}
+
+
+\subsubsection{Data analysis}
+This questionnaire will perform a data analysis similar to questionnaire 1 by using quantitative analysis on the closed questions and qualitative analysis on the open-ended question. The closed questions likert scale will be analyzed by the use of mean, standard deviation and standard error. On the \enquote{Yes}, \enquote{No} or \enquote{Don't know} questions however, only percentages and number of answers for each option will be gathered.
+
+
+\subsection{Offline experiment of Recommender System}\label{sec:observation_test}
+An offline experiment of recommender systems method introduced by Ricci et al.\cite{ricci2011introduction} will be used to test the technical part of the CBRS without user influence. This is a specific method to evaluate recommendation systems in an offline setting and should not be misinterpreted as the experiment research strategy.
+
+To perform the offline experiment 20 queries will be generated that represents a large set of user inputs (see Appendix \ref{app:user_queries}). Each query will be sent to two different CBRS models. One with adjusted similarity measures, taxonomies and weights, and one with a standard full match search. The scores for each outputting recommendation will then be given according to the score metric in Table \ref{tab:offline_test} and the total scores for each recommendation model combined. The hypothesis is that the relevancy of the model with adjusted similarity will score higher than the model with a simple full match search. 
+
+This method is beneficial to test the recommender with a large set of possible inputs but with a low cost. One downside is that the queries might represent only a small part of the possible user searches. To mitigate this the queries will cover a wide range of attributes and users with different backgrounds. Another downside is that the offline experiment does not evaluate the recommender with actual users, this is however mitigated with continuous usability tests and questionnaire 2.
+
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|
+>{\columncolor[HTML]{D0E0E3}}l |l|l|l|}
+\hline
+\multicolumn{4}{|c|}{\cellcolor[HTML]{A4C2F4}{\color[HTML]{333333} Rating scale for recommendations (0-10 points)}}                                                                                             \\ \hline
+Attribute           & \cellcolor[HTML]{D0E0E3}0 points                                         & \cellcolor[HTML]{D0E0E3}1 point                                             & \cellcolor[HTML]{D0E0E3}2 points \\ \hline
+Institute           & \begin{tabular}[c]{@{}l@{}}Wrong faculty \\ wrong institute\end{tabular} & \begin{tabular}[c]{@{}l@{}}Correct faculty\\ wrong institute\end{tabular}   & Correct Institute                \\ \hline
+Year                & Before 2011                                                              & 2011-2013                                                                   & 2014-2017                        \\ \hline
+Geographic Location & \begin{tabular}[c]{@{}l@{}}Wrong country \\ wrong continent\end{tabular} & \begin{tabular}[c]{@{}l@{}}Correct continent\\ wrong country\end{tabular}   & Correct country                  \\ \hline
+University          & \multicolumn{2}{c|}{No match}                                                                                                                          & Perfect match                    \\ \hline
+Language            & No match                                                                 & \begin{tabular}[c]{@{}l@{}}The language is \\ part of the list\end{tabular} & Perfect match                    \\ \hline
+Ratings             & \multicolumn{3}{c|}{0.5 points for each rating in range (-1, rating +1)}                                                                                                                  \\ \hline
+\end{tabular}%
+}
+\caption{Score matrix for offline observation test}
+\label{tab:offline_test}
+\end{table}
+
+\subsubsection{Data Analysis}
+The offline experiment will generate quantitative data that can be statistically analyzed. To see a general trend mean analysis with the mean and standard deviation will be used and paired t-test will be used to analyze the significance of the result. The confidence level will be 95\% with a p value limit of 0.05. 
+
+\section{Ethical Issues}
+Some ethical issues regarding data collection and storage should be considered in this research. The designated data collection methods will keep all participants anonymous, but there will be collected some meta-data from them, such as which faculty/university they belong to. Furthermore, as an incentive for students to answer the questionnaires, there will be promoted lottery prizes for participating. To be able to enter the lottery, they will have to enter their e-mail. This step is entirely optional. When each questionnaire is closed, the answers are stored in a Google Spreadsheet anonymously, and the entered e-mails will be scrambled in a random order, so that they are not linked to their answers. This way, there will be no way to identify each answer.
+
+Informed consent will be maintained in the questionnaires, by informing the participants about the purpose and goals for the questionnaires, and by stating that the entire process for all participants is entirely voluntarily and that they can stop any time they want.
+
+During the online test of Utsida, the users will create an account which includes storing their chosen password, e-mail, name and institute at NTNU. This information can not be liked to the questionnaire they will take, but it still raises an ethical issue, considering the authors will have access to this data. During the development of the system, steps will be taken to ensure the confidentiality of its users by using encryption and proper security measures.
+
+
+\section{Practical Issues}
+This research is performed by two students, with one advisor to guide the project. There is a very limited amount of monetary funds, and the time at hand is only 9 months. The data which will serve as the results will be produced by users. With the minimal budget, a practical issue will be to produce the incentive for enough students to answer the surveys. Furthermore, because of the limited time, larger administrated tests are considered out of reach. 
 
 \cleardoublepage
