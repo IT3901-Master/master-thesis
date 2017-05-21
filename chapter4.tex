@@ -61,7 +61,7 @@ Content validity is concerned with whether the questions in the questionnaire re
 
 Construct validity means that the questionnaire is evaluating what it was intended to evaluated and not other aspects\cite{oates2005researching}. Questionnaire 1 and 2 were designed to ensure the construct validity by using clear and simple questions that targeted the specific aspects of the research questions. An iterative process was followed in the design of the questionnaire to remove or edit possible irrelevant and poorly formulated questions. 
 
-The measurement of reliability is that the questionnaire yields the same result when given to the participants repeatedly. This is difficult to asses as the questionnaire will only be given once and the participants does not evaluate the system over time. Evaluating the system over time with part of participants would also distort the data by giving them more time to be familiar with the system. One way to measure the reliability is using the split half technique were the participants are split in two equal groups and their answers compared. The results can then be evaluated with two factors: coefficient of split half and Cronbach's alpha.
+The measurement of reliability is that the questionnaire yields the same result when given to the participants repeatedly. This is difficult to asses as the questionnaire will only be given once and the participants does not evaluate the system over time. Evaluating the system over time with part of participants would also distort the data by giving them more time to be familiar with the system. However, one way to measure the reliability of the internal consistency is using Cronbach's alpha.\cite{bland1997statistics}
 
 \subsubsection{Bias}
 
@@ -69,7 +69,7 @@ By using questionnaires as the main method to collect data, several risks of bia
 
 Central tendency bias is a risk when the questions have extreme response categories, especially in the likert scale and semantic differential scale. A lower point scale will be used in questionnaire 2 to reduce the central tendency and both questionnaires will have clear questions that reduce the confusion of the participants and their likelihood of answering in the middle sections. 
 
-Acquiescence bias is when the participant is likely to answer positively on a question. To reduce the acquiescence bias the questions should avoid being very positively based. However due the nature of the questions having less social desirability and not being sensitive a acquiescence bias is less likely to have a large impact. This is the same for social desirability biases.  
+Acquiescence bias is when the participant is likely to answer positively on a question.\cite{cronbach1946response} To reduce the acquiescence bias the questions should avoid being very positively based. However due the nature of the questions having less social desirability and not being sensitive a acquiescence bias is less likely to have a large impact. This is the same for social desirability biases.  
 
 Considering the expected response rate will be a very small rate of the full population, non-response bias is unavoidable. There could be a general difference between the opinions of those who choose to answer the questionnaire and those who do not. Those who did not participate might think the research sounds uninteresting, and if they actually participated they might respond with more negative answers. Non-response bias will be taken into consideration when analyzing the final result data, and in the discussion.
 
@@ -93,7 +93,7 @@ The main question in questionnaire 1 is a closed question and it was formed acco
 This questionnaire will also include an open ended question asking the students for feedback on possible other motivational factors that could be included in the system.
 
 \subsubsection{Data analysis}
-The numerical data from the questionnaire will be analyzed in a quantitative manner, by calculating the mean, standard deviation and coefficient of variation for each attribute. The coefficient of variation will be calculated to show the spread relative to the mean of the data and to rank each attribute against each other for the weighting purposes. 
+The numerical data from the questionnaire will be analyzed in a quantitative manner, by calculating the mean, standard deviation and coefficient of variation for each attribute. The coefficient of variation will be calculated to show the spread relative to the mean of the data and to rank each attribute against each other for the weighting purposes. Even though the data is original ordinal it will be analysed as interval data to fit with the weighting in the CBR model. 
 
 The open ended text question will be analyzed in a qualitative manner by using theme analysis. First each question will be reduced to only include important sections related to the goal of the question and all unrelated parts will be removed. Then each answer will be analyzed by finding related themes of each question and mapping them in a table. The number of occurrences of a theme will then be counted and each theme ranked by importance. 
 
@@ -132,8 +132,7 @@ The second part of the questionnaire will focus on the students evaluating the r
 
 
 \subsubsection{Data analysis}
-This questionnaire will perform a data analysis similar to questionnaire 1 by using quantitative analysis on the closed questions and qualitative analysis on the open-ended question. The closed questions likert scale will be analyzed by the use of mean, standard deviation and standard error. On the \enquote{Yes}, \enquote{No} or \enquote{Don't know} questions however, only percentages and number of answers for each option will be gathered.
-
+This questionnaire will perform a data analysis similar to questionnaire 1 by using quantitative analysis on the closed questions and qualitative analysis on the open-ended question. The closed questions likert scale will be analyzed by the use of mode and frequencies. On the \enquote{Yes}, \enquote{No} or \enquote{Don't know} questions however, only percentages and number of answers for each option will be gathered. Cronbach's alpha will be used to asses the internal consistency of the likert scale questions on motivation. 
 
 \subsection{Offline experiment of Recommender System}\label{sec:observation_test}
 An offline experiment of recommender systems method introduced by Ricci et al.\cite{ricci2011introduction} will be used to test the technical part of the CBRS without user influence. This is a specific method to evaluate recommendation systems in an offline setting and should not be misinterpreted as the experiment research strategy.
@@ -164,14 +163,14 @@ Ratings             & \multicolumn{3}{c|}{0.5 points for each rating in range (-
 \end{table}
 
 \subsubsection{Data Analysis}
-The offline experiment will generate quantitative data that can be statistically analyzed. To see a general trend mean analysis with the mean and standard deviation will be used and paired t-test will be used to analyze the significance of the result. The confidence level will be 95\% with a p value limit of 0.05. 
+The offline experiment will generate quantitative data that can be statistically analyzed. To see a general trend mean analysis with the mean and standard deviation will be used and paired t-test will be used to analyze the significance of the result. The confidence level will be 95\% with a p value limit of 0.05.
 
 \section{Ethical Issues}
 Some ethical issues regarding data collection and storage should be considered in this research. The designated data collection methods will keep all participants anonymous, but there will be collected some meta-data from them, such as which faculty/university they belong to. Furthermore, as an incentive for students to answer the questionnaires, there will be promoted lottery prizes for participating. To be able to enter the lottery, they will have to enter their e-mail. This step is entirely optional. When each questionnaire is closed, the answers are stored in a Google Spreadsheet anonymously, and the entered e-mails will be scrambled in a random order, so that they are not linked to their answers. This way, there will be no way to identify each answer.
 
 Informed consent will be maintained in the questionnaires, by informing the participants about the purpose and goals for the questionnaires, and by stating that the entire process for all participants is entirely voluntarily and that they can stop any time they want.
 
-During the online test of Utsida, the users will create an account which includes storing their chosen password, e-mail, name and institute at NTNU. This information can not be liked to the questionnaire they will take, but it still raises an ethical issue, considering the authors will have access to this data. During the development of the system, steps will be taken to ensure the confidentiality of its users by using encryption and proper security measures.
+During the online test of the system to be developed, the users will create an account which includes storing their chosen password, e-mail, name and institute at NTNU. This information can not be liked to the questionnaire they will take, but it still raises an ethical issue, considering the authors will have access to this data. During the development of the system, steps will be taken to ensure the confidentiality of its users by using encryption and proper security measures.
 
 
 \section{Practical Issues}

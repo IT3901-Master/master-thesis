@@ -1,13 +1,11 @@
 %===================================== CHAP 5 =================================
 
 \chapter{Implementation}
-To be able to answer the research questions using the methods described in the previous chapter a system needed to be developed. This chapter covers the implementation and architecture of this system and its different components together with decisions on design, usability and development. 
+To be able to answer the research questions using the methods described in the previous chapter, a system needed to be developed. This chapter covers the implementation and architecture of this system and its different components, including decisions on design, usability and development.
 
 \section{System overview}
 
-Utsida is a joint collaboration between two students with specializations in software- and an artificial intelligence, respectively. This is reflected by a two-part system were each part primarily targets one of the research questions.
-
-Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system \emph{Innsida}, and the meaning of the word \emph{inside}. Utsida gives a relation to something on the outside, in this case going on an exchange or study abroad program, choosing a foreign university, and a set of courses at that university. As a whole, Utsida contains two sub-systems, where the first part is a CBRS, and the second part is a web application.
+Utsida is a joint collaboration between two students with specializations in software and an artificial intelligence, respectively. This is reflected by a two-part system were each part primarily targets one of the research questions. Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system \emph{Innsida}, and the meaning of the word \emph{inside}. Utsida gives a relation to something on the outside, in this case going on an exchange program, including choosing a foreign university, and a set of courses at that university. As a whole, Utsida contains two sub-systems, where the first part is a CBRS, and the second part is a web application. The requirements identified in the preliminary research, see section \ref{sec:requirements}, was used as the basis for the design and implementation.
 
 \begin{figure}[H]
     \centering
@@ -17,74 +15,96 @@ Utsida was chosen as the name of the system due to being a counter opposite to N
 \end{figure}
 
 
-As illustrated by figure \ref{fig:system_overview}, Utsida's web application part communicates with the CBRS part. Queries are sent from the web application by a user, and received by by the CBRS through it's REST API. These queries are in turn matched against the entire case-base in the CBRS, and finally all the cases in the case-base are returned to the web application with a coherent similarity score with regards to the user query. Typically in a CBRS, the solution to a problem would be the solution of the case with the highest similarity score for the proposed problem. Utsida on the other hand, offers several possible solutions. Therefore, Utsida is not a standard CBRS, but rather more aligned to a Case Based Recommender System. This way, the user can browse several solutions, and pick the one they want. 
-
+As illustrated by Figure \ref{fig:system_overview}, Utsida's web application part communicates with the CBRS part. Queries are sent from the web application by a user, and received by the CBRS through it's REST API. These queries are in turn matched against the entire case-base in the CBRS, and finally all the cases in the case-base are returned to the web application with a coherent similarity score with regards to the user query. Typically in a CBR system, the solution to a problem would be the solution of the case with the highest similarity score for the proposed problem. Utsida on the other hand, offers several possible solutions, because it is a case-based \textbf{recommender} system, rather than a case-based \textbf{reasoning} system. This way, the user can browse several solutions, and pick the one they want. 
 
 The web application part of Utsida is divided into three main components, as figure \ref{fig:system_overview} depicts; \emph{Recommendations, Profile} and \emph{Course matches}. 
 
-
-\iffalse
-handler communicates with the REST myCBR API and display the results for a given query. The Course Match component contains and displays all approved and registered course matches between NTNU and exchange universities. The profile handles all user controllers, such as login, logout, register and changing information. 
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=8cm]{fig/systemRepresentationDraft.png}
-    \caption{Utsida Architecture}
-    \label{fig:utsida}
-\end{figure}
-\fi
-
 \subsection{Components of the Web Application}
-The three main components of the web application contains all the functionality which was assumed was necessary for the system to be used, and to motivate and increase the amount of students who choose to apply for a study abroad- or study exchange program, and thus required to answer RQ2.
+The three main components of the web application contains all the functionality identified in the preliminary research as the system requirements (section \ref{sec:requirements}). The goal of the components as a whole is to answer RQ2 and to positively effect the motivation of students to go on an exchange program. 
 
 \subsubsection{Recommendations}
 This component is the part of the web application which communicates with the CBRS, by sending a query made by a user in JSON format to the CBRS through HTTP requests, which returns all of its cases with a coherent similarity score, also in JSON format. It serves as the core functionality of Utsida, and the tool to answer RQ1. A user can type in any information they like about what the wishes and requirements for their exchange study are, and are presented with a list of the best suiting universities for their query, followed by the best matching trips to each university which each contains a list of courses that were taken, and thus serves as the solutions, or recommendations.
 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{fig/utsida_screenshots/results_1.PNG}
+    \caption{How results are first presented after sending a query in Utsida}
+    \label{fig:my_label}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{fig/utsida_screenshots/results_2.PNG}
+    \caption{How results are presented after selecting a recommended university in Utsida}
+    \label{fig:my_label}
+\end{figure}
+
 \subsubsection{Course Matches}
-The object of the course matches component is to display all known approved course matches (sets of courses where one or more courses from another university are accepted as a replacement for a course at NTNU), ordered by universities. This component supports adding, deleting and editing course matches by student advisers, including comments. For a student, this component serves as a resource where they can search and find replacements for their courses based, and get information on both NTNU and abroad courses, approval data, which advisor who approved it, and finally save the course match to their profile. 
+The objective of the course matches component is to display all known approved course matches (sets of courses where one or more courses from another university are accepted as a replacement for a course at NTNU), ordered by universities. This component supports adding, deleting and editing course matches by student advisers, including comments. For a student, this component serves as a resource where they can search and find replacements for their courses based, and get information on both NTNU and abroad courses, approval data, which advisor who approved it, and finally save the course match to their profile. 
 
 According to the survey send out by NTNU's International Section about the information students receive at NTNU with regards to going on study exchange programs in 2016, $85,34\%$ of 464 students stated that a list containing earlier approved course matches would increase the number of students going on study exchange programs. This functionality therefore felt essential to include. An issue however with this component proved to be that gathering information about these earlier approved course matches was hard, and it was cumbersome to convert them all to the same format to fit Utsida. Therefore, an initial list was created in Utsida, with the intention that student advisers could expand on this lit in the future.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{fig/utsida_screenshots/approved_courses.PNG}
+    \caption{Sample list from Utsida's approved course matches page}
+    \label{fig:my_label}
+\end{figure}
+
 \subsubsection{Profile}
+
 The profile component handles all user related functionality, such as authentication, and contains the required personal information about each student. This information includes their current institute at NTNU, which is used in a recommendation query. It is one of the greatest attributes to match against other students' exchange study experiences, because it indicates that their courses should be at least somewhat similar. Furthermore, it includes the following sub-components.
 
 \paragraph{Courses} is a sub-component of the profile component. It contains many useful functionalities students can use to organize their application process, such as storing courses they find through Utsida's recommendation component, course matches they find in the course matches component, courses they need to replace at NTNU, and all of their course matches. From the course page, students can also manually match abroad- and home courses to create new course matches for their applications. This component serves as a large part of the whole application chain, and is needed to digitalize it. 
 
-\paragraph{Applications} is also a sub-component of the profile component. It stores all applications the user has committed- meaning all the course matches the user has applied to get approved by a student advisor. Furthermore, it maintains the functionality needed to create applications. For students and student advisers, the application component serves as a digital version of the current paper based application system where student advisers can approve, reject, remove and comment on students' application, while students can easily keep track of them. This component is an extension needed to complete Utsida as a functional and usable replacement.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{fig/utsida_screenshots/course_match.png}
+    \caption{The view for saving, viewing and matching courses in Utsida.}
+    \label{fig:my_label}
+\end{figure}
 
+\paragraph{Applications} is also a sub-component of the profile component. It stores all applications the user has committed, meaning all the course matches the user has applied to get approved by a student advisor. Furthermore, it maintains the functionality needed to create applications. For students and student advisers, the application component serves as a digital version of the current paper based application system where student advisers can approve, reject, and remove students' application, while students can easily keep track of them. This component is an extension needed to complete Utsida as a functional and usable replacement.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{fig/utsida_screenshots/application_list.PNG}
+    \caption{The view showing a user's active applications in Utsida}
+    \label{fig:my_label}
+\end{figure}
 
 \section{Data and Information used in Utsida}
 Utsida requires up to date organizational data about NTNU to be usable. This includes:
 
 \begin{itemize}
     \item Courses at NTNU: All current courses possible to take at NTNU are added to Utsida's database so that students can pick the courses they need in the web application.
-    \item Faculties and institutes at NTNU: To complete a profile in the web application, a student has to pick their institute, so that it can be used as an attribute when using the CBRS, therefore all possible institutes at NTNU are added to Utsida's database.
+    \item Faculties and institutes at NTNU: To complete a profile in the web application, a student has to pick their institute, so that it can be used as an attribute when querying the CBRS, therefore all possible institutes at NTNU are added to Utsida's database.
 \end{itemize}
 
 This data was gathered with IDI's organization API for NTNU\footnote{http://www.ime.ntnu.no/api/}, which unfortunately recently was discontinued, so to update this data, a new data source would have to be found. 
 
-Furthermore, the course matches component in the web application relies on information on previous approved course matches, which is logged by some student advisers at NTNU. Obtaining this data presented several difficulties, because there are no standard way to keep track of these approvals at NTNU. Thus, only approved course matches for institutes which we found were added (mostly IDI). Furthermore, the entries which was obtainable were in different formats, which required an extensive parser script to transform and add to Utsida's database.
+Furthermore, the course matches component in the web application relies on information on previous approved course matches, which is logged by some student advisers at NTNU. Obtaining this data presented several difficulties, because there are no standard way to keep track of these approvals at NTNU. Thus, only approved course matches for departments which we found were added (mostly IDI). Furthermore, the entries which was obtainable were in different formats, which required an extensive parser script to transform and add to Utsida's database.
 
-The most important data however, was the data needed to create cases in the CBRS' case-base, namely NTNU's International Section's \enquote{experience reports}.
+The most important data however, was the data needed to create cases in the CBRS' case-base, namely The Office of International Relations' \textit{experience reports}.
 
 \subsection{The Experience Reports}\label{sec:experience_reports}
-Typically, a CBRS' case-base is gradually expanded as new cases are retained. In this project, it was essential to have a large number of cases in the case-base from the start. A large part of the motivation for doing this research stems from personal experience, and thus the current process for applying for a study exchange program at NTNU was well known. Most students who go on an exchange program at NTNU has to write obligatory reports to NTNU's International Section. These reports are public, and because of all the information about an exchange study they included, they proved to work as a great base for a case. All of the current public experience reports were downloaded, and parsed (see section \ref{sec:parsing_experience_reports}) to cases, and added to the CBRS' case-base. With this in place, the data and foundation of the CBRS was in place.
+Typically, a CBRS' case-base is gradually expanded as new cases are retained. In this project, it was essential to have a large number of cases in the case-base from the start. A large part of the motivation for doing this research stems from personal experience, and thus the current process for applying for a study exchange program at NTNU was well known. Most students who go on an exchange program at NTNU has to write obligatory reports to The Office of International Relations at NTNU. These reports are available to the public, and because of all the information about an exchange study they include, they proved to work as a great base for a case. All of the current public experience reports were downloaded and parsed (see section \ref{sec:parsing_experience_reports}) to cases, and then added to the CBRS' case-base. With this in place, the data and foundation of the CBRS was in place.
 
 \subsection{Parsing the Experience Reports}\label{sec:parsing_experience_reports}
-The experience reports are essentially large text files in HTML format. To be able to use them in Utsida, all the useful information in the HTML files had to be extracted and finally be converted to entries in a large CSV file, which is the file type MyCBR use as a case-base. A quite extensive python script was written to handle this
+The experience reports are essentially large text files in HTML format. To be able to use them in Utsida, all the useful information in the HTML files had to be extracted and finally be converted to entries in a large CSV file, which is the file type MyCBR use as a case-base. A quite extensive python script was written to handle this.
 
-In short, all available experience reports (HTML files) were first downloaded and stored in a directory. The script then loops through all of the HTML files, reads the data with the use of the python package \emph{HTMLParser}\footnote{https://docs.python.org/2/library/htmlparser.html}, saves all the useful data in a dictionary which is converted to one row in the CSV file (case-base). That way, each row in the CSV file corresponded to one case with the attributes given by table \ref{tab:case_representation2}. This finally resulted in a case-base with 8702 cases.
+In short, all available experience reports (HTML files) were first downloaded and stored in a directory. The script then loops through all of the HTML files, reads the data with the use of the python package \emph{HTMLParser}\footnote{https://docs.python.org/2/library/htmlparser.html}, saves all the useful data in a dictionary which is converted to one row in the CSV file which serves as the case-base. This way, each row in the CSV file corresponded to one case with the attributes given by table \ref{tab:case_representation2}. This finally resulted in a case-base with 8702 cases.
 
-The job of parsing these files turned out to be extremely time consuming affair because most of the information in the files consisted of free text. This implies that the writers of each report decided themselves how to write the university they went to, the courses they took, their institute and the rest of the information which was vital for the cases. To handle this, the script has one method to format each attribute to the correct format in terms of Utsida. Beside writing string handling for all kinds of edge cases in python, there were two noteworthy techniques used; data dictionary look-ups and approximate string matching (fuzzy searching).
+The job of parsing these files turned out to be extremely time consuming affair because most of the information in the files consisted of free text. This implies that the writers of each report decided themselves how to write the university they went to, the courses they took, their department and the rest of the information which was vital for the cases. To handle this, the script has one method to format each attribute to the correct format in terms of Utsida. Beside writing string handling for all kinds of edge cases in python, there were two noteworthy techniques used; data dictionary look-ups and approximate string matching (fuzzy searching).
 
 
 \paragraph{Fuzzy Searching}
-Fuzzy Searching is an algorithm used to recognize patterns and similarities in text, and yield a score to determine the similarity between them. Using this technique in the script which parsed the experience reports, predefined sets of attributes could be formatted as the system required, for then to use fuzzy search on the text input in the reports, to map the most similar occurrences to predefined data. For example, in the field in the reports where the students wrote their institute at NTNU, a huge variation of abbreviations, and a differentiation in ways of spelling the institute was an issue. By creating a dictionary with all institutes and faculties, fuzzy searching could be used to match the input in the report to this dictionary, and return the record in the dictionary with the highest similarity score to the input in the report. This method was also used to avoid creating multiple instances of the same university in the database, because they were written slightly different. Data dictionaries were created in python for countries, continents, languages, universities, institutes and faculties to be able to map the important data in the experience reports to a correct format.
+Fuzzy Searching is an algorithm used to recognize patterns and similarities in text, and yield a score to determine the similarity between them. Using this technique in the script which parsed the experience reports, predefined sets of attributes could be formatted as the system required, for then to use fuzzy search on the text input in the reports to map the most similar occurrences to predefined data. For example, in the field in the reports where the students wrote their department at NTNU, a huge variation of abbreviations, and differentiation in ways of spelling the department was an issue. By creating a dictionary with all departments and faculties, fuzzy searching could be used to match the input in the report to this dictionary, and return the record in the dictionary with the highest similarity score to the input in the report. This method was also used to avoid creating multiple instances of the same university in the database, because they were written slightly different. Data dictionaries were created in python for countries, continents, languages, universities, departments and faculties to be able to map the important data in the experience reports to a correct format.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1.0\textwidth]{fig/fuzzy_searching.png}
+    \includegraphics[width=1.0\textwidth]{fig/fuzzy_search.png}
     \caption{Input data is transformed to a set format by using fuzzy searching}
     \label{fig:fuzzy_searching}
 \end{figure}
@@ -94,24 +114,23 @@ In the end, most of the data in the experience reports was transformed to usable
 \subsection{Data Quality Evaluation}
 Cleaning and validating the data in both the digital course match tables written by student advisers, and the experience reports was an important step to perform before any of it was parsed. The data is analyzed according to the six primary dimensions for data quality assessment\cite{askham2013six} in the following paragraphs.
 
-\paragraph{Completeness} indicates the percentage of stored data versus the total amount of data, which in this case are all the experience reports. As mentioned, Utsida's case-base consists of 8702 cases. However, on NTNU International Section's website for experience reports, the index goes up to 17012. It is unknown how many reports which are actually published on this site, because a large amount of these indexes doesn't point to an experience report, hence, there are a lot less than 17012. Furthermore, many reports were preliminary excluded if they were missing vital information such as which institute the student belonged to, or which courses they took on the trip. Without either of this data, a case doesn't give much value to the system. In the end, the cases in the case-base does not represent 100\% completeness with regards to all available experience reports, but they include most of them.
+\paragraph{Completeness} indicates the percentage of stored data versus the total amount of data, which in this case are all the experience reports. Utsida's case-base consists of 8702 cases. However, on The Office of International Relations' website for experience reports, the index goes up to 17012. It is unknown how many reports which are actually published on this site, because a large amount of these indexes doesn't point to an experience report, hence, there are a lot less than 17012. Furthermore, many reports were preliminary excluded if they were missing vital information such as which department the student belonged to, or which courses they took on the trip. Without either of this data, a case doesn't give much value to the system. In the end, the cases in the case-base does not represent 100\% completeness with regards to all available experience reports, but they include most of them.
 
-\paragraph{Uniqueness} represents the percentage of data entries which are unique. There is no control regarding eventual duplicate cases in the case-base. Since each case is an individual experience, they are considered unique all though two or more students may have chosen the exact same geographical place, university, and courses. However, chance for two cases to be identical is quite slim, as there are so many different attributes and values. Furthermore, in this project, multiple similar cases- even identical ones only strengthen the recommendations for a given query. Other data, such as the assessed course matches, both abroad- and home courses etc. are required to be unique in Utsida's database, and thus yields a uniqueness of 100\%.
+\paragraph{Uniqueness} represents the percentage of data entries which are unique. There is no control regarding eventual duplicate cases in the case-base. Since each case is an individual experience, they are considered unique all though two or more students may have chosen the exact same geographical place, university, and courses. However, the probability for two cases to be identical is quite slim, as there are so many different attributes and values. Furthermore, in this project, multiple similar cases- even identical ones only strengthen the recommendations for a given query. Other data, such as the assessed course matches, both abroad- and home courses etc. are required to be unique in Utsida's database, and thus yields a uniqueness of 100\%.
 
-\paragraph{Timeliness} 
-is the degree to which data represent reality from the required point in time"\cite{askham2013six}. The last experience report in the data set was published in 2016, while the first one was published in 1999. The data set should include entries from 201,7 but the the system for submitting experience reports underwent some changes and updates during fall 2016, and was therefore frozen until spring 2017. This means the newest data in the case-base is already 1 year older than the current year during the writing of this report (2017). The experience reports tend to be submitted either a couple of months after an exchange period, or in the middle of one. This makes the timeliness have a great degree of variation and is difficult to assess. However, even if a student's experience is 3 years old, it is still likely to be very relevant. Furthermore, the study period attribute is handled in the CBRS by reducing a reports relevancy the older it is.
+\paragraph{Timeliness} is the degree to which data represent reality from the required point in time \cite{askham2013six}. The last experience report in the data set was published in 2016, while the first one was published in 1999. The data set should include entries from 2017, but the system for submitting experience reports underwent some changes and updates during fall 2016, and was therefore frozen until spring 2017. This means the newest data in the case-base is already 1 year older than the current year during the writing of this report (2017). The experience reports tend to be submitted either a couple of months after an exchange period, or in the middle of one. This makes the timeliness have a great degree of variation and is difficult to assess. However, even if a student's experience is 3 years old, it is still likely to be very relevant. Furthermore, the study period attribute is handled in the CBRS by reducing a reports relevancy the older it is.
 
-\paragraph{Validity} considers the validity of data, which is valid if it conforms to the syntax (format, type, range) of its definition\cite{askham2013six}. Most of the data in the experience reports were not validated in any way; they accepted free text. Because they had no range or constraint, there had to be done exceptionally much validation of data in the script which parsed these reports into cases. The same goes for the assessed course matches.
+\paragraph{Validity} considers the validity of data, which is valid if it conforms to the syntax (format, type, range) of its definition \cite{askham2013six}. Most of the data in the experience reports were not validated in any way; they accepted free text. Because they had no range or constraint, there had to be done exceptionally much validation of data in the script which parsed these reports into cases. The same goes for the assessed course matches.
 
-\paragraph{Accuracy} is the degree to which data correctly describes the \enquote{real world} object or event being described\cite{askham2013six}. Both the data in the experience reports and the assessed course matches is mostly free text, and thus it is hard to measure it's accuracy properly. There are no set bounds, ranges and constraints for much of the data, meaning it simply have to be interpreted. As described in section \ref{sec:parsing_experience_reports}, measures were made to convert data from their free text form to a given format in Utsida, but there are no guarantees for the data ending up as the original user intended.
+\paragraph{Accuracy} is the degree to which data correctly describes the \enquote{real world} object or event being described \cite{askham2013six}. Both the data in the experience reports and the assessed course matches is mostly free text, and thus it is hard to measure it's accuracy properly. There are no set bounds, ranges and constraints for much of the data, meaning it simply have to be interpreted. As described in section \ref{sec:parsing_experience_reports}, measures were made to convert data from their free text form to a given format in Utsida, but there are no guarantees for the data ending up as the original user intended.
 
-\paragraph{Consistency} is described as the absence of difference, when comparing two or more representations of a thing against a definition\cite{askham2013six}. In the experience reports, this property is considered high. Each report is written in the same exact format, with the same descriptions and values. The assessed course matches however lack consistency because the format they are written in depends on the student adviser who wrote them, making them require some analysis and pre-processing before being usable. 
+\paragraph{Consistency} is described as the absence of difference, when comparing two or more representations of a thing against a definition \cite{askham2013six}. In the experience reports, this property is considered high. Each report is written in the same exact format, with the same descriptions and values. The assessed course matches however lack consistency because the format they are written in depends on the student adviser who wrote them, making them require some analysis and pre-processing before being usable. 
 
-Conclusively, the largest data resource used in this project, the experience reports, is considered to measure poorly in some of the six primary dimensions for data quality assessment. Extensive pre-processing and analysis of the data, was essential. All though the methods used may overlook some invalid or bad data, it is considered too small to influence the CBRS' recommendations in a noticable way. 
+Conclusively, the largest data resource used in this project, the experience reports, is considered to measure poorly in some of the six primary dimensions for data quality assessment. Extensive pre-processing and analysis of the data, was essential. All though the methods used may overlook some invalid or bad data, it is considered too small to influence the CBRS' recommendations in a noticeable way. 
 
 
 \section{The CBRS Model}
-This section describes how to CBRS' model was implemented and how the module was developed.
+This section describes how to CBRS' model was implemented and how the system was developed. This includes how its cases are represented, which taxonomies and similarity measures are used, how the weighting of the attributes in a case was done, and how the system itself was implemented.
 
 \subsection{Case Representation in Utsida}
 
@@ -138,7 +157,7 @@ Subjects Taken & \begin{tabular}[c]{@{}l@{}}COMP1927 - Computing 2\\ MATH3220\\ 
 \end{tabulary}
 \end{table}
 
-This representation was used during the first usability test phase. From the feedback and interviews acquired in the tests, new information and ideas about good attributes to include was acquired, such as ease of finding a place to live, the standard of said place, the amount of support the students received at their chosen university, and the general cost of living in the country. These results combined with the groups identified from a paper on important international student factors \cite{maria2006international} lead to a an extended case representation, which is displayed in Table \ref{tab:case_representation2}. This revision also spliced several ratings which was significant for the social aspects into the social quality rating, and the same for the academic.
+This representation was used during the first usability test phase. From the feedback and interviews in the tests, new information and ideas about good attributes to include was acquired, such as ease of finding a place to live, the standard of said place, the amount of support the students received at their chosen university, and the general cost of living in the country. These results combined with the groups identified from a paper on important international student factors \cite{maria2006international} lead to a an extended case representation, which is displayed in Table \ref{tab:case_representation2}. This revision also spliced several ratings which was significant for the social aspects into the social quality rating, and the same for the academic.
 
 \begin{table}[H]
 \centering
@@ -289,7 +308,7 @@ $\begin{displaystyle}
 \subsection{Sum Functions}
 Before giving each case in the case-base a similarity score based on a query, the result of the similarity measure on each attribute is summarized, with regards to the attribute's weight. These functions are called Multi-Criteria Decision Making Methods (MCDMM).
 
-There are two sum functions in the MyCBR Workbench, there are two suitable functions to use, namely the Weighted Sum Model (WSM) and the Euclidean Distance (ED). For single dimensional problems (such as in this system), the WSM can be used without difficulties, and is probably the most common approach \cite{triantaphyllou2000multi}, and is given by the following expression \cite{fishburn1967letter}
+There are two sum functions in the MyCBR Workbench, namely the Weighted Sum Model (WSM) and the Euclidean Distance (ED). For single dimensional problems (such as in this system), the WSM can be used without difficulties, and is probably the most common approach \cite{triantaphyllou2000multi}, and is given by the following expression \cite{fishburn1967letter}
 
 \begin{displaymath}
     A^{*}_{WSM-score}\quad =\quad max_{i}\  \sum\limits_{j = 1}^{n}\  a_{ij}w_{j},\quad for \quad i =1,\ 2,\ 3,\ ...,\ m.
@@ -408,6 +427,8 @@ The mindset with the Design of Utsida is inspired by the \emph{User Centered Sys
     \caption{The index page of Utsida's web application}
     \label{fig:utsida_index}
 \end{figure}
+
+See Appendix \ref{app:screen_shots} for screenshots of Utsida's different views and functionalities.
 
 \subsection{Usability Testing}
 Each of the two usability test sessions during the development of Utsida produced three System Usability Scale (SUS)-schemas to measure the usability of the system. These were considered in additional to any direct feedback received after each test, as it was ideal to see and increase in these scores during the development. The first session of usability testing yielded the following SUS-scores (1-100): 67.5, 87.5 and 70, while the second session yielded as follows: 92.5, 95 and 97.5. The latter score suggested that the system was in an acceptable state to perform the final survey after the second session of usability testing.

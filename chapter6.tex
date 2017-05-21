@@ -1,17 +1,19 @@
 %===================================== CHAP 5 =================================
 
-\chapter{Results}
+\chapter{Results \& Discussion}
 
-This chapter provides all final results yielded by the the questionnaires, and the offline experiment of the CBRS as well as a discussion and analysis of the data. The chapter first lists the tables and diagrams which displays the results before discussing them.
+This chapter provides all final results yielded by the the questionnaires and the offline experiment of the CBRS. It also includes a discussion of these results, possible limitations with the study and recommendations based on the findings.
 
 \section{Questionnaire 1: Motivational factors}
-The result from questionnaire 1 was primarily used to weight the different attributes in the CBR model, see section \ref{sec:weighting}. However it also provided to be a valuable resource as a general motivational study, therefore it will be used in the evaluation of the system. 
 
-The questionnaire had 84 participants, with 36 answers to the open ended question on other motivational factors for choosing a location for their exchange study. All of the answers included a numerical rating between 1-7, describing how important they think each of the attribute in the questionnaire was, where these attributes represents the attributes in a case-model. Table \ref{tab:attribute_ranking} shows the values for each attribute scaled to a range between 1-10, while appendix \ref{appendix:word_frequency} displays the most frequent category of words in the textual answers.
+The result from questionnaire 1 was primarily used to weight the different attributes in the CBRS, see section \ref{sec:weighting}. However it also provided to be a valuable resource as a general motivational study, therefore it will be used in the evaluation of the system. 
+
+The questionnaire had 84 participants. 52 of them had participated in an exchange program and 67 were students at NTNU while the rest went to \textit{other} universities. All of the answers included a numerical rating between 1-7, describing how important they think each of the attributes in the questionnaire was, where these attributes represents the attributes in a case-model. Additionally, 36 of the replies included an optional textual answer. Table \ref{tab:attribute_ranking} shows the values for each attribute scaled to a range between 1-10, while appendix \ref{appendix:word_frequency} displays the most frequent category of words in the textual answers.
 
 \begin{table}[H]
 \small
-\caption{Statistical results from the questionnaire, 84 participants. \\ *SD: Standard Deviation, CV: Coefficient of Variation}
+\captionsetup{width=0.8\textwidth}
+\caption{Results from questionnaire 1, ranked by CV, N=84 \\ *SD: Standard Deviation, CV: Coefficient of Variation}
 \centering
 \label{tab:attribute_ranking}
 \begin{tabulary}{\textwidth}{LRRR}
@@ -28,14 +30,32 @@ Availability of residentials & 5.31 & 2.22 & 0.42 \\
 \end{tabulary}
 \end{table}
 
-The attributes are ranked by lowest coefficient of variation which yields the most important attributes given the mean rating of the attribute, and the standard deviation.
-
 \section{Questionnaire 2}
-Following are the results for all of the closed questions in questionnaire 2. Each result is followed by a brief description. The section is divided into two parts; one for for the results which contribute to RQ2 (motivational effect), and one which contribute to RQ1 (suitability of CBR in this domain).
+The questionnaire had 40 participating students from NTNU, where 20 of the replies included an optional textual feedback. 27 (67.5\%) of the participants had not been on exchange and 13 (32.5\%) had. Figure \ref{fig:faculty_demographic} shows the faculty demographic of the participants.
+
+\begin{figure}[h]
+    \small
+    \centering
+    \begin{tikzpicture}[scale=0.7]
+        \pie[text=legend,sum = auto , after number = ]{
+            8/Faculty of Natural Sciences (NV), 
+            10/Faculty of Engineering (IV), 
+            14/Faculty of Information Technology and Electrical Engineering (IE), 
+            5/Faculty of Economics and Management (OK),
+            2/Faculty of Social and Educational Sciences (SU),
+            1/Faculty of Humanities (HF)
+        }
+    \end{tikzpicture}
+    \caption{Faculty demographic of participants in Questionnaire 2}
+    \label{fig:faculty_demographic}
+\end{figure}
+
+The results from the closed questions will be presented first and then the findings from the open question will be summarized in short. The results from closed questions are divided in two parts; one for for results that contribute to answering RQ2 (motivational effect), and one for those that contribute to RQ1 (suitability of CBR).
 
 \subsection{Motivational effect}
 
-The following tables displays the results from the questions which concerns the motivational effect Utsida may have on students in terms of applying for an exchange program.
+The following figures displays the results from the questions which concerns the motivational effect Utsida may have on students in terms of applying for an exchange program. The degree of agreement ranges from \textit{1: Strongly disagree} to \textit{5: Strongly agree} as a likert type question.
+
 
 \begin{figure}[h]
 
@@ -43,8 +63,8 @@ The following tables displays the results from the questions which concerns the 
     
     \begin{tikzpicture}[font=\small, trim axis left, trim axis right]
         \begin{axis}[
-            height=5cm,
-            width=8cm,
+            height=4.5cm,
+            width=9cm,
             ybar,
             bar width=20pt,
             xlabel={Degree of agreement (1-5)},
@@ -69,8 +89,8 @@ The following tables displays the results from the questions which concerns the 
           };
         \end{axis}
     \end{tikzpicture}
-    
-    \caption{I think my motivation for exchange would increase if Utsida was in use}
+    \captionsetup{format=hang}
+    \caption{\textbf{Statement}: "I think my motivation for exchange would increase if Utsida was in use". \textbf{Group:} Students who has \textbf{not} participated in an exchange program (27)}
     \label{fig:test}
     
 \end{figure}
@@ -81,8 +101,8 @@ The following tables displays the results from the questions which concerns the 
     
     \begin{tikzpicture}[font=\small, trim axis left, trim axis right]
         \begin{axis}[
-            height=5cm,
-            width=8cm,
+            height=4.5cm,
+            width=9cm,
             ybar,
             bar width=20pt,
             xlabel={Degree of agreement (1-5)},
@@ -108,7 +128,7 @@ The following tables displays the results from the questions which concerns the 
         \end{axis}
     \end{tikzpicture}
     
-    \caption{I think it was easy to use Utsida}
+    \caption{\textbf{Statement:} "I thought it was easy to use Utsida". \\ \textbf{Group:} Students who have \textbf{not} participated in an exchange program (27)}
     \label{fig:test}
     
 \end{figure}
@@ -119,8 +139,8 @@ The following tables displays the results from the questions which concerns the 
     
     \begin{tikzpicture}[font=\small, trim axis left, trim axis right]
         \begin{axis}[
-            height=5cm,
-            width=8cm,
+            height=4.5cm,
+            width=9cm,
             ybar,
             bar width=20pt,
             xlabel={Degree of agreement (1-5)},
@@ -146,7 +166,7 @@ The following tables displays the results from the questions which concerns the 
         \end{axis}
     \end{tikzpicture}
     
-    \caption{I think Utsida would have simplified my application process}
+    \caption{\textbf{Statement:} "I think Utsida would have simplified my application process". \\ \textbf{Group:} Students who have participated in an exchange program (13)}
     \label{fig:test}
     
 \end{figure}
@@ -183,7 +203,7 @@ The following tables displays the results from the questions which concerns the 
           };
         \end{axis}
     \end{tikzpicture}
-        \caption{Students who have \textbf{not} participated in an exchange program}
+        \caption{\textbf{Group:} Students who have \textbf{not} participated in an exchange program}
         \label{fig:gull}
     \end{subfigure}
     ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
@@ -217,134 +237,198 @@ The following tables displays the results from the questions which concerns the 
           };
         \end{axis}
     \end{tikzpicture}
-        \caption{Students who \textbf{have} been participated in an exchange program}
+        \caption{\textbf{Group:} Students who \textbf{have} participated in an exchange program}
         \label{fig:tiger}
     \end{subfigure}
-    \caption{I think Utsida can contribute to an increased number of students who choose to participate in an exchange program}
+    \caption{Statement: "I think Utsida can contribute to an increased number of students who choose to participate in an exchange program"}
 \end{figure}
 
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
-        \begin{tikzpicture}
-        \pie{10/A, 20/B, 30/C, 40/D}
-        \end{tikzpicture}        
-        \caption{Students who have \textbf{not} participated in an exchange program}
+        \begin{tikzpicture}[scale=0.7]
+            \pie[ sum = auto , after number = ]{27/Yes}
+        \end{tikzpicture}    
+        
+        \caption{Group: Students who have \textbf{not} participated in an exchange program}
         \label{fig:gull}
     \end{subfigure}
     ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
       %(or a blank line to force the subfigure onto a new line)
     \begin{subfigure}[b]{0.4\textwidth}
+        \begin{tikzpicture}[scale=0.7]
+            \pie[ sum = auto , after number = ]{12/Yes, 1/No}
+        \end{tikzpicture}  
        
-        \caption{Students who \textbf{have} been participated in an exchange program}
+        \caption{Group: Students who \textbf{have} participated in an exchange program}
         \label{fig:tiger}
     \end{subfigure}
-    \caption{I think Utsida can contribute to an increased number of students who choose to participate in an exchange program}
+    \caption{"Would you recommend The Office of International Relations to include this system in the exchange application process?"}
 \end{figure}
 
-\begin{table}[h]
-\small
-\centering
-\caption{Results from motivational questions from students who have not been on exchange. \\ 1: Strongly disagree, 5: Strongly agree}
-\label{my-label}
-\begin{tabulary}{\textwidth}{|L|R|R|}
-\hline
-\textbf{Question} & \textbf{Mean (1-5)} & \textbf{SD (1-5)} \\ \hline
-I think my motivation for exchange would increase if Utsida was in use & 4.15 & 0.77 \\ \hline
-I think it was easy to use Utsida & 3.96 & 1.16 \\ \hline
-I think Utsida can contribute to an increased number of students who choose to do an exchange & 4.44 & 0.64 \\ \hline
-\end{tabulary}
-\end{table}
 
 \begin{table}[h]
-\small
 \centering
-\caption{Results from motivational questions from students who have been on 
-exchange \\ 1: Strongly disagree, 5: Strongly agree}
-\label{my-label}
-\begin{tabulary}{\textwidth}{|L|R|R|}
-\hline
-\textbf{Question} & \textbf{Mean (1-5)} & \textbf{SD (1-5)} \\ \hline
-I think Utsida would have simplified my application process & 4.62 & 0.65 \\ \hline
-I think Utsida can contribute to an increased number of students who choose to do an exchange & 4.15 & 0.80 \\ \hline
-\end{tabulary}
+\caption{Summary of the likert type questions}
+\label{tab:likert_type_summary}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+ &  & \multicolumn{5}{c}{\textbf{\begin{tabular}[c]{@{}c@{}}Frequencies \\ (degree of agreement)\end{tabular}}} \\ \cline{2-7} 
+\multicolumn{1}{c|}{\textbf{Statement}} & \multicolumn{1}{c|}{\cellcolor[HTML]{BBDAFF}\textbf{Mode}} & \multicolumn{1}{c|}{\cellcolor[HTML]{BBDAFF}\textbf{1}} & \multicolumn{1}{c|}{\cellcolor[HTML]{BBDAFF}\textbf{2}} & \multicolumn{1}{c|}{\cellcolor[HTML]{BBDAFF}\textbf{3}} & \multicolumn{1}{c|}{\cellcolor[HTML]{BBDAFF}\textbf{4}} & \multicolumn{1}{c|}{\cellcolor[HTML]{BBDAFF}\textbf{5}} \\ \hline
+\multicolumn{7}{|c|}{\cellcolor[HTML]{C0C0C0}Students that \textbf{have not} been on exchange    \hspace{1cm}   (Cronbach's Alpha = 0.916)} \\ \hline
+\multicolumn{1}{|l|}{\textit{\begin{tabular}[c]{@{}l@{}}I think my motivation for exchange \\ would increase if Utsida was in use\end{tabular}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}4} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}1\\ (3.7\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}3\\ (11.1\%)\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}\begin{tabular}[c]{@{}c@{}}14\\ (51.9\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}9\\ (33.3\%)\end{tabular}} \\ \hline
+\multicolumn{1}{|l|}{\textit{I thought it was easy to use Utsida}} & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}5} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}1\\ (3.7\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}2\\ (7.4\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}6\\ (22.2\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}6\\ (22.2\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}12\\ (44.4\%)\end{tabular}} \\ \hline
+\multicolumn{1}{|l|}{\textit{\begin{tabular}[c]{@{}l@{}}I think Utsida can contribute to an increased \\ number of students who choose to \\ participate in an exchange program\end{tabular}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}5} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}2\\ (7.4\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}11\\ (40.7\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}14\\ (51.9\%)\end{tabular}} \\ \hline
+\multicolumn{7}{|c|}{\cellcolor[HTML]{C0C0C0}Students that \textbf{have been} on exchange    \hspace{1cm}    (Cronbach's Alpha = 0.855)} \\ \hline
+\multicolumn{1}{|l|}{\textit{\begin{tabular}[c]{@{}l@{}}I think Utsida would have simplified my \\ application process\end{tabular}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}5} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}1\\ (7.7\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}3\\ (23.1\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}9\\ (69.2\%)\end{tabular}} \\ \hline
+\multicolumn{1}{|l|}{\textit{\begin{tabular}[c]{@{}l@{}}I think Utsida can contribute to an increased \\ number of students who choose to\\ participate in an exchange program\end{tabular}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}4} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}1\\ (7.7\%)\end{tabular}} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}8\\ (61.5\%)\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}4\\ (30.8\%)\end{tabular}} \\ \hline
+\end{tabular}%
+}
 \end{table}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{fig/questionnaire2_diagrams/4.png}
-    \caption{The ratio of \enquote{Yes} and \enquote{No}}
-    \label{fig:include_system_diagram}
-\end{figure}
-
 
 \FloatBarrier
 \subsection{Recommendation}
-The following figures and tables displays the results from the questions which concerns the evaluation of the recommendations the students received with Utsida.
+The following figures displays the results from the questions which concerns the evaluation of the recommendations the students received with Utsida.
 
 \subsubsection{Free search}
 
 The first questions targeted an evaluation of the recommendations the students received with a query they composed themselves.
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
-    \begin{subfigure}[b]{0.41\textwidth}
-        \caption{Question: Did the system recommend one or more universities which are relevant for you?}
-        \includegraphics[width=\textwidth]{fig/results/recommendation_1.PNG}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \begin{tikzpicture}[scale=0.7]
+            \pie[sum = auto , after number =]{36/Yes, 4/No}
+        \end{tikzpicture}    
+        
+        \caption{Question: Did the system recommend one or more \textbf{universities} which are relevant for you?}
         \label{fig:gull}
     \end{subfigure}
-    ~ \qquad
-    \begin{subfigure}[b]{0.40\textwidth}
-        \caption{Question: Did the system recommend one or more courses which are relevant for you?}
-        \includegraphics[width=\textwidth]{fig/results/recommendation_2.PNG}
+    ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.4\textwidth}
+        \begin{tikzpicture}[scale=0.7]
+            \pie[sum = auto , after number =]{29/Yes, 11/No}
+        \end{tikzpicture}  
+       
+        \caption{Question: Did the system recommend one or more \textbf{courses} which are relevant for you?}
         \label{fig:tiger}
     \end{subfigure}
-    \caption{The results from the questions regarding relevancy of the students' own query}\label{fig:results_recommendation}
+    \caption{The results from the questions asking to evaluate the recommendations for the participants' self composed query. All participants (40)}
 \end{figure}
 
-\subsubsection{Predesigned search}
+\subsubsection{Predefined search}
 
-The latter questions targeted an evaluation of the recommendations the students received with two queries which were predesigned by the authors.
+Two predefined queries, \textit{query 1} and \textit{query 2}, were evaluated by the participating students. The queries can be seen in Appendix \ref{appendix:pre_defined_search}. The degree of suitability ranges from \textit{1: Very poor} to \textit{5: Very good}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \begin{tikzpicture}[font=\small, trim axis left, trim axis right]
+        \begin{axis}[
+            height=5cm,
+            width=7cm,
+            ybar,
+            bar width=20pt,
+            xlabel={Degree of suitability (1-5)},
+            ylabel={Number of answers},
+            ymin=0,
+            ytick={3,6,9,12,15,18,21,23},
+            xtick=data,
+            axis x line=bottom,
+            axis y line=left,
+            enlarge x limits=0.2,
+            symbolic x coords={1, 2, 3, 4, 5},
+            xticklabel style={anchor=base,yshift=-\baselineskip},
+            nodes near coords={\pgfmathprintnumber\pgfplotspointmeta}
+        ]
+        
+          \addplot[fill=bootstrapBlue] coordinates {
+            (1, 0)
+            (2, 1)
+            (3, 9)
+            (4, 22)
+            (5, 8)
+          };
+        \end{axis}
+    \end{tikzpicture}
+        \caption{Results for \textbf{Query 1}}
+        \label{fig:gull}
+    \end{subfigure}
+    ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.4\textwidth}
+        \begin{tikzpicture}[font=\small, trim axis left, trim axis right]
+        \begin{axis}[
+            height=5cm,
+            width=7cm,
+            ybar,
+            bar width=20pt,
+            xlabel={Degree of suitability (1-5)},
+            ylabel=\empty,
+            ymin=0,
+            ytick={3,6,9,12,15,18,21,23},
+            xtick=data,
+            axis x line=bottom,
+            axis y line=left,
+            enlarge x limits=0.2,
+            symbolic x coords={1, 2, 3, 4, 5},
+            xticklabel style={anchor=base,yshift=-\baselineskip},
+            nodes near coords={\pgfmathprintnumber\pgfplotspointmeta}
+        ]
+        
+          \addplot[fill=bootstrapBlue] coordinates {
+            (1, 0)
+            (2, 1)
+            (3, 9)
+            (4, 18)
+            (5, 12)
+          };
+        \end{axis}
+    \end{tikzpicture}
+        \caption{Results for \textbf{Query 2}}
+        \label{d}
+    \end{subfigure}
+    \caption{Results from question: "How did the recommendation suit the original search parameters?"}
+    \label{fig:predesigned_1}
+\end{figure}
 
 \begin{figure}[h]
     \centering
-    \begin{subfigure}[b]{0.40\textwidth}
-        \caption{Question: Did the system recommend one or more universities which are relevant for you?}
-        \includegraphics[width=\textwidth]{fig/results/predesigned_1.PNG}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \begin{tikzpicture}[scale=0.7]
+            \pie[sum = auto , after number =]{24/Yes, 7/No, 9/Unsure}
+        \end{tikzpicture}    
+        
+        \caption{Question: Did the system recommend relevant courses for one who studies \textbf{computer technology?}}
         \label{fig:gull}
     \end{subfigure}
-    ~ \qquad
-    \begin{subfigure}[b]{0.40\textwidth}
-        \caption{Question: Did the system recommend one or more courses which are relevant for you?}
-        \includegraphics[width=\textwidth]{fig/results/predesigned_2.PNG}
+    ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.4\textwidth}
+        \begin{tikzpicture}[scale=0.7]
+            \pie[sum = auto , after number =]{27/Yes, 2/No, 11/Unsure}
+        \end{tikzpicture}  
+       
+        \caption{Question: Did the system recommend relevant courses for one who studies \textbf{electronics?}}
         \label{fig:tiger}
     \end{subfigure}
-    \caption{The results from the questions regarding relevancy of the students' own query}\label{fig:results_recommendation}
+    \caption{Results from question on relevancy of \textbf{(a)} Query 1 and \textbf{(b)} Query 2}
+    \label{fig:predesigned_2}
 \end{figure}
 
 
-\begin{table}[]
-\centering
-\caption{My caption}
-\label{my-label}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{How suitable were the recommendations for the given query?} & \textbf{Mean (1-5)} & \textbf{SD (1-5)} \\ \hline
-Query 1 & 3.93 & 0.73 \\ \hline
-Query 2 & 4.03 & 0.80 \\ \hline
-\end{tabular}
-\end{table}
+\FloatBarrier
 
+\subsection{Open Question}
 
-
-
-
+The open question in questionaire 2 asked if the participant had any other comments to the site or process in general. 20 participants answered the question. A qualitative theme analysis was performed and the findings concluded to be mostly positive with 11 out 20 having a positive theme. Five of the comments mentioned the site was non-intuitie, four thought it was easy to use and three mentioned Utsida could be time saving. The full results of the theme analysis can be found in Appendix \ref{app:full_offline_test_results}.
 
 \FloatBarrier
 \section{Offline Experiment of Recommender}
 
-By using the score matrix given by table \ref{tab:offline_test}, 20 different simulated user made queries yielded the full scores seen in Appendix \ref{app:full_offline_test_results}. The central tendency results is shown in Table \ref{tab:offline_test_results}. Each query were scored on two different search models, one being Similarity based retrieval used in the CBR model and the other a simulated exact match search.
+By using the score matrix given by table \ref{tab:offline_test}, 20 different simulated user made queries, see Appendix \ref{app:user_queries}, yielded the full scores seen in Appendix \ref{app:full_offline_test_results}. The central tendency results is shown in Table \ref{tab:offline_test_results}. Each query were scored on two different search models, one being the similarity based retrieval used in the CBRS and the other being a simulated exact match search.
 
 \begin{table}[H]
 \centering
@@ -379,26 +463,32 @@ This section discuss the results presented in the previous sections, the limitat
 
 \subsection{Motivational effect}
 
-Goal 1 was to "create an information system that improves the motivation for students at NTNU to go on an exchange program". This study created that information system and named it Utsida. To measure its motivational effect, and answer RQ2, a group of students were offered to test Utsida and answer a coherent questionnaire. Out of the 40 replies, 27 had not been on an exchange program before, while 13 had. For the 27 students who had not been on an exchange program, the average agreement that their motivation for exchange would increase if Utsida was in use was 4.15 out of 5, showing a strong positive influence on motivation. The standard deviation of 0.77 also shows that the answer were did not spread much from the mean, indicating that most of the participants had similar views. The average for weather they thought the system was easy to use was 3.96 out of 5, with a standard deviation of 1.16, while the average for weather they think Utsida can contribute to an increased number of students who choose to do an exchange was 4.44 out of 5, with a standard deviation of 0.64. Fir the 13 students who have all ready been on an exchange program, the average for weather they think Utsida would have simplified their application process was 4.62 out of 5, with a standard deviation of 0.65, while the average for weather they think Utsida can contribute to an increased number of students who choose to do an exchange was 4.15 out of 5, with a standard deviation of 0.80. Out of all 40 replies, 39 would recommend The Office of International Relations to include Utsida in the change application process. 
+Goal 1 was to \enquote{create an information system that improves the motivation for students at NTNU to go on an exchange program}. This study created that information system and named it Utsida. To measure its motivational effect, and answer RQ2, a group of students were offered to test Utsida and answer a coherent questionnaire. The questionnaire showed a strong positive influence on motivation. With 23 out of 27 students that had not been on exchange agreeing that their motivation would most likely increase if Utsida was in use. The frequencies also shows that the answers did not spread much from the mode of 4, indicating that most of the participants had similar views. The system was also reviewed as easy to use by most of the participants, with 66\% agreement.
 
-These statistics implies that the students had a positive experience of Utsida. The average response to all questions resides between \textit{4: Agree} and \textit{5: Strongly Agree}. For the students that have not been on an exchange program yet, but are interested in it, the replies suggest that Utsida would make it easier to go through the application process, and thus increasing their motivation to do so. Furthermore the replies implies that the students who have all ready been on an exchange program think they would have an easier application process. 
+The mode to all questions in the first part of questionnaire 1 resides between \textit{4: Agree} and \textit{5: Strongly Agree}. These statistics implies that the students had a largely positive experience of Utsida.
 
 
-The results from questionnaire 1 concluded that the most important factors of motivation is the study language, social quality and academic quality, see Table \ref{tab:attribute_ranking}. These results are supported by the the results of push / pull factors of Mazzarol and Soutar \cite{mazzarol2002push}. The six most important factors identified in the study were included in the system. The open question also identified courses, information and application process as important factors, increasing the confidence in that a system like Utsida, which targets these areas, would have a positive effect on student motivation.
 
-\subsection{Suitability of CBR methodology}
 
-Goal 2 was to "Use the CBR methodology to give relevant recommendations on exchange program universities and courses for students at NTNU". This was accomplished by converting exchange reports to cases and using the results from questionnaire 1 on motivational factors to adjust the similarities and weights of the attributes.
+The results from questionnaire 1 concluded that the most important factors of motivation is the study language, social quality and academic quality, see Table \ref{tab:attribute_ranking}. These results are supported by the the results of push / pull factors of Mazzarol and Soutar \cite{mazzarol2002push} identifying academic quality, social links and language as important influences. The six most important factors identified in the study were included in the recommender system to ensure high relevance of attributes. The open question also identified that information on courses, general information and easier application process is important focus areas, increasing the confidence in that a system like Utsida, which targets these areas, would have a positive effect on student motivation.
 
-The offline testing performed on the CBRS system shows that using an adjusted case-based reasoning model gives improved results compared to a standard simple search, shown in Table \ref{tab:offline_test_results}. This shows that technical part of the CBR is more suitable for recommending universities and courses compared to a simple search. The T-test two-tailed p value of less than 0.05 also shows that there is a significant difference in means between the two samples.  
+\subsection{Suitability of CBR Methodology}
 
-A high number of the participators in questionnaire 2 answered that they were given relevant recommendations to universities and courses. This answers RQ1 and shows that it is feasible to use CBR to recommend courses and universities.
+Goal 2 was to "Use the CBR methodology to give relevant recommendations on exchange program universities and courses for students at NTNU". This was accomplished by creating a CBRS with the use of MyCBR, converting exchange students' experience reports to cases for the case-base, setting relevant similarity measures based on literature and adjusting the attributes weights based on the results of questionnaire 1. To answer RQ1, a combination of an offline experiment and an online user test with an accompanying questionnaire was conducted on the system. 
+
+The offline experiment concluded that using similarity-based retrieval yields more relevant results than traditional exact matching techniques, while also yielding feasible results based on the score-matrix which was designed. The same score-matrix and evaluation method was used on both types of searching, and the conducted T-test two-tailed a p value less than 0.05, meaning that the results are statistically significant and that the difference is highly unlikely to be created by chance.
+
+In the online user test, evaluated by questionnaire 2, the results are considered highly positive. With the results showing that the majority, 36 of 40 of the participants were able to obtain relevant recommendations of some kind with the query the students composed themselves. However, a clear tendency is that more students got recommended relevant universities than courses. This is likely due to universities being a far more general factor than courses. A university can be relevant for many, while a course is more strictly connected to a specific study field and year. Furthermore, because there are little constraints on the text in the cases, many of them included courses written in foreign languages, and many lacks a proper description of them, making it harder for students to know if the courses are actually relevant for them or not. For the questions asking the participants to evaluate the recommendations for two predesigned queries, see Figure \ref{fig:predesigned_1} and \ref{fig:predesigned_2}, the results also show highly positive tendencies, yet somewhat more spread. Figure \ref{fig:predesigned_2} shows that roughly a quarter of the respondents were unsure to deem the recommended courses relevant for each query. To evaluate the recommendations for a predesigned query, the evaluator has to have some domain knowledge on specifically the institute in the query and what kind of courses which are relevant for a student of that institute. Anticipating this, the \enquote{Unsure} option was added to the questionnaire, but in hindsight, these questions could have been constructed in a better way, to avoid many replies yielding \enquote{Unsure}, and therefore not giving much value. 
+
+Based on the positive response in the online user test, and results of the offline experiments, we can conclude with certainty that the CBR methodology is suitable, and indicated by the sample size of questionnaire 2, in fact yields relevant recommendations for the majority of students. However, at least in the case of this study, it functions at most as a tool for inspiration. With the amount of data used in the case base, it is highly unlikely for a student to find a replacement for all courses they would take at NTNU at the same university. But, this is also more in line with the word \enquote{recommendation}, show relevant recommendations which helps the student on the right direction by inspiring them with the successful experiences of other students. 
 
 \subsection{Limitations}
-Some limitations of this project was present. The most important factor being the sample size of the population for questionnaires. While both questionnaires got a decent amount of answer;  questionnaire 1 with 84 answers and questionnaire 2 with 40 answers. This number of participant should be even larger to be able to conclude with a definite result. The result data did however trend highly positive with average responses to all questions residing between \textit{4: Agree} and \textit{5: Strongly Agree}. Furthermore, to avoid even more bias, the questionnaires should have undergone more rigorous pilot testing with experts on the field of questionnaire design, this was not possible due to time limits and cost. 
+Some limitations with this research was discovered during the process. The most important being the sample size of the population for the questionnaires. While both questionnaires got a decent amount of response; questionnaire 1 with 84 answers and questionnaire 2 with 40 answers, the sample sizes should be even larger to be able to conclude with a definite result. According to Krejcie \& Morgan\cite{krejcie1970determining} a sample size between 300 to 370 is optimal with a population size between 1400 and 10000. This is far from the sample size of this study. The result data does however have a highly positive tendency with average responses to all likert type questions residing between \textit{4: Agree} and \textit{5: Strongly Agree}. Furthermore, to avoid more bias, the questionnaires should have undergone more rigorous pilot testing with experts on the field of questionnaire design, this was not possible due to time limits and cost. One of the identified questions that could be influenced by bias is the question on whether the students would recommend the office of international relations to include Utsida in their exchange application process. This question received 39 answers with yes out of 40 asked. The way the question is formed was found to be, after conducting the questionnaire, vulnerable to acquiescence bias.
+
+
 
 \subsection{Recommendations}
-Based on the results that show a high positive attitude towards the system this study highly recommends that NTNU invest further in digitalising the whole or part of the application process for exchange programs. The study also shows that the exchange reports submitted by students can be used for different purposes than just searching through. Therefore it is recommended that the data from the experience reports should be open to use so that students and others can utilize them in ways that may give a benefit to NTNU. 
+Based on the results that show a high positive attitude towards the system this study highly recommends that NTNU invest further in digitalising the whole or part of the application process for exchange programs. This could help NTNU reach their goal of 40\% of students on exchange programs and contribute to the overall goal in Norway of 20\% student mobility. We have also shown that the exchange reports submitted by students can be used for different purposes than just searching through. Therefore we recommended that the data from the experience reports should be open to use so that students and others can utilize them in ways that may give a benefit to NTNU. The results are not only applicable to NTNU alone, but could be viewed as an inspiration for other studies at different universities or at a national level. 
 
 
 
