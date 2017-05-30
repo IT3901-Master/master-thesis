@@ -1,55 +1,62 @@
 %===================================== CHAP 1 =================================
 
-\chapter{Introduction}
-Studying abroad can be an important way to improve intercultural communication skills that are increasingly more important in international businesses and for cooperation between different cultures \cite{williams2005exploring}. A multicultural experience is also shown to positively affect creative performance and creativity-supporting
-cognitive processes \cite{leung2008multicultural}, and improve the career opportunities for students \cite{brandenburg2014erasmus}. Because of the positive effects of multicultural experiences, NTNU has set a goal for international mobility for degree students that \enquote{by 2017, at least 40\% of NTNU's degree students should have a period of study at an educational institution in a foreign country lasting one or two semesters.}\cite{internasjonal_plan}. Norway has also committed to the Bologna process, with one of the goals being that 20\% of the students completing a study in Europe should undertake a minimum of three months of their studies in a different country by 2020 \cite{2020_Bologna}.
+\chapter{Introduction}\label{chap:1}
 
-With only 25\% student mobility at NTNU in 2015\cite{studentutveksling_andel}, NTNU has to, to reach their goal of 40\% mobility, look at ways to increase motivation for students to do an study abroad- or study exchange program. One of the ways could be to digitalize the current process of applying for a study abroad- or study exchange program, this could increase student motivation and reduce the workload for advisers. The difference between an exchange program and study abroad program is that a student exchange program involves students exchanging places and the student only pays tuition fees at their home university. Student exchange programs from NTNU only exist at universities that have a formal student exchange agreement with NTNU. In a study abroad program however the student is enrolled in the abroad university and pay the tuition fee. Both of these programs typically lasts for one or two semesters where the student is studying at a university in a different country, and have similar application procedures. Henceforth, both study abroad- and study exchange program will be referred to as an exchange program. To apply for an exchange program at the Norwegian University of Science and Technology (NTNU), the students have to find and pre-approve courses to take at the university abroad. The current process of planning and choosing courses at NTNU consists of mostly manual work done by both the adviser and the student. As mentioned, it could be replaced by an information system (IS) to simplify the process and possibly increase motivation for going on a study abroad- or study exchange program.
+This research project was initiated to make it easier for students at NTNU to apply for an exchange program by proposing a new solution to the manual process currently in place at NTNU. This chapter elaborates the motivation and background for that initiation. It also details the research questions and goals for the solution, gives a brief overview of the research method, and describes the structure of the thesis.
 
-\section{Personal motivation}
-Replacing tedious manual work with an intuitive and easy to use IS is something both the authors are motivated by. The project was first proposed by our Advisor, Rune Sætre, as a study exploring the similarity between courses from different universities, but due to several ongoing similar studies, we proposed to instead focus on finding ways to improve the exchange course selection process. One of the authors, Truls Mørk Pettersen, has previously studied abroad through an exchange program and has experienced that the current process has room for improvement and therefore wanted to research ways to reduce the workload and increase student motivations.
+\section{Motivation \& Background}
+Studying abroad can be an important way to improve intercultural communication skills that are increasingly more important in international businesses and for cooperation between different cultures \cite{williams2005exploring}. A multicultural experience is also shown to affect creative performance, creativity-supporting positively cognitive processes \cite{leung2008multicultural}, and improve the career opportunities for students \cite{brandenburg2014erasmus}. Because of the beneficial effects of multicultural experiences, The Norwegian University of Science and Technology (NTNU) has set the following goal of international mobility for degree students. \enquote{By 2017, at least 40\% of NTNU's degree students should have a period of study at an educational institution in a foreign country lasting one or two semesters.} \footnote{http://www.ntnu.edu/international-action-plan}. Norway has also committed to the Bologna process \footnote{https://www.ehea.info/}, with one of the goals being that 20\% of the students completing a study in Europe should undertake a minimum of three months of their education in a different country by 2020.
 
-\section{Research Goals \& Questions}\label{RQ}
-The main goal of this research is to design an IS for NTNU that simplifies the process of choosing and approving exchange program courses and universities. This system should also use the Case-Based Reasoning (CBR) methodology to give relevant recommendations on universities and courses for students to choose. The hypothesis is that such a system could improve the interest and motivation among students to go on an exchange program. The following list summarizes the research goals.
+With only 25\% student mobility at NTNU in 2015 \cite{studentutveksling_andel}, NTNU has to, to reach their goal of 40\% international mobility, look at ways to increase motivation for students to do a study abroad- or study exchange program. One of the ways could be to digitalize the current process of applying for a study abroad- or study exchange program; this could increase student motivation and reduce the workload for advisers. The difference between an exchange program and study abroad program is that a student exchange program involves students exchanging places and the student only pays tuition fees at their home university. Student exchange programs from NTNU only exist at educational institutions that have a formal student exchange agreement with NTNU. In a study abroad program, however, the student is enrolled in the abroad university and pay the tuition fee. Both of these programs typically lasts for one or two semesters where the student is studying at a university in a different country, and have similar application procedures. Henceforth, both study abroad- and study exchange program will be referred to as an exchange program. To apply for an exchange program at the NTNU, the students have to find and approve courses to take at the university abroad. The current process of planning and choosing exchange courses at NTNU consists of mostly manual work done by both the adviser and the student. As mentioned, it could be replaced by an information system (IS) to simplify the process and possibly increase motivation for students to go on an exchange program.
+
+\section{Personal Motivation}
+Replacing tedious manual work with an intuitive and easy to use IS is something that motivates both of the authors. The project was first proposed by our Advisor, Rune Sætre, as a study exploring the similarity between courses from different universities. However, due to several ongoing similar studies, we instead proposed to focus on finding ways to improve the exchange course selection process. One of the authors, Truls Mørk Pettersen, has previously studied abroad through an exchange program and has experienced that the current process has room for improvement and therefore wanted to research ways to increase student motivations and reduce the workload.
+
+\section{Research Questions \& Goals}\label{RQ}
+The primary goal of this project is to create a prototype for NTNU that increase students motivations to apply for an exchange program. This prototype should also use the case-based reasoning (CBR) methodology to give relevant recommendations on exchange universities and courses. Further, the prototype should simplify the process of selecting and approving courses that will be undertaken during an exchange program. The hypothesis is that an IS with these features would increase the motivation for students at NTNU to apply for an exchange program. The following list summarizes the research goals.
 
 \begin{itemize}[noitemsep]
-    \item Goal 1: Create an IS that improves the motivation for students at NTNU to go on an exchange program.
+    \item Goal 1: Create a prototype that improves the motivation for students at NTNU to apply for an exchange program.
     \item Goal 2: Use the CBR methodology to give relevant recommendations on exchange program universities and courses for students at NTNU.
 \end{itemize}
 
-Based on these goals, the specific research questions this study seeks to answer are:
+Based on these goals, and the knowledge gained in the preliminary research (Chapter \ref{chap:2}) the specific research questions this study seeks to answer are:
 
 \begin{itemize}
-    \item \textbf{RQ1:} How suitable is the Case-Based Reasoning methodology for recommending relevant universities and subjects for a study abroad- or study exchange program?
-    \item \textbf{RQ2:} What effect would a recommender system for assisting exchange course selection have on students' motivation for doing a study abroad- or study exchange program at NTNU?
+    \item \textbf{RQ1:} What effect would an information system for recommending and assisting exchange course selection have on students' motivation for doing a study abroad- or study exchange program at NTNU?
+    \item \textbf{RQ2:} How suitable is the case-based reasoning methodology for recommending relevant universities and subjects for a study abroad- or study exchange program?
 \end{itemize}
 
 
 \section{Methodology}
-Oates' \cite{oates2005researching} model of the research process, detailed in Chapter \ref{chap:4}, was used to define the chosen methodology. The research questions were developed from motivation (Chapter 1), experiences (Chapter \ref{chap:2}) and related literature (section \ref{related_work}).
-To answer these research questions the Design and Creation research strategy will be used. It will be used as a guidance for creating both a web application and a Cased-Based Recommender System (CBRS) as artefacts. Where the CBRS is used to give recommendations in the web application. These systems will, in turn, be evaluated through questionnaires which will produce the data needed to answer both RQ2 and partly RQ1. In order to fully answer RQ1 and quantify the findings, a designated offline test will be performed on the CBRS to analyze whether the system yields relevant recommendations. See Chapter \ref{chap:4} for a full description of the research method.
+Oates' \cite{oates2005researching} model of the research process, detailed in Chapter \ref{chap:4}, was used to define the chosen research methodology. The research questions were developed from motivation (Chapter \ref{chap:1}), experiences (Chapter \ref{chap:2}) and related literature (section \ref{related_work}). The Design and Creation research strategy was used as guidance for creating Utsida, a prototype system with two parts: a web application part and a Cased-Based Recommender System (CBRS) part. The CBRS was used to give recommendations in the web application. These systems were, in turn, evaluated through questionnaires which produced the data needed to answer RQ1 and partly RQ2. To fully answer RQ2, and further quantify the result of the questionnaires, an offline experiment was performed on the CBRS to analyze whether it yielded relevant recommendations. See Chapter \ref{chap:4} for a full description of the research method.
+    
 
+\section{Thesis Structure}
+The thesis is structured in eight chapters. Firstly, Chapter 1 and 2 answers why this research was conducted by exploring the motivation, problem context, and related work. Chapter 3 then introduces the theory on the concepts used that were identified in the preliminary research. Furthermore, Chapter 4 and 5 answers how the research project was conducted by detailing the chosen research methods and the implementation of the prototype. Chapter 6 shows the results produced by the research methods, while chapter 7 discuss these results in regards to the research questions, and concludes the research project. Finally, Chapter 8 ends the thesis by presenting ideas for future work. 
 
-\section{Chapter Descriptions}
-This section describes the different chapters of the thesis. The main focus and content will be detailed to gain a brief overview of the thesis structure.
+The following paragraphs further detail the content and purpose of each chapter.
 
 \paragraph{Chapter 2: Preliminary Research}
-Describes the preliminary research which was done to produce the research questions, this includes building knowledge on problem domain and conducting a literature review of similar research.
+Describes the preliminary research which leads to the production of the research questions and the goal of this project. This included attaining knowledge on the problem domain, reviewing the current approach, and conducting a literature review of similar research.
 
 \paragraph{Chapter 3: Theory}
-Presents the theory and information about concepts and tools which at core of this research. The main focus lies on CBR, recommender systems and acknowledged software tools for these methodologies. 
+Presents the theory and information about concepts and tools which are essential for creating the prototype needed to answer the research questions. The main focus lies on CBR, recommender systems and acknowledged software tools for these methodologies. 
 
 \paragraph{Chapter 4: Research Method}
-Defines the research methodology used to answer the research questions, including the utilized research strategies, data collection methods and how the data was analyzed. 
+Describes the methodological choices of this thesis. This includes presenting the overarching research strategy: Design and Creation, used as a guideline to develop the prototype. Furthermore, the chapter details the data collection methods and data analysis used to evaluate the prototype and consequently answer the research questions. These methods are questionnaires, offline experiments, and quantitative data analysis. Finally, important ethical and practical issues that influence the project are detailed. 
 
 \paragraph{Chapter 5: Implementation}
-Elaborates on the architecture and implementation of the artefact used to produce the data needed to answer the research questions. Including reasoning for the design, framework and technology choices, as well as how the CBRS is modeled and implemented.
+Elaborates on the architecture and implementation of the prototype, Utsida, used as a tool to produce the data needed to answer the research questions. Including decisions made for design, frameworks, and technologies, as well as how the CBRS was modeled and implemented.
 
-\paragraph{Chapter 6: Results \& Discussion}
-Presents the results acquired with the utilized research method. Also includes a comprehensive discussion were the results are interpreted and possible limitations of the research pointed out.
+\paragraph{Chapter 6: Results}
+Presents the key results acquired with the utilized research methods on the prototype. These results are represented by diagrams and tables.
 
-\paragraph{Chapter 7: Conclusion}
-Concludes the thesis based on the acquired results and the discussion of these, including how the project turned out, and ideas for future work.
+\paragraph{Chapter 7: Discussion \& Conclusion}
+Includes a comprehensive discussion were the results are interpreted in regards to the research questions, and possible limitations of the study are presented. Ends by concluding the thesis based on the discussed results including and final contributions of the study.
+
+\paragraph{Chapter 8: Future Work}
+Presents the ideas of future work that can be done. This includes new features for the prototype, extensions to the case representation in the CBRS, and recommendation of ways to evaluate the system under real-life conditions. 
 
 
 \cleardoublepage
