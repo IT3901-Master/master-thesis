@@ -2,22 +2,21 @@
 
 \chapter{Results}\label{ch:results&discussion}
 
-This chapter provides all final results yielded by the questionnaires and the offline experiment of the CBRS.
+This chapter provides all final results yielded by the prototype evaluations, namely the questionnaires and the offline experiment on the CBR-RS.
 
 \section{Questionnaire 1: Motivational factors}
 
-The result from questionnaire 1 was primarily used to weight the different attributes in the CBRS, see section \ref{sec:weighting}. However, it also provided to be a valuable resource for a general motivational study, and is, therefore, used in the evaluation of the system. 
+The result from questionnaire 1 gave valuable insights on students' motivational factors for exchange, and was also used to weight the different attributes in the CBR-RS (sec. \ref{sec:weighting}). The questionnaire had 84 participants of which 52 of them had participated in an exchange program. 67 were students at NTNU and 17 were students at other higher educational institutions in Norway. All of the answers included numerical ratings between 1-7, describing how important the participant thought each of the attributes in the questionnaire was. Additionally, 36 of the replies included an optional textual answer. Table \ref{tab:attribute_ranking} shows the values for each attribute scaled to a range between 1-10, while Appendix \ref{appendix:word_frequency} displays the result of the theme analysis, that is, the most frequent category of factors in the textual answers.
 
-The questionnaire had 84 participants of which 52 of them had participated in an exchange program, and 67 were students at NTNU while the rest went to \textit{other} universities. All of the answers included a numerical rating between 1-7, describing how important they think each of the attributes in the questionnaire was, where these attributes represent the attributes in a case. Additionally, 36 of the replies included an optional textual answer. Table \ref{tab:attribute_ranking} shows the values for each attribute scaled to a range between 1-10, while Appendix \ref{appendix:word_frequency} displays the most frequent category of words in the textual answers.
-
-\begin{table}[H]
+\begin{table}[h]
 \small
 \captionsetup{width=0.8\textwidth}
-\caption{Results from questionnaire 1, ranked by CV, N=84 \\ *SD: Standard Deviation, CV: Coefficient of Variation}
+\caption[Questionnaire 1 result]{Questionnaire 1, motivational factors result. Ranked by CV. N=84. \\ *SD: Standard Deviation, CV: Coefficient of Variation}
 \centering
 \label{tab:attribute_ranking}
-\begin{tabulary}{\textwidth}{LRRR}
-\textbf{Attribute} & \textbf{Mean (1-10)} & \textbf{SD (1-10)} & \textbf{CV (0-1)} \\ \hline
+\begin{tabulary}{\textwidth}{|L|R|R|R|}
+\hline
+\textbf{Attribute} & \textbf{Mean (1-10)} & \textbf{SD (1-10)} & \textbf{CV (0-1)} \\ \hline \hline
 Study language & 8.2 & 1.87 & 0.23 \\ \hline
 Social quality & 7.02 & 1.75 & 0.25 \\ \hline
 Academic quality & 7.11 & 2.12 & 0.30 \\ \hline
@@ -26,18 +25,19 @@ Country/Continent & 6.84 & 2.45 & 0.36 \\ \hline
 Quality residential & 5.27 & 1.92 & 0.36 \\ \hline
 Cost of living & 5.66 & 2.13 & 0.38 \\ \hline
 Climate/weather & 6.22 & 2.53 & 0.41 \\ \hline
-Availability of residentials & 5.31 & 2.22 & 0.42 \\ 
+Availability of residentials & 5.31 & 2.22 & 0.42 \\ \hline
 \end{tabulary}
 \end{table}
 
-\section{Questionnaire 2}
+\section{Questionnaire 2: User Testing of Utsida}
+
 The questionnaire had 40 participating students from NTNU, where 20 of the replies included an optional textual feedback. 27 (67.5\%) of the participants had not been on an exchange program, while 13 (32.5\%) had. Figure \ref{fig:faculty_demographic} shows the faculty demographic of the participants.
 
 \begin{figure}[h]
     \small
     \centering
     \begin{tikzpicture}[scale=0.7]
-        \pie[text=legend,sum = auto , after number = ]{
+        \pie[text=legend,sum = auto, after number = ]{
             8/Faculty of Natural Sciences (NV), 
             10/Faculty of Engineering (IV), 
             14/Faculty of Information Technology and Electrical Engineering (IE), 
@@ -50,9 +50,9 @@ The questionnaire had 40 participating students from NTNU, where 20 of the repli
     \label{fig:faculty_demographic}
 \end{figure}
 
-The results from the closed questions will are presented first, followed by the findings from the open question which will be summarized in short. The results from closed questions are divided into two parts; one for results that contribute to answering RQ1 (motivational effect), and one for those that contribute to RQ2 (suitability of CBR).
+The results from the closed questions are presented first, followed by the findings from the open question which will be summarized in short. The results from the closed questions are divided into two parts; Part one for results that contribute to answering RQ1 (motivational effect), and part two for those that contribute to RQ2 (suitability of CBR).
 
-\subsection{Motivational effect}
+\subsection{Part 1: Motivational Effect and Use}
 
 The following figures display the results from the questions which concerns the motivational effect Utsida may have on students regarding applying for an exchange program. The degree of agreement ranges from \textit{1: Strongly disagree} to \textit{5: Strongly agree} as a Likert-type question.
 
@@ -90,8 +90,8 @@ The following figures display the results from the questions which concerns the 
         \end{axis}
     \end{tikzpicture}
     \captionsetup{format=hang}
-    \caption{\textbf{Statement}: "I think my motivation for exchange would increase if Utsida was in use". \textbf{Group:} Students who has \textbf{not} participated in an exchange program (N = 27)}
-    \label{fig:test}
+    \caption[Result for statement 1, questionnaire 2] {\textbf{Statement}: "I think my motivation for exchange would increase if Utsida was in use". \textbf{Group:} Students who has \textbf{not} participated in an exchange program. (N = 27).}
+    \label{fig:motivational_results_1}
     
 \end{figure}
 
@@ -128,8 +128,8 @@ The following figures display the results from the questions which concerns the 
         \end{axis}
     \end{tikzpicture}
     
-    \caption{\textbf{Statement:} "I thought it was easy to use Utsida". \\ \textbf{Group:} Students who have \textbf{not} participated in an exchange program (N = 27)}
-    \label{fig:test}
+    \caption[Result for statement 2, questionnaire 2]{\textbf{Statement:} "I thought it was easy to use Utsida". \\ \textbf{Group:} Students who have \textbf{not} participated in an exchange program (N = 27)}
+    \label{fig:motivational_results_2}
     
 \end{figure}
 
@@ -166,8 +166,8 @@ The following figures display the results from the questions which concerns the 
         \end{axis}
     \end{tikzpicture}
     
-    \caption{\textbf{Statement:} "I think Utsida would have simplified my application process". \\ \textbf{Group:} Students who have participated in an exchange program (N = 13)}
-    \label{fig:test}
+    \caption[Result for statement 3, questionnaire 2]{\textbf{Statement:} "I think Utsida would have simplified my application process". \\ \textbf{Group:} Students who have participated in an exchange program (N = 13)}
+    \label{fig:motivational_results_3}
     
 \end{figure}
 
@@ -204,7 +204,7 @@ The following figures display the results from the questions which concerns the 
         \end{axis}
     \end{tikzpicture}
         \caption{\textbf{Group:} Students who have \textbf{not} participated in an exchange program (N = 13)}
-        \label{fig:gull}
+        \label{fig:motivational_results_4_p1}
     \end{subfigure}
     ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
       %(or a blank line to force the subfigure onto a new line)
@@ -238,17 +238,16 @@ The following figures display the results from the questions which concerns the 
         \end{axis}
     \end{tikzpicture}
         \caption{\textbf{Group:} Students who \textbf{have} participated in an exchange program (N = 27)}
-        \label{fig:tiger}
+        \label{fig:motivational_results_4_p2}
     \end{subfigure}
-    \caption{\textbf{Statement:} "I think Utsida can contribute to an increased number of students who choose to participate in an exchange program"}
+    \caption[Result for statement 4, questionnaire 2]{\textbf{Statement:} "I think Utsida can contribute to an increased number of students who choose to participate in an exchange program"}
+    \label{fig:motivational_results_4}
 \end{figure}
 
 \FloatBarrier
 
 
-To make an inference on whether the NTNU Office of International Relations should include Utsida in their exchange program application process, one question asked if the participants would recommend it. The results are shown in Figure \ref{fig:office_recommendation} where 39 out of 40 participants would have recommended the Office of International Relations to include Ut
-sida in the process. 
-
+To make an inference on whether the OIR should include Utsida in their exchange program application process, one question asked if the participants would recommend the OIR to include it. The results are shown in Figure \ref{fig:office_recommendation} where 39 out of 40 participants would have recommended the Office of International Relations to include Utsida in the process. 
 
 \FloatBarrier
 
@@ -260,7 +259,7 @@ sida in the process.
         \end{tikzpicture}    
         
         \caption{Group: Students who have \textbf{not} participated in an exchange program (N = 27)}
-        \label{fig:gull}
+        \label{fig:office_recommendation_p1}
     \end{subfigure}
     ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
       %(or a blank line to force the subfigure onto a new line)
@@ -270,9 +269,9 @@ sida in the process.
         \end{tikzpicture}  
        
         \caption{Group: Students who \textbf{have} participated in an exchange program (N = 13)}
-        \label{fig:tiger}
+        \label{fig:office_recommendation_p2}
     \end{subfigure}
-    \caption{Results from question: "Would you recommend The Office of International Relations to include this system in the exchange application process?"}
+    \caption[Result from question on recommendation to OIR]{Results from question: "Would you recommend The Office of International Relations to include this system in the exchange application process?"}
     \label{fig:office_recommendation}
 \end{figure}
 
@@ -285,7 +284,7 @@ The summary in Table \ref{tab:likert_type_summary} shows the mode and frequencie
 \FloatBarrier
 \begin{table}[h]
 \centering
-\caption{Summary of the Likert type questions}
+\caption{Summary of results from Likert-type questions}
 \label{tab:likert_type_summary}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccccc}
@@ -303,8 +302,8 @@ The summary in Table \ref{tab:likert_type_summary} shows the mode and frequencie
 \end{table}
 
 \FloatBarrier
-\subsection{Recommendation}
-The following figures displays the results from the questions which concerns the evaluation of the recommendations the students received with Utsida.
+\subsection{Part 2: Evaluation of Recommendations}
+The following figures display the results from the questions which concerns the evaluation of the recommendations the students received with Utsida.
 
 \subsubsection{Free search}
 
@@ -318,7 +317,7 @@ The first questions targeted an evaluation of the recommendations the students r
         \end{tikzpicture}    
         
         \caption{Question: Did the system recommend one or more \textbf{universities} which are relevant for you?}
-        \label{fig:gull}
+        \label{fig:free_search_results_p1}
     \end{subfigure}
     ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
       %(or a blank line to force the subfigure onto a new line)
@@ -328,9 +327,10 @@ The first questions targeted an evaluation of the recommendations the students r
         \end{tikzpicture}  
        
         \caption{Question: Did the system recommend one or more \textbf{courses} which are relevant for you?}
-        \label{fig:tiger}
+        \label{fig:free_search_results_p2}
     \end{subfigure}
-    \caption{Results from question asking to evaluate the recommendation on participants' self composed query (N = 40)}
+    \caption[Result from evaluation of recommendation]{Results from question asking to evaluate the recommendation on participants' self composed query. (N = 40).}
+    \label{fig:free_search_results}
 \end{figure}
 
 \subsubsection{Predefined search}
@@ -369,7 +369,7 @@ Two predefined queries, \textit{query 1} and \textit{query 2}, were evaluated by
         \end{axis}
     \end{tikzpicture}
         \caption{Results for \textbf{Query 1}}
-        \label{fig:gull}
+        \label{fig:predesigned_1_p1}
     \end{subfigure}
     ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
       %(or a blank line to force the subfigure onto a new line)
@@ -403,9 +403,9 @@ Two predefined queries, \textit{query 1} and \textit{query 2}, were evaluated by
         \end{axis}
     \end{tikzpicture}
         \caption{Results for \textbf{Query 2}}
-        \label{d}
+        \label{fig:predesigned_1_p2}
     \end{subfigure}
-    \caption{Results from question: "How did the recommendation suit the original search parameters?" (N = 40)}
+    \caption[Result for suitability of pre-defined recommendation]{Results from question: "How did the recommendation suit the original search parameters?" (N = 40)}
     \label{fig:predesigned_1}
 \end{figure}
 
@@ -417,7 +417,7 @@ Two predefined queries, \textit{query 1} and \textit{query 2}, were evaluated by
         \end{tikzpicture}    
         
         \caption{Question: Did the system recommend relevant courses for one who studies \textbf{computer technology?}}
-        \label{fig:gull}
+        \label{fig:predesigned_2_p1}
     \end{subfigure}
     ~ \qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
       %(or a blank line to force the subfigure onto a new line)
@@ -427,9 +427,9 @@ Two predefined queries, \textit{query 1} and \textit{query 2}, were evaluated by
         \end{tikzpicture}  
        
         \caption{Question: Did the system recommend relevant courses for one who studies \textbf{electronics?}}
-        \label{fig:tiger}
+        \label{fig:predesigned_2_p2}
     \end{subfigure}
-    \caption{Results from question on relevancy of \textbf{(a)} Query 1 and \textbf{(b)} Query 2 (N = 40)}
+    \caption[Result for relevancy of pre-defined recommendation]{Results from question on relevancy of recommendation from \textbf{(a)} Query 1 and \textbf{(b)} Query 2 (N = 40)}
     \label{fig:predesigned_2}
 \end{figure}
 
@@ -438,16 +438,16 @@ Two predefined queries, \textit{query 1} and \textit{query 2}, were evaluated by
 
 \subsection{Open Question}
 
-The open question in questionnaire 2 asked if the participant had any other comments to the site or process in general. 20 participants answered the question. A qualitative theme analysis was performed and the findings concluded to be mostly positive with 11 out 20 having a positive theme. Five of the comments mentioned the site was non-intuitive, four thought it was easy to use and three mentioned Utsida could be time saving. The full results of the theme analysis can be found in Appendix \ref{app:full_offline_test_results}.
+The open question in questionnaire 2 asked if the participant had any other comments on the site or process in general. 20 participants answered the question. A qualitative theme analysis \cite{oates2005researching} was performed and the findings concluded to be mostly positive with 11 out 20 having a positive theme. Five of the comments mentioned the site was non-intuitive, four thought it was easy to use, and three mentioned Utsida could be time-saving. The full results of the theme analysis can be viewed in Appendix \ref{app:questionnaire2_open_question}.
 
 \FloatBarrier
-\section{Offline Experiment of Recommender}
+\section{Offline Experiment on the CBR-RS}
 
-By using the score matrix given by Table \ref{tab:offline_test}, 20 different simulated user made queries (see Appendix \ref{app:user_queries}) yielded the full scores seen in Appendix \ref{app:full_offline_test_results}. The central tendency results is shown in Table \ref{tab:offline_test_results}. Each query were scored on two different search models, one being the similarity based retrieval used in the CBRS and the other being a simulated exact match search.
+By using the score matrix given by Table \ref{tab:offline_test}, 20 different simulated user made queries (App. \ref{app:user_queries}) were evaluated. Each query was scored (App. \ref{app:full_offline_test_results}) on two different concept configurations, one being the similarity based retrieval used in the CBR-RS and the other being a simulated exact match search. The central tendency results are shown in Table \ref{tab:offline_test_results}.
 
 \begin{table}[H]
 \centering
-\caption{Results from the offline experiment, N=20}
+\caption[Result from offline experiment]{Result from offline experiment, N=20}
 \label{tab:offline_test_results}
 \begin{tabulary}{\textwidth}{L|L|L|L|}
 \cline{2-4}
@@ -457,11 +457,11 @@ By using the score matrix given by Table \ref{tab:offline_test}, 20 different si
 \end{tabulary}
 \end{table}
 
-Table \ref{tab:offline_test_ttest} shows the results from a Paired T-test performed on two variables from the offline experiment. The Sig. (2-tailed value) or the 2-tailed p value is lower than 0.05 indicating a that there is a significant difference between the two sample means. 
+Table \ref{tab:offline_test_ttest} shows the results from a Paired T-test performed on the two result data sets from the offline experiment. The Sig. (2-tailed) value is the p-value. This value is lower than 0.05, indicating a significant difference between the two sample means. 
 
 \begin{table}[H]
 \centering
-\caption{Results of the Paired T-test}
+\caption{Result of the Paired T-test}
 \label{tab:offline_test_ttest}
 \begin{tabulary}{\textwidth}{ccc|c|c|ccc}
 \cline{4-5}

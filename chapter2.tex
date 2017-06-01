@@ -44,25 +44,28 @@ The following description is based on the current approach at the Computer Scien
 
 % The second level, relatively positioned nodes
 \begin{scope}[every node/.style={level 3}]
-\node [below=4pt of c1, xshift=5pt] (c11) {1.1 Talk to advisor};
-\node [below=4pt of c11, color=prettyGreen,text=black] (c12) {1.2 Find experiences};
-\node [below=4pt of c12, color=prettyGreen,text=black] (c13) {1.3 Decide on location};
-\node [below=4pt of c2, xshift=5pt,color=prettyGreen,text=black] (c21) {2.1 Pre-approve courses};
-\node [below=4pt of c21] (c22) {2.2 Create exchange application};
-\node [below=4pt of c22] (c23) {2.3 Upload and send application};
+\node [below=4pt of c1, xshift=5pt] (c11) {\small 1.1 Talk to advisor};
+\node [below=4pt of c11, color=prettyGreen,text=black] (c12) {\small 1.2 Find experiences};
+\node [below=4pt of c12, color=prettyGreen,text=black] (c13) {\small 1.3 Decide on location};
+\node [below=4pt of c2, xshift=5pt,color=prettyGreen,text=black] (c21) {\small 2.1 Pre-approve courses};
+\node [below=4pt of c21] (c22) {\small 2.2 Create exchange application};
+\node [below=4pt of c22] (c23) {\small 2.3 Upload and send application};
 
-\node [below=4pt of c3, xshift=5pt] (c31) {3.1 Write experience report};
-\node [below=4pt of c31,color=prettyGreen,text=black] (c32) {3.2 Contact advisor in case of course change};
+\node [below=4pt of c3, xshift=5pt] (c31) {\small 3.1 Write experience report};
+\node [below=4pt of c31,color=prettyGreen,text=black] (c32) {\small 3.2 Contact advisor in case of course change};
 
-\node [below=4pt of c4, xshift=5pt,color=prettyGreen,text=black] (c41) {4.1 Create final course approval form};
-\node [below=4pt of c41,color=prettyGreen,text=black] (c42) {4.2 Send in final approval form};
+\node [below=4pt of c4, xshift=5pt,color=prettyGreen,text=black] (c41) {\small 4.1 Create final course approval form};
+\node [below=4pt of c41,color=prettyGreen,text=black] (c42) {\small 4.2 Send in final approval form};
 
 \end{scope}
 
 \end{tikzpicture}
 
-\caption[The current exchange program application process at NTNU]{The current exchange program application process at NTNU \footnote{https://innsida.ntnu.no/utenlandsstudier}\label{ntnu_process}}
+\caption[Current approach to apply for an exchange program]{Current approach to apply for an exchange program at NTNU\protect\footnotemark}
+\label{ntnu_process}
 \end{figure}
+
+\footnotetext{https://innsida.ntnu.no/utenlandsstudier}
 
 Students are first required to find and choose the university where they want to do an exchange program. There is a considerable number of possible choices, and NTNU only provide information on universities with an institutional cooperation agreement. After the university is chosen, the students have to find courses at the foreign university that can be approved as a replacement for the courses originally planned at NTNU. Most of the departments do not have a system where students can enter their replacements or find the previously approved ones. One of the exceptions, however, is the Department of Information and Computer Science which utilize a digital table for entering courses. While this table in many ways make it easier for the students to select their university and courses, the data entry does not include useful features such data validations. Manually maintaining a table is also tedious work. 
 
@@ -72,15 +75,15 @@ Throughout the course of an exchange program, the students often have to change 
 
 Mazzarol and Soutar \cite{mazzarol2002push} found that students' general motivation is influenced by the amount of information on a university and its courses. Among the several factors which were reviewed, the \enquote{knowledge and awareness} factor proved to be the most influencing one for choosing an international study location. Therefore, when researching how an IS can improve the motivation of students to participate in an exchange program, promoting knowledge and awareness is key. 
 
-The OIR conducted a study on 464 of their exchange students in 2016 to investigate what factors could help increase the motivation for participating in an exchange program \cite{intersek_report}. Among the 464 participating students, 84\% answered that a list of previously approved exchange courses could increase the number of students that go on exchange, and 80\% answered that pre-approved course packages could increase the numbers. This shows the importance, and possible usefulness of an IS that targets these areas.  
+Furthermore, the OIR conducted a study on 464 exchange students in 2016 to investigate what factors could help increase the motivation for applying for an exchange program \cite{intersek_report}. Among the 464 participating students, 84\% answered that a list of previously approved exchange courses could increase the number of students that go on exchange, and 80\% answered that pre-approved course packages could increase the numbers. This shows the importance, and possible usefulness of an IS that targets these areas.  
 
-Several approaches have been made to replace the manual process of choosing courses with an IS. One example is by using a decision support system (DSS) that advises the students on their course selection based on their program requirements and the course's prerequisites, as done at the University of Dhaka \cite{roushan2014university}. Furthermore, student course recommendation can be done intelligently by using recommendation engines and data mining techniques to give relevant results. Sherpa \cite{bramucci2012sherpa} is a system that has been made especially for the goal of providing course recommendations. Data mining techniques can also be used to predict whether a student will fail or pass on a course \cite{vialardi2009recommendation}.
+Several approaches have been made to replace this manual process of choosing courses with an IS. One example is by using a decision support system (DSS) that advises the students on their course selection based on their program requirements and the course's prerequisites, as done at the University of Dhaka \cite{roushan2014university}. Furthermore, student course recommendation can also be done intelligently by using recommendation engines and data mining techniques to give relevant results. Sherpa \cite{bramucci2012sherpa} is a system that has been made especially for the goal of providing course recommendations. Data mining techniques can also be used to predict whether a student will fail or pass on a course \cite{vialardi2009recommendation}.
 
-Designing a recommender system requires knowledge of the relevant data to use as attributes. Cubillo et al. \cite{maria2006international} identified the different important decision making factors for international students and their grouping. The five main groups were city effect, country image effect, personal reasons, institution image and program evaluation. Recommender systems are used extensively in both research and commercial products. These systems provide several possible solutions that might be viable for the user to choose. Several published research papers have explored different approaches to recommender systems \cite{mulyana2015case}\cite{quijano2011happy}. 
+When designing a recommender system knowledge on the relevant data to use as attributes are important. Cubillo et al. \cite{maria2006international} identified the different decision making factors for international students and their grouping. The five main groups were city effect, country image effect, personal reasons, institution image and program evaluation. Recommender systems are used extensively in both research and commercial products. These systems provide several possible solutions that might be viable for the user to choose. Several published research papers have explored different approaches to recommender systems \cite{mulyana2015case}\cite{quijano2011happy}, and one to implement a recommender system is to use case-based reasoning (CBR). 
 
 CBR is today both a recognized and well-established method in several fields of sciences; such as health science \cite{begum2011case}. Because CBR is proven to be a suitable methodology for complicated problems where uncertainty is involved \cite{richter2013case}, it has been applied to problems such as diagnosing chronic diseases in combination with data mining \cite{huang2007integrating}, and finding the most suitable study program at a senior high school \cite{mulyana2015case}. 
 
-Case-based reasoning recommender Systems (CBR-RS) are also commonly used in decision problems, typically when there is not one exact answer, but rather several different good answers. For instance was such a system was developed to find the most suitable Massive Open Online Courses for e-learning \cite{bousbahi2015mooc}.
+Case-based reasoning recommender Systems (CBR-RS) are also commonly used in decision problems, typically when there is not one exact answer, but rather several different good answers. Many types of problems can be solved using CBR-RS systems, some example are: MOOC-Rec \cite{bousbahi2015mooc} a system which finds the most suitable Massive Open Online Courses for e-learning, DieToRecs \cite{esenmaier2003dietorecs} which recommends travel destinations and activities, and helps planning trips, and Entree \cite{trewin2000knowledge}, which recommends restaurants based on a users preferences such as price, type of food and atmosphere. 
 
 \section{Conclusion}
 
@@ -92,7 +95,7 @@ The different needs and contributions identified in the preliminary research thr
 
 \begin{table}[h]
 \centering
-\caption{Requirement list derived from the preliminary research}
+\caption[System requirements]{System requirements derived from preliminary research}
 \label{tab:feature_list}
 \begin{tabulary}{\textwidth}{|L|L|L|L|}
 \hline
@@ -101,7 +104,7 @@ The different needs and contributions identified in the preliminary research thr
 2  & List previously approved course matches                                                             & 2        & Students, advisers                                                          \\ \hline
 3  & \begin{tabular}[c]{@{}l@{}} Support matching of exchange courses \\ with NTNU courses \end{tabular}                                                             & 2        & Students                                                                    \\ \hline
 4  & Handle course approval applications                                                              & 3        & Advisers                                                                    \\ \hline
-5   & \begin{tabular}[c]{@{}l@{}}Show number of exchange students in \\ each country with an interactive map\end{tabular} & 4        & Students                                                                    \\ \hline
+5   & \begin{tabular}[c]{@{}l@{}}Show number of exchange students that have \\ been in each country with a world map\end{tabular} & 4        & Students                                                                    \\ \hline
 \end{tabulary}
 \end{table}
 

@@ -2,42 +2,42 @@
 
 \chapter{Implementation}\label{ch5:implementation}
 
-To be able to answer the research questions using the methods described in the previous chapter, a system needed to be developed. This chapter covers the implementation and architecture of this system and its different components, including decisions on design, usability and development.
+To be able to answer the research questions using the methods described in the previous chapter, a system needed to be developed. This chapter covers the implementation and architecture of this system and its different components, including decisions on design, usability, and development.
 
 \section{System overview}
 
-Utsida contains two sub-systems, where the first part is a web application, and the second part is a case-based reasoning recommender system (CBR-RS). Each part primarily focuses on one of the research questions. The web application is designed to increase the motivation (RQ1), while the CBR-RS finds out how suitable CBR is to give recommendations on exchange universities and courses (RQ2). The recommendations made by the CBR-RS could also affect the motivation (RQ1). Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system \emph{Innsida}, and the meaning of the word \emph{inside}. Utsida gives a relation to something on the outside, in this case going on an exchange program. The requirements identified in the preliminary research (sec \ref{sec:requirements})  was used as the basis for the choices made on design and implementation.
+Utsida contains two sub-systems, where the first part is a web application, and the second part is a case-based reasoning recommender system (CBR-RS). Each part primarily focuses on one of the research questions. The web application is designed to increase the motivation (RQ1), while the CBR-RS finds out how suitable CBR is to give recommendations on exchange universities and courses (RQ2). The recommendations made by the CBR-RS could also affect the motivation (RQ1). Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system \emph{Innsida}, and the meaning of the word \emph{inside}. Utsida gives a relation to something on the outside, in this case going on an exchange program. The requirements identified in the preliminary research (sec \ref{sec:requirements})  was used as the basis for the choices made for design and implementation.
 
-As illustrated by Figure \ref{fig:system_overview}, the web application part communicates with the CBR-RS part. Queries are sent from the web application by a user and received by the CBR-RS through its REST\footnote{Representational State Transfer} API\footnote{Application Programming Interface}. These queries are in turn matched against the entire case-base in the CBR-RS. Finally, all the cases are given a similarity score based on the user query and then returned to the web application. Typically in a CBR system, the solution to a problem would be the solution of the case with the highest similarity score for the proposed problem. Utsida, on the other hand, offers several possible solutions because it uses a case-based \textbf{recommender} system, rather than a case-based \textbf{reasoning} system. This way, the user can see several solutions, and pick the one they want.  
+As illustrated by Figure \ref{fig:system_overview}, the web application part communicates with the CBR-RS part. Queries are sent from the web application by a user and received by the CBR-RS through its Representational State Transfer (REST) Application Programming Interface (API). These queries are in turn matched against the entire case-base in the CBR-RS. Finally, all the cases are given a similarity score based on the user query and then returned to the web application. Typically in a CBR system, the solution to a problem would be the solution of the case with the highest similarity score for the proposed problem. Utsida, on the other hand, offers several possible solutions because it uses a case-based \textbf{recommender} system, rather than a case-based \textbf{reasoning} system. This way, the user can see several solutions, and pick the one they want.  
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{fig/system_overview.png}
-    \caption{Abstract architectural diagram of Utsida}
+    \caption{Architectural overview of Utsida}
     \label{fig:system_overview}
 \end{figure}
 
 \section{Data and Information}
 
-Utsida requires up to date organizational data about NTNU to be usable. This includes all the courses, faculties and departments at NTNU. This data was gathered with IDI's organizational API\footnote{http://www.ime.ntnu.no/api/}. This API is, however, discontinued, so to update this data after 2016, a new data source would have to be found. Furthermore, the course matches component (sec. \ref{sec_course_matches}) in the web application relies on information on previously approved course matches\footnote{Sets of courses where one or more courses from another university are approved by advisers as a replacement for a course at NTNU}. To avoid a cold start, some approved course matches from IDI were parsed and used in the component. The most critical data, however, was the data used to create cases for the CBR-RS, namely the \textit{experience reports}. All the data was analyzed according to the six primary dimensions for data quality assessment\cite{askham2013six} to gain awareness of the possible limitations before deciding on Utsida's database model.
+Utsida requires up to date organizational data about NTNU to be usable. This includes all the courses, faculties, and departments at NTNU. This data was gathered with IDI's organizational API\footnote{http://www.ime.ntnu.no/api/}. This API is, however, discontinued, so to update this data after 2016, a new data source would have to be found. Furthermore, the course matches component (sec. \ref{sec_course_matches}) in the web application relies on information on previously approved course matches\footnote{Sets of courses where one or more courses from another university are approved by advisers as a replacement for a course at NTNU}. To avoid a cold start, some approved course matches from IDI were parsed and used in the component. The most critical data, however, was the data used to create cases for the CBR-RS, namely the \textit{experience reports}. All the data was analyzed according to the six primary dimensions for data quality assessment\cite{askham2013six} to gain awareness of the possible limitations before deciding on Utsida's database model.
 
 \subsection{The Experience Reports}\label{sec:experience_reports}
-Most students who go on an exchange program from NTNU has to write obligatory reports about their exchange experience to the OIR, called experience reports. These reports are available to the public, and are written in the period between 1999 and 2016. Because they include a large amount of information on exchange experiences, they proved to work as a great foundation for the cases. Typically, the case-base in a CBR-RS is start of with a low amount of cases and gradually expand as new cases are retained. In this project, however, it was essential to have an initially large number of cases. Therefore, all of the current public experience reports were parsed and used as cases in the CBR-RS' case-base. 
+Most students who go on an exchange program from NTNU has to write obligatory reports about their exchange experience to the OIR, called experience reports. These reports are available to the public, and are written in the period between 1999 and 2016. Because they include a large amount of information on exchange experiences, they proved to work as a great foundation for the cases. Typically, the case-base in a CBR-RS start off with a low amount of cases and gradually expand as new cases are retained. In this project, however, it was essential to have an initially large number of cases. Therefore, all of the current public experience reports were parsed and used as cases in the CBR-RS' case-base. 
 
 \subsection{Parsing the Experience Reports}\label{sec:parsing_experience_reports}
 
-The experience reports are essentially large text files in HTML\footnote{Hypertext Markup Language} format. To be able to use them in the CBR-RS, all the useful information in the files had to be extracted and parsed to cases in a CSV file, which is the file format used for case-bases in myCBR. This was done with a custom script written in the Python programming language. In short, all available experience reports (HTML files) were first downloaded and stored in a directory. Next, the script looped through all the HTML files, read the internal data with the HTMLParser\footnote{https://docs.python.org/2/library/htmlparser.html} Python package, and finally stored all the useful data in a CSV file. This way, each row in the CSV file would correspond to one case with the attributes given by Table \ref{tab:case_representation2}. This process resulted in a CSV file with 8702 cases which formed the case-base used in the CBR-RS.
+The experience reports are essentially large text files in Hypertext Markup Language (HTML) format. To be able to use them in the CBR-RS, all the useful information in the files had to be extracted and parsed to cases in a CSV file, which is the file format used for case-bases in myCBR. This was done with a custom script written in the Python programming language. In short, all available experience reports (HTML files) were first downloaded and stored in a directory. Next, the script looped through all the HTML files, read the internal data with the HTMLParser\footnote{https://docs.python.org/2/library/htmlparser.html} Python package, and finally stored all the useful data in a CSV file. This way, each row in the CSV file would correspond to one case with the attributes given by Table \ref{tab:case_representation2}. This process resulted in a CSV file with 8702 cases which formed the case-base used in the CBR-RS.
 
-A large part of fields in the experience reports were free text, which means that the format of each field was decided by the report author and did follow any standard. The parsing script, therefore, had to use specific methods to parse each attribute to the correct format. Two methods were primarily used to parse the data; data dictionary look-ups and approximate string matching, also called fuzzy searching. Edge cases that were not detected by these techniques were solved with basic string operations. In the end, most of the data in the experience reports was transformed into usable data in the CBR-RS. It was, however, not possible to make sure that 100\% of the data in the experience reports were parsed to a correct format while still keeping its original meaning.
+A large part of the fields in the experience reports were free text, which means that the format of each field was decided by the report author and did follow any standard. The parsing script, therefore, had to use specific methods to parse each attribute to the correct format. Two methods were primarily used to parse the data; data dictionary look-ups and approximate string matching, also called fuzzy searching. Edge cases that were not detected by these techniques were solved with basic string operations. In the end, most of the data in the experience reports was transformed into usable data in the CBR-RS. It was, however, not possible to make sure that 100\% of the data in the experience reports were parsed to a correct format while still keeping its original meaning.
 
 \paragraph{Fuzzy Searching}
 
-Fuzzy Searching is an algorithm used to recognize patterns and similarities in a text. To determine the similarity, it yields a similarity score between two textual inputs. By using this technique in the parser script, the data in the experience reports could be mapped against a predefined set of attributes, and return the attribute which are most similar to the input data. For example, the department field in the experience reports had a significant variation of abbreviations and ways of spelling. By creating a dictionary with all departments and faculties, fuzzy searching could be used to find the department in the dictionary with the highest similarity to the department in the experience report. This is illustrated in Figure \ref{fig:fuzzy_searching}. This method was also used on the university field to avoid creating multiple instances in the database. Several more Python dictionaries were configured to be able to map the necessary data in the experience reports to a correct format. These includes dictionaries for countries, continents, languages, universities, departments, and faculties.
+Fuzzy Searching is an algorithm used to recognize patterns and similarities in a text. To determine the similarity, it yields a similarity score between two textual inputs. By using this technique in the parser script, the data in the experience reports could be mapped against a predefined set of attributes, and return the attribute which is most similar to the input data. For example, the department field in the experience reports had a significant variation of abbreviations and ways of spelling. By creating a dictionary with all departments and faculties, fuzzy searching could be used to find the department in the dictionary with the highest similarity to the department in the experience report. This is illustrated in Figure \ref{fig:fuzzy_searching}. This method was also used on the university field to avoid creating multiple instances in the database. Several more Python dictionaries were configured to be able to map the necessary data in the experience reports to a correct format. These includes dictionaries for countries, continents, languages, universities, departments, and faculties.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1.0\textwidth]{fig/fuzzy_search.png}
-    \caption{Input data is transformed to a set format by using fuzzy searching}
+    \includegraphics[width=1.0\textwidth]{fig/fuzzy_search2.png}
+    \caption[Fuzzy searching]{How fuzzy searching is used to convert fields in the experience reports to a standard format defined in a dictionary.}
     \label{fig:fuzzy_searching}
 \end{figure}
 
@@ -47,11 +47,11 @@ This section presents the different components of the web application, used tool
 
 \subsection{Components}
 
-The web application part of Utsida is divided into three main components, as Figure \ref{fig:system_overview} depicts; \emph{Recommendations, Profile} and \emph{Course matches}. The goal of the components as a whole is to answer RQ1 and to increase the motivation of students to go on an exchange program. Each component targets one or several of the requirements of Utsida, listed in Table \ref{tab:feature_list} The requirements are referenced in a REQ\# format, with \# as the requirement number. REQ5 is handled by the web application in the index page and not by any component.
+The web application part of Utsida is divided into three main components, as Figure \ref{fig:system_overview} depicts; \emph{Recommendations, Profile} and \emph{Course matches}. The goal of the components as a whole is to answer RQ1 and to increase the motivation of students to go on an exchange program. Each component targets one or several of the requirements of Utsida, listed in Table \ref{tab:feature_list} The requirements are referenced in a REQ\# format, with \# as the requirement number. REQ5 is handled by the web application in on home page and not by any component.
 
 \subsubsection{Recommendation}
 
-The recommendation component target REQ1 of the Utsida system, and is used to answer RQ2. This component handles all the communication with the CBR-RS part; Queries made by users are sent in the JavaScript Object Notation (JSON) format to the CBR-RS through HTTP requests, which returns all of its cases and their respective similarity score, also in JSON format. In this component, a user can select their preferences and requirements for an exchange program (see Figure \ref{fig:web_results_1} and \ref{fig:web_results_2}). The user is then presented with a list of the best suiting universities for their query. The universities in the list can each be selected to show the best matching experiences for that university. Each experience contains a list of courses taken, and serves as a recommendation.
+The recommendation component target REQ1 of the Utsida system, and is used to answer RQ2. This component handles all the communication with the CBR-RS part; Queries made by users are sent in the JavaScript Object Notation (JSON) format to the CBR-RS through Hypertext Transfer Protocol (HTTP) requests, which returns all of its cases and their respective similarity score, also in JSON format. In this component, a user can select their preferences and requirements for an exchange program (see Figure \ref{fig:web_results_1} and \ref{fig:web_results_2}). The user is then presented with a list of the best suiting universities for their query. The universities in the list can each be selected to show the best matching experiences for that university. Each experience contains a list of courses taken and serves as a recommendation.
 
 \subsubsection{Course Matches}\label{sec_course_matches}
 
@@ -62,29 +62,29 @@ The course matches component target REQ2 of the Utsida system, and its purpose i
 The profile component handles all user related functionality, such as authentication, and contains the required personal information about each student. The personal information includes the user's current department at NTNU, which the web application use in a recommendation query. The component has two sub-components: Courses and Applications.
 
 \paragraph{Courses} 
-is a sub-component of the profile component and targets REQ3. It contains functionalities which enables a student to organize their application process. This includes storing courses at home, courses abroad and course matches. From the course page (see Figure \ref{fig:web_courses}) students can also manually match abroad- and home courses to create new course matches for their applications. This component serves as a large part of the whole course match approval process and is essential for the digitalization of the process.
+is a sub-component of the profile component and targets REQ3. It contains functionalities which enable a student to organize their application process. This includes storing courses at home, courses abroad and course matches. From the course page, (see Figure \ref{fig:web_courses}) students can also manually match abroad- and home courses to create new course matches for their applications. This component serves as a large part of the whole course match approval process and is essential for the digitalization of the process.
 
 \paragraph{Applications} 
-is another sub-component of the profile component and targets REQ4. It stores course approval applications submitted by users. Where the application contains the course matches a user wants to get approved by a student advisor. It also maintains the functionality needed to create applications. For students and student advisers, the application component serves as a digital version of the current paper-based application system where student advisers can approve, reject, and remove students' applications, while students can easily keep track of them. This component is an extension needed to complete Utsida as possible replacement of NTNU's current approach.
+is another sub-component of the profile component and targets REQ4. It stores course approval applications submitted by users. Where the application contains the course matches a user wants to get approved by a student advisor. It also maintains the functionality needed to create applications. For students and student advisers, the application component serves as a digital version of the current paper-based application system where student advisers can approve, reject, and remove students' applications, while students can easily keep track of them. This component is an extension needed to complete Utsida as a possible replacement of NTNU's current approach.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{fig/utsida_screenshots/results_1_cut.png}
-    \caption{How results are first presented after sending a query in Utsida}
+    \includegraphics[width=1\textwidth]{fig/utsida_screenshots/result_1_cut_high.png}
+    \caption{Recommendation view}
     \label{fig:web_results_1}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{fig/utsida_screenshots/results_2_cut.png}
-    \caption{How results are presented after selecting a recommended university in Utsida}
+    \includegraphics[width=1\textwidth]{fig/utsida_screenshots/result_2_cut_high.png}
+    \caption[Course recommendation view]{Course recommendation view after selecting university}
     \label{fig:web_results_2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{fig/utsida_screenshots/course_match_cut.png}
-    \caption{The view for saving, viewing and matching courses in Utsida.}
+    \caption{View for saving, viewing and matching courses}
     \label{fig:web_courses}
 \end{figure}
 
@@ -95,16 +95,15 @@ To enforce a responsive and aesthetic design, Bootstrap 3\footnote{http://getboo
 
 \paragraph{Django}\label{sec:django}
 
-Django\footnote{https://docs.djangoproject.com/en/1.11/}, a web framework using the Python programming language, was chosen as the web framework to develop the web application in. Django is maintained by the Django Software Foundation (DSF). The DSF calls it an MTV-framework, meaning \emph{Model, Template, View}, which in practice functions as a Model View Controller (MVC) pattern. Django includes many built-in features such as a SQLite database, a predefined directory structure, controllers to handle communication between the different components, and several others. Another important feature is Django's built-in security packages, which handles security risks such as Cross-Site Request Forgery, authorization and Cross-site scripting. Django also includes an administrator panel, which enables management of database models with a simple interface. In conclusion, the reason for choosing Django as the main framework was because it offered a complete package that reduced time used on structural difficulties and made it possible to focus on the usability and evaluation methods.
+Django\footnote{https://docs.djangoproject.com/en/1.11/}, a web framework using the Python programming language, was chosen as the web framework to develop the web application in. Django is maintained by the Django Software Foundation (DSF). The DSF calls it an MTV-framework, meaning \emph{Model, Template, View}, which in practice functions as a Model View Controller (MVC) pattern. Django includes many built-in features such as an SQLite database, a predefined directory structure, controllers to handle communication between the different components, and several others. Another important feature is Django's built-in security packages, which handles security risks such as Cross-Site Request Forgery, authorization, and Cross-site scripting. Django also includes an administrator panel, which enables management of database models with a simple interface. In conclusion, the reason for choosing Django as the main framework was because it offered a complete package that reduced the time used on structural difficulties and made it possible to focus on the usability and evaluation methods.
 
-\subsection{Design \& Usability}
+\subsection{Design Choices}
+The design in terms of both functionality and aesthetics was an integral part of the development of the web application part of Utsida. Questionnaires were used as the main data collection method to gather data on how Utsida performed regarding motivational effect as well as evaluation of the validity of the system's recommendations. This was all conducted in a remote manner, which removes the option for the authors to help the test subjects with eventual issues. Therefore, the system had to be designed in a way which would produce as little issues and hardships for the users as possible, to make sure they understood how to use it, and thus were able to truly evaluate it.
 
-The design in terms of both functionality and aesthetics was an integral part of the development of the web application part of Utsida. Questionnaires were used as the main data collection method to gather data on how Utsida performed in terms of motivational effect as well as evaluation of the validity of the system's recommendations. This was all conducted in a remote manner, which removes the option for the authors to help the test subjects with eventual issues. Therefore, the system had to be designed in a way which would produce as little issues and hardships for the users as possible, to make sure they understood how to use it, and thus were able to truly evaluate it.
-
-The design of Utsida is inspired by the User Centered System Design-perspective, proposed by Norman \& Draper \cite{norman1986user}. Potential users of the system was included throughout the development process, either with small hallway tests, interviews, or usability tests. These tests let the users try out the system on their own, followed by questions as \enquote{How would you expect this functionality to work?}, \enquote{Was it easy to navigate the system?} and \enquote{Was it intuitive to understand how that functionality works?}. Several measures was implemented to strive for a user centered design, including:
+The design of Utsida is inspired by the User Centered System Design-perspective, proposed by Norman and Draper \cite{norman1986user}. Potential users of the system were included throughout the development process, either with small hallway tests, interviews, or usability tests. The results of these tests resulted in several identified problem areas. Measures were implemented to reduce the problem areas and strive for a user-centered design. Some of these measures were:
 
 \begin{itemize}
-    \item Personalized items: Buttons and links to parts of the application which contains data which related to the user are prefixed with the word \emph{My}. For example, \emph{My courses, My profile, my applications.}
+    \item Personalized items: Buttons and links to parts of the application which contain data which related to the user are prefixed with the word \emph{My}. For example, \emph{My courses, My profile, my applications.}
     \item Inline help text: Some parts of the application contain help text for those users that might need it. The help texts are shown by hovering over or clicking a question mark button. 
     \item Streamlined process: The process flow is displayed as a numerated process to guide the user, shown in Figure \ref{fig:utsida_index}.
 \end{itemize}
@@ -112,7 +111,7 @@ The design of Utsida is inspired by the User Centered System Design-perspective,
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{fig/utsida_screenshots/steps.png}
-    \caption{Index page of Utsida's web application}
+    \caption[Home page of Utsida]{Home page of Utsida. Showing the process flow help text.}
     \label{fig:utsida_index}
 \end{figure}
 
@@ -120,27 +119,27 @@ The design of Utsida is inspired by the User Centered System Design-perspective,
 
 This section describes how the CBR-RS was modeled with the myCBR Workbench and how it was implemented to give the most relevant recommendations. Furthermore, it includes how the cases are represented, which similarity measures that are used, how the weighting of the attributes in the exchange experience concept was done, and how the system itself is structured.
 
-\subsection{Overview}
+    \subsection{Overview}
 
-The CBR-RS is a customized version of an open-source Java Spring\footnote{https://spring.io/} application that implements the myCBR SDK. To serve requests from a web application the Java application uses a REST API implemented with the Swagger API\footnote{http://swagger.io/}. This architecture made it possible to let both the web application and the CBR-RS be two independent systems, only communicating through HTTP\footnote{Hypertext Transfer Protocol} requests. The CBR-RS imports a custom myCBR project file which contains the case-representation, the similarity measures used on each attribute and the attributes' weight values. It also imports a CSV file used as the case-base, containing all of the cases.
+The CBR-RS is a customized version of an open-source Java Spring\footnote{https://spring.io/} application that implements the myCBR SDK. To serve requests from a web application, the Java application uses a REST API implemented with the Swagger API\footnote{http://swagger.io/}. This architecture made it possible to let both the web application and the CBR-RS be two independent systems, only communicating through HTTP requests. The CBR-RS imports a custom myCBR project file which contains the case representation, the similarity measures used for each attribute and the attributes' weight values. It also imports a CSV file used as the case-base, containing all of the cases.
 
-When a request is made by a user in the web application, a query is first sent to the CBR-RS. When the CBR-RS receives the query it performs the first step of the CBR-cycle, by using the retrieve operation in the myCBR SDK. The exchange experiences are then ordered from highest to lowest similarity and finally the exchange experiences with the highest similarity scores are returned to the web application. Figure \ref{fig:retrieval_process_diagram} displays how a request made by a user in the web application traverse between the two systems to return a list of the most similar exchange experiences.
+When a request is made by a user in the web application, a query is first sent to the CBR-RS. When the CBR-RS receives the query, it performs the first step of the CBR-cycle, by using the retrieve operation in the myCBR SDK. The exchange experiences are then ordered from highest to lowest similarity, and finally, the exchange experiences with the highest similarity scores are returned to the web application. Figure \ref{fig:retrieval_process_diagram} displays how a request made by a user in the web application traverse between the two systems to return a list of the most similar exchange experiences.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{fig/RetrievalProcessDiagram.png}
-    \caption{Sequence diagram which shows how the initial user input is handled before returning as similar cases}
+    \caption{Sequence diagram for a recommendation request in Utsida}
     \label{fig:retrieval_process_diagram}
 \end{figure}
 
 \subsection{Case Representation}
 
-The exchange experience reports are the underlying data the CBR-RS use to give recommendations. These reports contains a large amount of data, and therefore not all of it is relevant. Only a small part of the data was used to ensure that Utsida gives relevant recommendations and is straightforward to use. The first choice of data to use for the initial case representation were based on personal experiences and a study by Cubillo et. al. (2006) \cite{maria2006international} that identified groups of important motivational factors. This representation was, however, extended in an iterative process of usability tests and then finalized by using the data collected from questionnaire 1 (sec \ref{sec:questionnaire_1}). The final case representation is displayed in Table \ref{tab:case_representation2}. 
+The exchange experience reports are the underlying data the CBR-RS use to give recommendations. These reports contain a significant amount of data, and therefore not all of it is relevant. Only a small part of the data was used to ensure that Utsida gives relevant recommendations and is straightforward to use. The first choice of data to use for the initial case representation were based on personal experiences and a study by Cubillo et. al. (2006) \cite{maria2006international} that identified groups of important motivational factors. This representation was, however, extended in an iterative process of usability tests and then finalized by using the data collected from questionnaire 1 (sec \ref{sec:questionnaire_1}). The final case representation is displayed in Table \ref{tab:case_representation2}. 
 
 \begin{table}[h]
 \centering
 \small
-\caption{Final case representation in the CBR-RS}
+\caption{Case representation in the CBR-RS}
 \label{tab:case_representation2}
 \begin{tabulary}{\textwidth}{|L|L|}
 \hline
@@ -162,7 +161,7 @@ Subjects Taken & \begin{tabular}[c]{@{}l@{}}COMP1927 - Computing 2\\ MATH3220\\ 
 
 \subsubsection{The Problem Part}
 
-The problem part of a case is all the attributes which denotes a user's preferences, and profile information about them. The following list elaborates the choice and significance of the different attributes used in a case.
+The problem part of a case is all the attributes which denote a user's preferences, and profile information about them. The following list elaborates the choice and significance of the different attributes used in a case.
 
 %Hva
 %Hvorfor
@@ -194,12 +193,12 @@ The problem part of a case is all the attributes which denotes a user's preferen
 The solution to a query is given by the set of courses chosen in similar experiences. The university is, however, used to filter the experiences and can be viewed as part of the whole solution. 
 
 \subsection{Similarity Measures}
-Each attribute in the concept was assigned a designated similarity measure. These measures are essentially functions which returns a similarity score based on the similarity between the attribute in a query, and the coherent attribute in a case. Following, each of these measures are detailed and explained.
+Each attribute in the concept was assigned a designated similarity measure. These measures are essentially functions which return a similarity score based on the similarity between the attribute in a query, and the coherent attribute in a case. Following, each of these measures is detailed and explained.
 
 
 \subsubsection{Rating Similarity} 
 
-In the exchange experience concept, the attributes \emph{AcademicQuality}, \emph{SocialQuality}, \emph{ReceptionQuality} and \emph{ResidentialQuality} are conjunctions of different ratings given in the experience reports. Each rating ranges between 1-10, and reflects how the student experienced their trip with regard to these categories. To calculate the similarity between a rating in a case, and a rating from a query, the CBR-RS uses Symmetric Difference Determined Similarity \cite{bergmann2002experience} with a linear function (equation \ref{eq:rating_sim}). It describes the decrease in similarity depending on the increase of the difference at a linear phase.
+In the exchange experience concept, the attributes \emph{AcademicQuality}, \emph{SocialQuality}, \emph{ReceptionQuality} and \emph{ResidentialQuality} are conjunctions of different ratings given in the experience reports. Each rating ranges between 1-10 and reflects how the student experienced their trip with regard to these categories. To calculate the similarity between a rating in a case, and a rating from a query, the CBR-RS uses Symmetric Difference Determined Similarity \cite{bergmann2002experience} with a linear function (equation \ref{eq:rating_sim}). It describes the decrease in similarity depending on the increase of the difference at a linear phase.
 
 
 \begin{equation} \label{eq:rating_sim}
@@ -213,12 +212,12 @@ In the exchange experience concept, the attributes \emph{AcademicQuality}, \emph
 
 \subsubsection{Continent Similarity} 
 
-The continent attribute is a \emph{Symbol type}, meaning its allowed values are a pre-determined set. Similarity between continents are calculated with a $m \, x \, n$-matrix, where each mapping yields a given similarity, as displayed in table \ref{tab:continent_similarity}. The values were chosen to represent similarity in culture, language, location and general university structure.
+The continent attribute is a \emph{Symbol type}, meaning its allowed values are a pre-determined set. The similarity between continents is calculated with a $m \, x \, n$-matrix, where each mapping yields a given similarity, as displayed in table \ref{tab:continent_similarity}. The values were chosen to represent similarity in culture, language, location, and general university structure.
 
 \begin{table}[H]
 \small
 \centering
-\caption{The $m x n$ matrix for calculating similarity between continents}
+\caption{Matrix for calculating similarity between continents}
 \label{tab:continent_similarity}
 \begin{tabular}{|
 >{\columncolor[HTML]{C0C0C0}}l |
@@ -239,13 +238,13 @@ Oceania & 0.0 & 0.0.0 & 0.2 & 0.0 & 0.2 & 1.0 \\ \hline
 \end{tabular}
 \end{table}
     
-\subsubsection{Country \& Department Similarity} 
-The Country- and Department attributes is structured as a taxonomy. A taxonomy can be used as a type of similarity measure \cite{richter2013case} and gives a similarity between similar groups of objects. For the country attribute, the taxonomy gives a similarity if the country resides within the same continent (i.e. group) as the country in the query. If the countries in the query and case are the same the similarity score will be 1.0. If the countries are different, but still resides within the same continent, the similarity score will be set according to Table \ref{tab:continent_similarity}. The same taxonomy is also in place for the Department attribute, albeit the department is grouped under the different faculties instead. The similarity score between departments in the same faculty is set to 0.3.
+\subsubsection{Country and Department Similarity} 
+The Country- and Department attributes are structured as a taxonomy. A taxonomy can be used as a type of similarity measure \cite{richter2013case} and gives a similarity between similar groups of objects. For the country attribute, the taxonomy gives a similarity if the country resides within the same continent (i.e. group) as the country in the query. If the countries in the query and case are the same, the similarity score will be 1.0. If the countries are different, but still resides within the same continent, the similarity score will be set according to Table \ref{tab:taxonomic_continent_similarity}. The same taxonomy is also in place for the Department attribute, albeit the department is grouped under the different faculties instead. The similarity score between departments in the same faculty is set to 0.3.
 
 \begin{table}[h]
 \centering
 \caption{Taxonomic similarity of each continent}
-\label{tab:continent_similarity}
+\label{tab:taxonomic_continent_similarity}
 \begin{tabulary}{\textwidth}{|L|L|}
 \hline
 \textbf{Continent} & \textbf{Similarity} \\ \hline \hline
@@ -260,7 +259,7 @@ Africa & 0.4 \\ \hline
     
 \subsubsection{Language Similarity} 
 
-The language attribute is represented as a symbol type, which allows the attribute to contain multiple languages. If a case contains more than one language, the similarity measure will return the mean similarity to all languages in that case. If a case only contains one language, it will either return a similarity score of 1.0 (if the language in the query and case are is the same), or else 0.0. For example, if query contains the language \textit{Spanish} and a case contains the languages \textit{English, Spanish, Portuguese}, the similarity score will be 0.33.
+The language attribute is represented as a symbol type, which allows the attribute to contain multiple languages. If a case contains more than one language, the similarity measure will return the mean similarity to all languages in that case. If a case only contains one language, it will either return a similarity score of 1.0 (if the language in the query and case are is the same), or else 0.0. For example, if a query contains the language \textit{Spanish} and a case contains the languages \textit{English, Spanish, Portuguese}, the similarity score will be 0.33.
     
 \subsubsection{University Similarity} 
 
@@ -268,18 +267,18 @@ The university attribute is a string type. The similarity measure between two un
     
 \subsubsection{Study Period Similarity} 
 
-The similarity measure used for the study period attribute is defined by a declining graph, where the similarity score decrease according to the distance in years between the query and a case. The similarity greatly decrease when a case is older than 5 years. Figure \ref{fig:study_period_graph} illustrates the graph.
+The similarity measure used for the study period attribute is defined by a declining graph, where the similarity score decrease according to the distance in years between the query and a case. The similarity greatly decreases when a case is older than five years. Figure \ref{fig:study_period_graph} illustrates the graph.
     
 \begin{figure}[h]
     \centering
-    \caption{The decline of similarity score according to the distance in years between a query and a case.}
+    \caption[Study period similarity measure]{Study period similarity measure given by the distance in years between a query and a case.}
     \includegraphics[width=1.0\textwidth]{fig/study_period_graph.png}
     \label{fig:study_period_graph}
 \end{figure}
 
-\subsection{Sum Function}
+\subsection{Summation Function}
 
-Multi-Criteria Decision Making Methods (MCDMM) are used in myCBR as sum functions by summarizing the similarity score of each attribute in the concept, with regards to the attribute's weight. The myCBR Workbench has two MCDMMs, the Weighted Sum Model (WSM) and the Euclidean Distance. For single dimensional problems, which are the types of problems in the CBR-RS, the WSM can be used without difficulties, and is probably the most common approach \cite{triantaphyllou2000multi} (equation \ref{eq:WSM} \cite{fishburn1967letter}).
+Multi-Criteria Decision Making Methods (MCDMM) are used in myCBR as summation functions by summarizing the similarity score of each attribute in the concept, with regards to the attribute's weight. The myCBR Workbench has two MCDMMs, the Weighted Sum Model (WSM) and the Euclidean Distance. For single dimensional problems, which are the types of problems in the CBR-RS, the WSM can be used without difficulties, and is probably the most common approach \cite{triantaphyllou2000multi} (equation \ref{eq:WSM} \cite{fishburn1967letter}).
 
 \begin{equation} \label{eq:WSM}
     A^{*}_{WSM-score}\quad =\quad max_{i}\  \sum\limits_{j = 1}^{n}\  a_{ij}w_{j},\quad for \quad i =1,\ 2,\ 3,\ ...,\ m.
@@ -290,12 +289,12 @@ When the CBR-RS receives a query, a decision matrix is calculated for each case.
 
 \begin{table}[h]
 \centering
-\caption{A typical decision matrix for a query from the web application to the CBR-RS}
+\caption[Decision matrix for a query]{Decision matrix example for calculating similarity between a query and the cases in the case-base}
 \label{tab:decision_matrix}
 \begin{tabular}{|c|c|c|c|c|c|c|}
  \hline 
-Attribute             & $Country$             & $Language$            & \ldots               & \ldots               & \ldots               & $AcademicQuality$     \\\hline 
-Weight                & $w_{country}$         & $w_{language}$        & \ldots               & \ldots               & \ldots               & $w_{country}$         \\\hline \hline
+\textbf{Attribute}             & Country             & Language            & \ldots               & \ldots               & \ldots               & AcademicQuality     \\\hline 
+\textbf{Weight}                & $w_{country}$         & $w_{language}$        & \ldots               & \ldots               & \ldots               & $w_{country}$         \\\hline \hline
 $case_{1}$            & $sim_{case_{1}}$      & $sim_{case_{1}}$      & \ldots               & \ldots               & \ldots               & $sim_{case_{1}}$      \\
 $case_{2}$            & $sim_{case_{2}}$      & $sim_{case_{2}}$      & \ldots               & \ldots               & \ldots               & $sim_{case_{2}}$      \\
 . & . & . & \ldots               & \ldots               & \ldots               & . \\
@@ -309,11 +308,11 @@ $case_{m}$            & $sim_{case_{m}}$      & $sim_{case_{m}}$      & \ldots  
 
 \subsection{Attribute Weights}\label{sec:weighting}
 
-Each attribute in a concept has a value, and an associated weight. This is essentially an integer denoting the importance of that attribute. The results of questionnaire 1, see Table \ref{tab:attribute_ranking}, were used to decide the final weight of the different attributes in the concept, see Table \ref{tab:attribute_weights}.
+Each attribute in a concept has a value and an associated weight. This is essentially an integer denoting the importance of that attribute. The results of questionnaire 1 (Table \ref{tab:attribute_ranking}), were used to decide the final weight of the different attributes in the exchange experience concept, shown in Table \ref{tab:attribute_weights}.
 
 \begin{table}[h]
 \centering
-\caption{Finalized weighting of the case attributes}
+\caption{Weighting of the concept's attributes}
 \label{tab:attribute_weights}
 \begin{tabulary}{\textwidth}{|L|R|}
 \hline
@@ -335,9 +334,9 @@ Support and reception at university & 2.5 \\ \hline
 \section{Test Environment}
 The test environment used by Utsida is an essential part of implementation because it was the platform used for the online user test in questionnaire 2. Utsida was hosted on a virtual server provided by Department of Computer Science at NTNU. The virtual server was running Ubuntu 16.04\footnote{Ubuntu, a Debian-based Linux operating system. https://www.ubuntu.com/}. The provided domain name for the prototype was utsida.idi.ntnu.no.
 
-The specific HTTP web server used was Apache2, and it was configured with HTTPS to enable secure and encrypted user sessions. To reduce the effort of running online usability tests and enable users to log in through their university account a service platform using UNINETT's federated authentication service (FEIDE) was implemented. The service platform "Dataporten"\footnote{https://www.uninett.no/en/dataporten} provided by UNINETT enables quick access to important user data and makes possible application users able to log in without registering a user.
+The specific HTTP web server used was Apache2, and it was configured with HTTPS to enable secure and encrypted user sessions. To reduce the effort of running online usability tests and enable users to log in with their university account a service platform using UNINETT's federated authentication service (FEIDE) was implemented. The service platform "Dataporten"\footnote{https://www.uninett.no/en/dataporten} provided by UNINETT enables quick access to valuable user data and makes possible application users able to log in without registering a user.
 
-Error reporting through email was configured on the server so that alerts were given in case of possible downtime or server errors. Error reporting made it possible to quickly resolve potential bugs or errors on the application and ensure high user satisfaction during the user tests. Tracking user behaviour and statistics could be useful in the final data analysis. Google Analytics was therefore used to increase the understanding of user behaviour. Through Google Analytics it is possible to see a large set of data on the user behaviour. The most important ones used in this project were number of users, average session time, device type and activity flow.  
+Error reporting through email was configured on the server so that alerts were given in case of possible downtime or server errors. Error reporting made it possible to quickly resolve potential bugs or errors on the application and ensure high user satisfaction during the user tests. Tracking user behavior and statistics could be useful in the final data analysis. Google Analytics was therefore used to increase the understanding of user behavior. Through Google Analytics it is possible to see a large set of data on the user behavior. The most important ones used in this project were number of users, average session time, device type and activity flow.  
 
 \cleardoublepage
 

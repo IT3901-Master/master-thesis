@@ -1,20 +1,20 @@
 %===================================== CHAP 2 =================================
 \cleardoublepage
 
-\chapter{Theory}
+\chapter{Theory} \label{chap:3}
 
-This chapter presents the theory on CBR methodology and CBR Recommender Systems (CBR-RS), which were used to create Utsida, a prototype used as a tool to answer the research questions. It also introduces myCBR; the software tool used to configure the CBR model and implement the CBRS part of Utsida. 
+This chapter presents the theory on CBR methodology and CBR Recommender Systems (CBR-RS), which were used to create Utsida, a prototype used as a tool to answer the research questions. It also introduces myCBR; the software tool used to model and implement the CBR-RS part of Utsida. 
 
-\section{Case-Based Reasoning}
+\section{Case-based Reasoning}
 
 Case-Based Reasoning (CBR) is a methodology in the field of AI for solving problems and is primarily based on experiences, the solutions to similar problems. The CBR methodology utilizes these experiences to yield solutions to a large range of problems where uncertainty is involved \cite{richter2013case}. Implied by the name, CBR can be broken down into two main concepts: \textit{cases} and \textit{reasoning}. A case is an experience of a solved problem and consists of two parts: a problem description and a solution to the problem. A case is usually represented as a feature vector, further described in section \ref{sec:feature_vectors}). Reasoning refers to the approach of finding solutions to problems by evaluating different experiences (i.e. cases). Reasoning in CBR differs from other kinds of reasoning because it does not lead from true assumptions to true conclusions \cite{richter2013case}. This means that for two cases with same problem descriptions, the solution to one of them might not be the solution for the other. The recorded experience in the first instance may not be exactly similar to the other case.
     
 \subsection{Case Representation}\label{sec:feature_vectors}
-A case is usually represented as a feature vector, consisting of pairs of attributes and their values. An example is a diagnosis of a sick patient, as shown in Table \ref{tab:example_case}. Here, the attributes of the case are a collection of symptoms, and the values are whether the patient has the symptom or not. The solution to the case is the final diagnosis of the patient. A \textit{Concept} is a term used for the combination of the case-representation, a designated similarity measure and a weight-value for each attribute in the case-representation, as well as a sum function.
+A case is usually represented as a feature vector, consisting of pairs of attributes and their values. An example is a diagnosis of a sick patient, as shown in Table \ref{tab:example_case}. Here, the attributes of the case are a collection of symptoms, and the values are whether the patient has the symptom or not. The solution to the case is the final diagnosis of the patient. A \textit{Concept} is a term used for the combination of the case representation, a designated similarity measure and a weight value for each attribute in the case-representation, as well as a sum function.
 
 \begin{table}[h]
 \centering
-\caption{Example of a case represented as a feature vector with attribute-value pairs for the prob-lem description and the solution.}
+\caption{Case representation example}
 \label{tab:example_case}
 \begin{tabular}{|l|l|l|}
 
@@ -32,7 +32,7 @@ A case is usually represented as a feature vector, consisting of pairs of attrib
 
 \subsection{The CBR-Cycle}\label{sec:cbr-cycle}
 
-Aamodt \& Plaza \cite{aamodt1994case} defined a model which explain the problem solving cycle in CBR, see figure \ref{fig:cbr_cycle}. The cycle defines the four distinct steps of the CBR process and can be summarized as followed.
+Aamodt and Plaza \cite{aamodt1994case} defined a model which explain the problem solving cycle in CBR, see figure \ref{fig:cbr_cycle}. The cycle defines the four distinct steps of the CBR process and can be summarized as followed.
 
 \begin{description}
 \item [1. Retrieve:] The most similar case is retrieved from the system's case-base so that it can be compared to a new case.
@@ -44,7 +44,7 @@ Aamodt \& Plaza \cite{aamodt1994case} defined a model which explain the problem 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\textwidth]{fig/cbr-cycle.png}
-    \caption[The CBR Cycle, defined by Aamodt \& Plaza]{The CBR Cycle, defined by Aamodt \& Plaza \cite{aamodt1994case}}
+    \caption[The CBR Cycle]{The CBR Cycle (Aamodt \& Plaza) \cite{aamodt1994case}}
     \label{fig:cbr_cycle}
 \end{figure}
 
@@ -62,9 +62,9 @@ myCBR is a tool for rapid prototyping of CBRSs and focuses on the retrieval step
 
 The myCBR SDK is written in the Java programming language and is the core of myCBR, containing all of its functionality. The SDK allows developers to use or extend the functionality of myCBR in custom applications. The current version (3.1) of the myCBR SDK only supports the similarity based retrieval step of the CBR-cycle.
 
-The myCBR Workbench provides a GUI for implementing and modeling most of the functionality in the SDK. The GUI lets developers prototype and utilize the SDK without having an in-depth knowledge of its inner functions \cite{bach2014knowledge}. The myCBR Workbench supports importing predefined cases with the CSV\footnote{Comma-separated values} file format. It also includes a set of default similarity measures, which are visualized with graphs and tables, making modeling easier.
+The myCBR Workbench provides a GUI for implementing and modeling most of the functionality in the SDK. The GUI lets developers prototype and utilizes the SDK without having an in-depth knowledge of its inner functions \cite{bach2014knowledge}. The myCBR Workbench supports importing predefined cases with the CSV\footnote{Comma-separated values} file format. It also includes a set of default similarity measures, which are visualized with graphs and tables, making modeling easier.
 
-\section{Case-Based Reasoning Recommender Systems}\label{sec:case_based_recommender_systems}
+\section{Case-based Reasoning Recommender Systems}\label{sec:case_based_recommender_systems}
 
 Recommender systems mainly use either a collaborative or a case-based approach to give recommendations \cite{bridge2005case}. The collaborative approach uses the rating and opinions of other users who have experienced a product or gone through the same process. The case-based approach, on the other hand, uses a case-base as the pool of information to pick recommendations from.
 
@@ -72,20 +72,12 @@ A case-based reasoning recommender system (CBR-RS) share many similarities with 
 
 \section{Evaluating Recommender Systems}
 
-Recommendation systems are often evaluated and ranked based on their prediction power \cite{shani2011evaluating}. However, what is considered a relevant recommendation in a given scenario is often subjective. Therefore, it is challenging to evaluate whether a recommendation is satisfactory. For example, some users are interested in receiving recommendations which they know are relevant, while others may want recommendations that are more diverse to discover new items \cite{shani2011evaluating}. Guy Shani \& Asela Gunawardana \cite{shani2011evaluating} describes three levels of experiments to evaluate recommendation systems; offline experiments, online evaluation, and user studies.
+Recommendation systems are often evaluated and ranked based on their prediction power \cite{shani2011evaluating}. However, what is considered a relevant recommendation in a given scenario is often subjective. Therefore, it is challenging to evaluate whether a recommendation is satisfactory. For example, some users are interested in receiving recommendations which they know are relevant, while others may want recommendations that are more diverse to discover new items \cite{shani2011evaluating}. Guy Shani and Asela Gunawardana \cite{shani2011evaluating} describes three levels of experiments to evaluate recommendation systems; offline experiments, online evaluation, and user studies.
 
-\paragraph{Offline Experiments:} When evaluating recommender systems with offline experiments, there are no actual users. Instead, a collection of data based on earlier user choices are used to simulate real user queries. The results of the queries can be used to evaluate the prediction power of the recommender. The queries should, to produce proper results, be similar to the queries that users will make in a production version of the system. Since an offline experiment requires no user interaction, it is a cheap and efficient approach of testing a recommendation system. It does however only evaluate a small set of possible factors, and does not provide any information on user behavior of the system.  An offline experiment can be used on different algorithms to evaluate them against each other and choose the recommender with the highest prediction power. The data sets used to simulate user queries can either be designed manually or by using a random selector. Different types of biases can be introduced when generating the user queries, but methods such as reweighting or resampling can lower the effect of these biases. 
+\paragraph{Offline Experiments:} When evaluating recommender systems with offline experiments, there are no actual users. Instead, a collection of data based on earlier user choices is used to simulate real user queries. The results of the queries can be used to evaluate the prediction power of the recommender. The queries should, to produce proper results, be similar to the queries that users will make in a production version of the system. Since an offline experiment requires no user interaction, it is a cheap and efficient approach of testing a recommendation system. It does however only evaluate a small set of possible factors, and does not provide any information on user behavior of the system.  An offline experiment can be used on different algorithms to evaluate them against each other and choose the recommender with the highest prediction power. The data sets used to simulate user queries can either be designed manually or by using a random selector. Different types of biases can be introduced when generating the user queries, but methods such as reweighting or resampling can lower the effect of these biases. 
 
-\paragraph{User Studies} In a user study the recommender system is tested on real users who are given tasks to complete. Their behavior and their satisfaction with the recommendations are then be measured and the feedback used to improve the system. Questionnaires can be used in user studies to get feedback from users on their experience. 
+\paragraph{User Studies} In a user study the recommender system is tested on real users who are given tasks to complete. Their behavior and their satisfaction with the recommendations are then be measured, and the feedback used to improve the system. Questionnaires can be used in user studies to get feedback from users on their experience. The main advantages of a user study are that a broad range of questions can be answered and that a large amount of data, both qualitative and quantitative can be collected. The test users must however represent the actual population of desired users, or else the results might be more vulnerable to biases such as non-response bias.
 
-\paragraph{Online Evaluation} is done when the recommendation system is live, and real users are using it. Several ways can then be used to evaluate the system by for example using different recommendation algorithms to see which one performs the best.
-
-
-\iffalse
-\section{Motivation}
-Richard M. Ryan and Edward L. Deci (2000)\cite{ryan2000intrinsic} divides motivation into two categories: intrinsic- and extrinsic motivation. Intrinsic motivation defines inner motivation such as doing something simply for enjoyment, satisfaction or out of interest. Extrinsic motivation is a much broader category which pertains whenever an activity is done to attain some separable outcome \cite{ryan2000intrinsic}. For example, a student might be motivated to perform well on a test because they want to receive a good grade, and not because they enjoy the theory at hand. Carol M. Sánchez et al. \cite{sanchez2006motivations} finds that most of the intent of a group of U.S., French, and Chinese Students stems from intrinsic motivation; doing it for their enjoyment. 
-
-What about students who are interested and motivated to go on exchange, but end up not doing it? Mazzarol and Soutar \cite{mazzarol2002push} finds that students' general motivation is influenced by the amount of information available at a university and its courses and that \enquote{knowledge and awareness} proved to be the most influencing factor when choosing an international study location. Even though a student may have the intrinsic motivation to go on an exchange, the process of applying for an exchange itself may be non-intuitive, cumbersome, or the related information might be difficult to find. 
-\fi
+\paragraph{Online Evaluation} When the need is to test on a live system, online evaluation can be used. The test method allows real behavior  and user interaction data to be collected. Several measures can then be used to evaluate the system, e.g., using different recommendation algorithms and measuring the use of each one. With different algorithms is it important that the users are redirected at random, to ensure a fair test of both. With a focus on only the user interaction and design of the system, using only one algorithm might be desirable to reduce the user disorientation. 
 
 \cleardoublepage
