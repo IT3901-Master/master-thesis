@@ -4,7 +4,7 @@
 
 To be able to answer the research questions using the methods described in the previous chapter, a system needed to be developed. This chapter covers the implementation and architecture of this system and its different components, including decisions on design, usability, and development.
 
-\section{System overview}
+\section{System Overview}
 
 Utsida contains two sub-systems, where the first part is a web application, and the second part is a case-based reasoning recommender system (CBR-RS). Each part primarily focuses on one of the research questions. The web application is designed to increase the motivation (RQ1), while the CBR-RS finds out how suitable CBR is to give recommendations on exchange universities and courses (RQ2). The recommendations made by the CBR-RS could also affect the motivation (RQ1). Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system \emph{Innsida}, and the meaning of the word \emph{inside}. Utsida gives a relation to something on the outside, in this case going on an exchange program. The requirements identified in the preliminary research (sec \ref{sec:requirements})  was used as the basis for the choices made for design and implementation.
 
@@ -65,7 +65,7 @@ The profile component handles all user related functionality, such as authentica
 is a sub-component of the profile component and targets REQ3. It contains functionalities which enable a student to organize their application process. This includes storing courses at home, courses abroad and course matches. From the course page, (see Figure \ref{fig:web_courses}) students can also manually match abroad- and home courses to create new course matches for their applications. This component serves as a large part of the whole course match approval process and is essential for the digitalization of the process.
 
 \paragraph{Applications} 
-is another sub-component of the profile component and targets REQ4. It stores course approval applications submitted by users. Where the application contains the course matches a user wants to get approved by a student advisor. It also maintains the functionality needed to create applications. For students and student advisers, the application component serves as a digital version of the current paper-based application system where student advisers can approve, reject, and remove students' applications, while students can easily keep track of them. This component is an extension needed to complete Utsida as a possible replacement of NTNU's current approach.
+is another sub-component of the profile component and targets REQ4. It stores course approval applications submitted by users. Where the application contains the course matches a user wants to get approved by a student adviser. It also maintains the functionality needed to create applications. For students and student advisers, the application component serves as a digital version of the current paper-based application system where student advisers can approve, reject, and remove students' applications, while students can easily keep track of them. This component is an extension needed to complete Utsida as a possible replacement of NTNU's current approach.
 
 \begin{figure}[h]
     \centering
@@ -88,7 +88,7 @@ is another sub-component of the profile component and targets REQ4. It stores co
     \label{fig:web_courses}
 \end{figure}
 
-\subsection{Tools and frameworks}
+\subsection{Tools and Frameworks}
 When developing the web application part of Utsida, several tools and packages were used to simplify the development process and to acquire functionality which would not be feasible to develop from scratch. Django (sec \ref{sec:django}) was chosen as the main web framework.
 
 To enforce a responsive and aesthetic design, Bootstrap 3\footnote{http://getbootstrap.com/} was used as a front-end Cascading Style Sheets (CSS) framework. jQuery\footnote{https://jquery.com/} was used as a front-end JavaScript framework to simplify HTTP requests, which this system largely relies on both internally in the web application and between the web application and the CBR-RS. A collection of packages for the Python language was also used. These packages include Fuzzywuzzy\footnote{https://pypi.python.org/pypi/fuzzywuzzy}: a packages which handles apprximate string matching, Requests\footnote{http://docs.python-requests.org/en/master/}: a package for writing HTTP requests from Python, and Python-social-auth\footnote{https://python-social-auth.readthedocs.io/en/latest/} combined with Dataporten-auth\footnote{https://pypi.python.org/pypi/dataporten-auth/0.1} to enable using authentication methods such as Feide, the authentication service used at NTNU.
