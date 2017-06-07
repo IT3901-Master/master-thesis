@@ -10,30 +10,16 @@
 \usepackage[pdftex,bookmarks=true]{hyperref}
 \usepackage[pdftex]{hyperref}
 \usepackage[table,xcdraw]{xcolor}
-\hypersetup{
-    colorlinks,%
-    citecolor=black,%
-    filecolor=black,%
-    linkcolor=black,%
-    urlcolor=black
-}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{fancyhdr}
 \usepackage{times}
-%\usepackage[intoc]{nomencl}
-%\renewcommand{\nomname}{List of Abbreviations}
-%\makenomenclature
-\usepackage{natbib}
+\usepackage[numbers]{natbib}
 \usepackage{float}
 \usepackage[parfill]{parskip}
-%\floatstyle{boxed} 
-\restylefloat{figure}
-\setcitestyle{square}
 \usepackage{enumitem}
 \usepackage{csquotes}
 \usepackage{tabulary}
 \usepackage{appendix}
-\usepackage{caption}
 \usepackage{subcaption}
 \usepackage{tikz}
 \usepackage{placeins}
@@ -44,10 +30,24 @@
 \usepackage{listings}
 \usepackage{minted}
 \usepackage{multirow}
+\usepackage{url}
+
+\restylefloat{figure}
+\setcitestyle{square}
 \captionsetup{format=hang}
+\pgfplotsset{compat=1.13}
+
+\hypersetup{
+    colorlinks,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=black
+}
 
 \pgfplotsset{ every non boxed x axis/.append style={x axis line style=-},
      every non boxed y axis/.append style={y axis line style=-}}
+     
 \usetikzlibrary{arrows,shapes,positioning,shadows,trees}
 
 \newcommand{\slice}[4]{
@@ -85,14 +85,6 @@
   level 3/.style = {basic, thin, align=left, rounded corners=1pt, fill=corsanenGrey, text width=6.5em}
 }
 
-% ShareLaTeX does not support glossaries now. Sorry...
-%\usepackage[number=none]{glossary}
-%\makeglossary
-%\newglossarytype[abr]{abbr}{abt}{abl}
-%\newglossarytype[alg]{acronyms}{acr}{acn}
-%\newcommand{\abbrname}{Abbreviations} 
-%\newcommand{\shortabbrname}{Abbreviations}
-%%\makeabbr
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
 \renewcommand*\contentsname{Table of Contents}
