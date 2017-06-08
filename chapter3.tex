@@ -7,10 +7,10 @@ This chapter presents the theory on CBR methodology and CBR Recommender Systems 
 
 \section{Case-based Reasoning}
 
-Case-Based Reasoning (CBR) is a methodology in the field of AI for solving problems and is primarily based on experiences, i.e., the solutions of similar problems. The CBR methodology utilizes these experiences to yield solutions to a large range of problems where uncertainty is involved \cite{richter2013case}. Implied by the name, CBR can be broken down into two main concepts: \textit{cases} and \textit{reasoning}. A case is an experience of a solved problem and consists of two parts: a problem description and a solution to the problem. Reasoning refers to the approach of finding solutions to problems by evaluating different experiences (i.e. cases). Reasoning in CBR differs from other kinds of reasoning because it does not lead from true assumptions to true conclusions \cite{richter2013case}. This means that for two cases with similar problem descriptions, the solution to one of them might not be the solution to the other. The recorded experience in the first instance may not be exactly similar to the other case.
+Case-Based Reasoning (CBR) is a methodology in the field of AI for capturing and reusing experiences. The CBR methodology use these experiences to yield solutions to a large range of problems where uncertainty is involved \cite{richter2013case}. Implied by the name, CBR can be broken down into two main concepts: \textit{cases} and \textit{reasoning}. A case is an experience of a solved problem and consists of two parts: a problem description and its solution. Reasoning refers to the approach of finding solutions to problems by evaluating different experiences (i.e. cases). Reasoning in CBR differs from other kinds of reasoning because it does not lead from true assumptions to true conclusions \cite{richter2013case}. This means that for two cases with similar problem descriptions, the solution to one might not be the solution to the other. The recorded experience in the first instance may not be exactly similar to the other case.
     
 \subsection{Case Representation}\label{sec:feature_vectors}
-A case is usually represented as a feature vector, consisting of pairs of attributes and their values. An example is a diagnosis of a sick patient, as shown in Table \ref{tab:example_case}. Here, the attributes of the case are a collection of symptoms, and the values are whether the patient has the symptom or not. The solution to the case is the final diagnosis of the patient. A \textit{Concept} is a term used for the combination of the case representation, a designated similarity measure and a weight value for each attribute in the case-representation, as well as a summation function.
+A case is usually represented as a feature vector, consisting of pairs of attributes and their values. An example is a diagnosis of a sick patient, as shown in Table \ref{tab:example_case}. Here, the attributes of the case are a collection of symptoms, and the values are whether the patient has the symptom or not. The solution to the case is the final diagnosis of the patient. A \textit{Concept} represents a case and has a case-representation, global and local similarity measures, and a weight value for each attribute in the case-representation.
 
 \begin{table}[h]
 \centering
@@ -32,29 +32,29 @@ A case is usually represented as a feature vector, consisting of pairs of attrib
 
 \subsection{The CBR-Cycle}\label{sec:cbr-cycle}
 
-Aamodt and Plaza \cite{aamodt1994case} defined a model which explain the problem solving cycle in CBR (fig. \ref{fig:cbr_cycle}). The cycle defines the four distinct steps, the 4 R's, of the CBR process and can be summarized as followed.
+Aamodt and Plaza \cite{aamodt1994case} defined a model which explain the problem solving cycle in CBR (Fig. \ref{fig:cbr_cycle}). The cycle defines the four distinct steps, the 4 R's, of the CBR process and can be summarized as followed.
 
 \begin{description}
 \item [1. Retrieve:] The most similar case is retrieved from the system's case-base so that it can be compared to a new case.
-\item [2. Reuse:] The solution to the retrieved case is applied to the new case.
+\item [2. Reuse:] Solutions are adapted to fit the new case.
 \item [3. Revise:] The new case is evaluated and tested for success, and is repaired if it fails.
 \item [4. Retain:] The new case with the given solution is retained in the case base for future usage.
 \end{description}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.6\textwidth]{fig/cbr-cycle.png}
+    \includegraphics[width=0.8\textwidth]{fig/cbr-cycle.png}
     \caption[The CBR Cycle]{The CBR Cycle (Aamodt \& Plaza) \cite{aamodt1994case}}
     \label{fig:cbr_cycle}
 \end{figure}
 
 \subsection{Case-based Reasoning Systems}
 
-A case-based reasoning System (CBRS) is a system which use the CBR methodology to solve problems. When the system receives a new problem, it first performs step 1 in the CBR-cycle (retrieve). This step includes using similarity measures to determine the similarity between each case and the new problem. Next, the system selects the most similar case and applies and adapts the solution of this case to the new problem (step 2, reuse). The proposed solution to the new problem is tested by the system, and if found necessary, repaired (step 3, revise). Finally, the adapted solution is stored as a new case in the system's collection of cases, called the case-base (step 4, retain).
+A case-based reasoning System (CBRS) is a system which uses the CBR methodology to solve problems. When the system receives a new problem, it first performs step 1 in the CBR-cycle (retrieve) by selecting the most similar case. This step includes using similarity measures to determine the similarity between each case and the new problem. Next, the system adapts the solution of the case to the new problem (step 2, reuse). The proposed solution to the new problem is then tested by the system, and if found necessary, repaired (step 3, revise). Finally, the adapted solution is stored as a new case in the system's collection of cases, called the case-base (step 4, retain).
 
 \subsection{Similarity Measures}
 
-Similarity measures calculate the degree of similarity (i.e. similarity score) between an attribute in a problem and the corresponding attribute in a case from the case-base. The similarity measure for each attribute is usually different and is often tailored to suit the data type of the attribute, e.g. integer, string or symbol. Each attribute in a case also has a weight value, which decides the importance of that attribute. The total similarity between a case and a problem is commonly calculated by using a summation function on the similarity scores with the weights as coefficients.
+Similarity measures calculate the degree of similarity (i.e. similarity score) between an attribute in a problem and the corresponding attribute in a case from the case-base. The local similarity measure for each attribute is usually different and is often tailored to suit the data type of the attribute, e.g. integer, string or symbol. Each attribute in a case also has a weight value, which decides the importance of that attribute. The global similarity between a case and a problem is calculated by using an amalgamation function such as weighted sum. A weighted sum function use the local similarity scores with the weights as coefficients to calculate the global similarity.
 
 \section{myCBR}
 
@@ -78,6 +78,6 @@ Recommendation systems are often evaluated and ranked based on their prediction 
 
 \paragraph{User Studies} In a user study the recommender system is tested on real users who are given tasks to complete. Their behavior and their satisfaction with the recommendations are then measured, and the feedback used to improve the system. User studies can use questionnaires to get feedback from users on their experience. The main advantages of a user study are that a broad range of questions can be answered and that a large amount of data, both qualitative and quantitative can be collected. The test users should represent the actual population of desired users, or else the results might be more vulnerable to biases such as non-response bias.
 
-\paragraph{Online Evaluation} This test method allows real behavior and user interaction data to be collected from a live system. Several measures can be used to evaluate the system in an online evaluation, e.g., using different recommendation algorithms and measuring their use. To ensure a fair test of the different algorithms it is important that the users are redirected to each algorithm randomly. When the focus is only on evaluating the user interaction and design of the system, it might be more desirable to use only one algorithm and reduce the users' disorientation. 
+\paragraph{Online Evaluation} By evaluating a recommender system with the online evaluation method, data on real behavior and user interaction can be collected from a live system. Several measures can be used to evaluate the system in an online evaluation, e.g., using different recommendation algorithms and measuring their use. To ensure a fair test of the different algorithms it is important that the users are redirected to each algorithm randomly. When the focus is only on evaluating the user interaction and design of the system, it might be more desirable to use only one algorithm and reduce the users' disorientation. 
 
 \cleardoublepage

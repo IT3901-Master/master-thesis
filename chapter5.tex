@@ -6,7 +6,7 @@ To be able to answer the research questions using the methods described in the p
 
 \section{System Overview}
 
-Utsida contains two sub-systems, where the first part is a web application, and the second part is a case-based reasoning recommender system (CBR-RS). Each part primarily focuses on one of the research questions. The web application is designed to increase the motivation (RQ1), while the CBR-RS is designed to find out how suitable CBR is to give recommendations on exchange universities and courses (RQ2). The recommendations made by the CBR-RS could also affect the motivation (RQ1). Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system \emph{Innsida}, and the meaning of the word \emph{inside}. Utsida gives a relation to something on the outside, in this case going on an exchange program. The design and implementation of Utsida was based on the system requirements (sec. \ref{sec:requirements}) identified in the preliminary research.
+Utsida consists of two sub-systems, where the first part is a web application, and the second part is a case-based reasoning recommender system (CBR-RS). Each part primarily focuses on one of the research questions. The web application is designed to increase the motivation (RQ1), while the CBR-RS is designed to find out how suitable CBR is to give recommendations on exchange universities and courses (RQ2). The recommendations made by the CBR-RS could also affect the motivation (RQ1). Utsida was chosen as the name of the system due to being a counter opposite to NTNU's central system \emph{Innsida}, and the meaning of the word \emph{inside}. Utsida gives a relation to something on the outside, in this case going on an exchange program. The design and implementation of Utsida was based on the system requirements (sec. \ref{sec:requirements}) identified in the preliminary research.
 
 As illustrated by Figure \ref{fig:system_overview}, the web application part communicates with the CBR-RS part. Recommendation queries are sent from the web application by a user and received by the CBR-RS through its Representational State Transfer (REST) Application Programming Interface (API). These queries are in turn matched against the entire case-base in the CBR-RS. Finally, all the cases are given a similarity score based on the user query and the most similar cases are returned to the web application. The user can then select a specific case from the several recommendations shown in the web application.
 
@@ -27,7 +27,7 @@ Most students who go on an exchange program from NTNU have to write obligatory r
 
 \subsection{Parsing the Experience Reports}\label{sec:parsing_experience_reports}
 
-The experience reports are essentially large text files in Hypertext Markup Language (HTML) format. To be able to use them in the CBR-RS, all the useful information in the files had to be extracted and parsed to cases in a CSV file, which is the file format used for case-bases in myCBR. This was done with a custom script written in the Python programming language. In short, all available experience reports were first downloaded as HTML files and stored in a directory. Next, the script looped through all the HTML files, read the internal data, and finally stored all the chosen data in a CSV file. This way, each row in the CSV file would correspond to one case with the attributes given by Table \ref{tab:case_representation2}. This process resulted in a CSV file with 8702 cases which formed the case-base used in the CBR-RS.
+The experience reports are essentially large text files in HyperText Markup Language (HTML) format. To be able to use them in the CBR-RS, all the useful information in the files had to be extracted and parsed to cases in a CSV file, which is the file format used for case-bases in myCBR. This was done with a custom script written in the Python programming language. In short, all available experience reports were first downloaded as HTML files and stored in a directory. Next, the script looped through all the HTML files, read the internal data, and finally stored all the chosen data in a CSV file. This way, each row in the CSV file would correspond to one case with the attributes given by Table \ref{tab:case_representation2}. This process resulted in a CSV file with 8702 cases which formed the case-base.
 
 A large part of the text fields in the experience reports were free text, which means that the format of each field was decided by the author and did follow any standard. The parsing script, therefore, had to use specific methods to parse each attribute to the correct format. Two methods were primarily used to parse the data; data dictionary look-ups and approximate string matching, also called fuzzy searching. Edge cases that were not detected by these techniques were solved with basic string operations. In the end, most of the data in the experience reports was transformed into usable data in the CBR-RS. It was, however, not possible to ensure that all of the data in the experience reports were parsed to a correct format while still keeping its original meaning.
 
@@ -48,11 +48,11 @@ This section presents the different components of the web application, the tools
 
 \subsection{Components}
 
-The web application part of Utsida is divided into three main components, as Figure \ref{fig:system_overview} depicts: \emph{Recommendations, Profile} and \emph{Course matches}. The aim of the components as a whole is to answer RQ1 and increase the motivation of students to go on an exchange program. Each component targets one or several of the requirements of Utsida, listed in Table \ref{tab:feature_list} The requirements are referenced in a REQ.\# format, with \# as the requirement number. REQ.5 is handled by the web application home page and not by any component.
+The web application part of Utsida is divided into three main components, as Figure \ref{fig:system_overview} depicts: \emph{Recommendation, Profile} and \emph{Course matches}. The aim of the components as a whole is to answer RQ1 and increase the motivation of students to go on an exchange program. Each component targets one or several of the requirements of Utsida, listed in Table \ref{tab:feature_list} The requirements are referenced in a REQ.\# format, with \# as the requirement number. REQ.5 is handled by the web application home page and not by any component.
 
 \subsubsection{Recommendation}
 
-The recommendation component target REQ.1. This component handles all the communication with the CBR-RS part; Queries made by users are sent in the JavaScript Object Notation (JSON) format to the CBR-RS through Hypertext Transfer Protocol (HTTP) requests, which returns all of its cases and their respective similarity score, also in JSON format. In this component, a user can select their preferences and requirements for an exchange program. The user is then presented with a list of the best suiting universities for their query (Fig. \ref{fig:web_results_1}). The universities in the list can each be selected to show the best matching experiences for that university (Fig. \ref{fig:web_results_2}). Each experience contains a list of courses taken and serves as a recommendation.
+The recommendation component targets REQ.1. This component handles all the communication with the CBR-RS part; Queries made by users are sent in the JavaScript Object Notation (JSON) format to the CBR-RS through HyperText Transfer Protocol (HTTP) requests, which returns all of its cases and their respective similarity score, also in JSON format. In this component, a user can select their preferences and requirements for an exchange program. The user is then presented with a list of the best suiting universities for their query (Fig. \ref{fig:web_results_1}). The universities in the list can each be selected to show the best matching experiences for that university (Fig. \ref{fig:web_results_2}). Each experience contains a list of courses taken and serves as a recommendation.
 
 \subsubsection{Course Matches}\label{sec_course_matches}
 
@@ -117,11 +117,11 @@ The design process of Utsida is inspired by the User Centered Design process, in
 
 \section{The CBR-RS}
 
-This section describes how the CBR-RS was modeled with myCBR Workbench and how it was implemented to give the most relevant recommendations. Furthermore, this section includes details on the case representation, the similarity measures used, how the weighting of the attributes in the exchange experience concept was done, and how the system itself is structured.
+This section describes how the CBR-RS was modeled with the myCBR Workbench and how it was implemented to give the most relevant recommendations. Furthermore, this section includes details on the case representation, the similarity measures used, how the weighting of the attributes in the exchange experience concept was done, and how the system itself is structured.
 
 \subsection{Overview}
 
-The CBR-RS is a customized version of an open-source Java Spring\footnote{Spring: \url{https://spring.io/}} application that implements the myCBR SDK. To serve requests from a web application, the Java application uses a REST API implemented with the Swagger API\footnote{Swagger: \url{http://swagger.io/}}. This architecture made it possible to let the web application and the CBR-RS be two independent systems, only communicating through HTTP requests. The CBR-RS imports a custom myCBR project file which contains the exchange experience concept's case representation, the similarity measures used for each attribute and the attributes' weight values. It also imports a CSV file containing all the cases, used as the case-base.
+The CBR-RS is a customized version of an open-source Java Spring\footnote{Spring: \url{https://spring.io/}} application that implements the myCBR SDK. To serve requests from a web application, the Java application uses a REST API implemented with the Spring framework. This architecture made it possible to let the web application and the CBR-RS be two independent systems, only communicating through HTTP requests. The CBR-RS imports a custom myCBR project file which contains the exchange experience concept's case representation, the similarity measures used for each attribute and the attributes' weight values. It also imports a CSV file containing all the cases, used as the case-base.
 
 When a request is made by a user in the web application, a query is first sent to the CBR-RS. When the CBR-RS receives the query, it performs the first step of the CBR-cycle by using the retrieve operation in the myCBR SDK. The myCBR SDK then returns the exchange experiences (i.e. cases) with their respective similarity scores. The exchange experiences are further ordered from highest to lowest similarity, and finally, the exchange experiences with the highest similarity scores are returned to the web application. Figure \ref{fig:retrieval_process_diagram} displays how a request made by a user in the web application traverse between the two systems to return a list of the most similar exchange experiences.
 
@@ -259,18 +259,20 @@ The language attribute is represented as a symbol type, which allows the attribu
     
 \subsubsection{University Similarity} 
 
-The university attribute is a string type. The similarity measure between two universities returns 1.0 if they are a complete match, or 0.0 if they differ in any way. It would be desirable to have partial similarity for two strings, but this functionality is not included in myCBR.
+The university attribute is a string type. The similarity measure between two universities returns 1.0 if they are a complete match, or 0.0 if they differ. It would be desirable to have partial similarity for two strings, but this functionality is not included in myCBR.
     
 \subsubsection{Study Period Similarity} 
 
-The similarity measure used for the study period attribute is defined by a declining graph, where the similarity score decrease according to the distance in years between the query and a case. The similarity greatly decreases until a case is 9 years old. Figure \ref{fig:study_period_graph} illustrates the graph.
+The similarity measure used for the study period attribute is defined by a declining graph, where the similarity score decrease according to the distance in years between the query and a case. Figure \ref{fig:study_period_graph} illustrates the graph.
     
 \begin{figure}[h]
     \centering
-    \caption[Study period similarity measure]{Study period similarity measure given by the distance in years between a query and a case.}
-    \includegraphics[width=1.0\textwidth]{fig/study_period_graph.png}
+    \caption[Study period similarity measure]{Study period similarity given by the distance in years between a query and a case.}
+    \includegraphics[width=0.87\textwidth]{fig/study_period_graph.png}
     \label{fig:study_period_graph}
 \end{figure}
+
+\FloatBarrier
 
 \subsection{Summation Function}
 
@@ -304,7 +306,7 @@ When the CBR-RS receives a query, a decision matrix is calculated for each case.
 
 \subsection{Attribute Weights}\label{sec:weighting}
 
-Each attribute in a concept has a value and an associated weight. This is essentially an integer denoting the importance of that attribute. The results of questionnaire 1 (Table \ref{tab:attribute_ranking}), were used to decide the final weight of the different attributes in the exchange experience concept, shown in Table \ref{tab:attribute_weights}.
+Each attribute in a concept has a value and an associated weight. This is essentially a number denoting the importance of that attribute. The results of questionnaire 1 (Table \ref{tab:attribute_ranking}), were used to decide the final weight of the different attributes in the exchange experience concept, shown in Table \ref{tab:attribute_weights}.
 
 \begin{table}[h]
 \centering
@@ -328,8 +330,8 @@ Support and reception at university & 2.5 \\ \hline
 
 \FloatBarrier
 \section{Test Environment}
-The test environment used by Utsida is an essential part of the project because it was the platform used for the user study in questionnaire 2. Utsida was hosted on a Ubuntu 16.04\footnote{Ubuntu: \url{https://www.ubuntu.com/}} virtual server provided by IDI with the domain name utsida.idi.ntnu.no. The specific HTTP web server used was Apache2\footnote{Apache2 \url{https://httpd.apache.org/}}, and it was configured with HTTPS to enable secure and encrypted user sessions. Support for registering and logging in with users university accounts was implemented to reduce the effort for users to participate in online usability tests and user study. The service platform "Dataporten"\footnote{Dataporten: \url{https://www.uninett.no/en/dataporten}} provided by UNINETT made it possible to use the university account registration through UNINETT's federated authentication service (FEIDE).
+The test environment used by Utsida is an essential part of the project because it was the platform used for the user study in questionnaire 2. Utsida was hosted on a Ubuntu 16.04\footnote{Ubuntu: \url{https://www.ubuntu.com/}} virtual server provided by IDI with the domain name utsida.idi.ntnu.no. The specific HTTP web server used was Apache2\footnote{Apache2: \url{https://httpd.apache.org/}}, and it was configured with HTTPS to enable secure and encrypted user sessions. Support for registering and logging in with users university accounts was implemented to reduce the effort for users to participate in online usability tests and user study. The service platform "Dataporten"\footnote{Dataporten: \url{https://www.uninett.no/en/dataporten}} provided by UNINETT made it possible to use the university account registration through UNINETT's federated authentication service (FEIDE).
 
-Error reporting through email was configured on the server so that alerts were given in case of possible downtime or server errors. Error reporting made it possible to quickly resolve potential bugs or errors on the application and ensure high user satisfaction during the user tests. Specific user behavior and statistics was tracked by using Google Analytics, this was useful in the final data to increase the understanding of user behaviors. By using Google Analytics it is possible to see a large set of data on the user behavior. The most important data used in this project were number of users, average session time, device type and activity flow.  
+Error reporting with email was configured on the server so that alerts were given in case of possible downtime or server errors. Error reporting made it possible to quickly resolve potential bugs or errors in the application and ensure high user satisfaction during the user tests. Specific user behavior and statistics was tracked by using Google Analytics\footnote{Google Analythics: https://analytics.google.com/}, which was useful to increase the understanding of user behaviors. The most important Google Analytics data used in this project were number of users, average session time, device type and activity flow.  
 
 \cleardoublepage

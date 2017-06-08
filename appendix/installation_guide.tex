@@ -32,11 +32,17 @@ git clone https://github.com/IT3901-Master/mycbr-deployment.git
 
 
 \section*{Setup and Run}
-The following commands will install all necessary packages to run the project, initiate all required data, and run it.
+The following commands will install all necessary packages to run the project, initiate all required data, and run it. First, move to the root directory of the utsida project, then run the following commands.
 
 \begin{minted}{python}
 sudo pip3 install -r requirements.txt
 make initiate
 make lrun 
+\end{minted}
+
+Open a new terminal or tab, and move to the directory of the mycbr-deployment project. Then run the following command.
+
+\begin{minted}{python}
+make run
 \end{minted}
 
